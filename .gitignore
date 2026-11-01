@@ -24,3 +24,4 @@ pnpm-debug.log*
 
 # tooling artifacts
 .gg/
+repos.tmp.json
