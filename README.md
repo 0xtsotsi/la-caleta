@@ -9,13 +9,13 @@ en crème kleurstelling, het script-logo en Andalusische beelden.
 
 ## Stack
 
-| Onderdeel | Keuze |
-| --- | --- |
-| Framework | [Astro 7](https://astro.build) — statische output, geen client-side JS nodig |
-| Styling | Tailwind CSS 4 + custom design tokens in `src/styles/global.css` |
-| Fonts | Cormorant Garamond, Jost en Dancing Script (via `@fontsource`, lokaal gehost) |
-| Afbeeldingen | `astro:assets` — automatische WebP-conversie en responsive `srcset` |
-| SEO | Per pagina meta tags, Open Graph, `schema.org/Restaurant` (JSON-LD) en sitemap |
+| Onderdeel    | Keuze                                                                          |
+| ------------ | ------------------------------------------------------------------------------ |
+| Framework    | [Astro 7](https://astro.build) — statische output, geen client-side JS nodig   |
+| Styling      | Tailwind CSS 4 + custom design tokens in `src/styles/global.css`               |
+| Fonts        | Cormorant Garamond, Jost en Dancing Script (via `@fontsource`, lokaal gehost)  |
+| Afbeeldingen | `astro:assets` — automatische WebP-conversie en responsive `srcset`            |
+| SEO          | Per pagina meta tags, Open Graph, `schema.org/Restaurant` (JSON-LD) en sitemap |
 
 ## Starten
 
