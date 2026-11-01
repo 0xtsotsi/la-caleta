@@ -1,0 +1,44 @@
+---
+import { site, openingHours } from '../data/site';
+---
+
+<div>
+  <dl class="space-y-px" data-hours>
+    {
+      openingHours.map((day) => (
+        <div
+          class="flex items-baseline justify-between gap-4 border-b border-current/15 py-3"
+          data-day={day.index}
+        >
+          <dt class="flex items-center gap-2.5 text-sm">
+            <span
+              class="hidden h-1.5 w-1.5 rounded-full bg-rojo"
+              data-marker
+              aria-hidden="true"
+            />
+            {day.day}
+          </dt>
+          <dd class="text-sm">
+            {day.status === 'closed' ? 'Gesloten' : `${day.opens} – ${day.closes}`}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <p class="mt-6 text-sm leading-relaxed opacity-70">
+    Reserveren kan telefonisch via
+    <a href={site.phoneHref} class="link-underline">{site.phone}</a> of via het
+    <a href="/contact/#reserveren" class="link-underline">reserveringsformulier</a>.
+  </p>
+</div>
+
+<script>
+  const today = new Date().getDay();
+  document.querySelectorAll('[data-day]').forEach((row) => {
+    if (Number(row.getAttribute('data-day')) === today) {
+      row.classList.add('font-medium', 'text-rojo');
+      row.querySelector('[data-marker]')?.classList.remove('hidden');
+    }
+  });
+</script>

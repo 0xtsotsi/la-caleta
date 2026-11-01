@@ -1,0 +1,176 @@
+---
+import { site } from '../data/site';
+---
+
+<form id="reserveren" class="grid gap-5 [color-scheme:dark]" novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <label for="naam" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Naam</label>
+      <input
+        id="naam"
+        name="naam"
+        type="text"
+        required
+        autocomplete="name"
+        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+      />
+      <p class="hidden text-xs text-rojo-claro" data-error-for="naam">Vul uw naam in.</p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="telefoon" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Telefoon</label>
+      <input
+        id="telefoon"
+        name="telefoon"
+        type="tel"
+        required
+        autocomplete="tel"
+        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+      />
+      <p class="hidden text-xs text-rojo-claro" data-error-for="telefoon">
+        Vul uw telefoonnummer in.
+      </p>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="email" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">E-mail</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      required
+      autocomplete="email"
+      class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+    />
+    <p class="hidden text-xs text-rojo-claro" data-error-for="email">
+      Vul een geldig e-mailadres in.
+    </p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-3">
+    <div class="flex flex-col gap-2">
+      <label for="datum" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Datum</label>
+      <input
+        id="datum"
+        name="datum"
+        type="date"
+        required
+        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+      />
+      <p class="hidden text-xs text-rojo-claro" data-error-for="datum">Kies een datum.</p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="tijd" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Tijd</label>
+      <input
+        id="tijd"
+        name="tijd"
+        type="time"
+        required
+        value="19:00"
+        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+      />
+      <p class="hidden text-xs text-rojo-claro" data-error-for="tijd">Kies een tijd.</p>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="personen" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Personen</label>
+      <select
+        id="personen"
+        name="personen"
+        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+      >
+        {
+          Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
+            <option value={n}>{n} {n === 1 ? 'persoon' : 'personen'}</option>
+          ))
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label for="opmerking" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">
+      Opmerking <span class="normal-case opacity-60">(optioneel)</span>
+    </label>
+    <textarea
+      id="opmerking"
+      name="opmerking"
+      rows="3"
+      placeholder="Allergieën, gelegenheidskans, kinderen…"
+      class="resize-none border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors placeholder:text-current/40 focus:border-rojo"></textarea>
+  </div>
+
+  <div class="mt-2 flex flex-wrap items-center gap-5">
+    <button type="submit" class="btn btn-rojo">Verstuur reservering</button>
+    <p class="text-sm opacity-70">Liever direct bellen? <a href={site.phoneHref} class="link-underline">{site.phone}</a></p>
+  </div>
+
+  <p
+    id="reservering-melding"
+    class="hidden border border-verde/50 bg-verde/10 px-4 py-3 text-sm"
+    role="status"
+  >
+    Je e-mailprogramma opent met de reservering. Weet je zeker dat je liever belt? Ons nummer is
+    <a href={site.phoneHref} class="link-underline">{site.phone}</a>.
+  </p>
+</form>
+
+<script>
+  const form = document.getElementById('reserveren') as HTMLFormElement | null;
+  const melding = document.getElementById('reservering-melding');
+
+  const showError = (name: string, visible: boolean) => {
+    const target = form?.querySelector(`[data-error-for="${name}"]`);
+    target?.classList.toggle('hidden', !visible);
+    const input = form?.querySelector(`#${name}`) as HTMLInputElement | null;
+    input?.setAttribute('aria-invalid', String(visible));
+  };
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const naam = String(data.get('naam') ?? '').trim();
+    const telefoon = String(data.get('telefoon') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+    const datum = String(data.get('datum') ?? '');
+    const tijd = String(data.get('tijd') ?? '');
+    const personen = String(data.get('personen') ?? '');
+    const opmerking = String(data.get('opmerking') ?? '').trim();
+
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    showError('naam', !naam);
+    showError('telefoon', !telefoon);
+    showError('email', !emailValid);
+    showError('datum', !datum);
+    showError('tijd', !tijd);
+
+    if (!naam || !telefoon || !emailValid || !datum || !tijd) {
+      (form.querySelector('[aria-invalid="true"]') as HTMLElement | null)?.focus();
+      return;
+    }
+
+    const onderwerp = `Reservering · ${naam} · ${datum} ${tijd}`;
+    const body = [
+      `Naam: ${naam}`,
+      `Telefoon: ${telefoon}`,
+      `E-mail: ${email}`,
+      `Datum: ${datum}`,
+      `Tijd: ${tijd}`,
+      `Personen: ${personen}`,
+      opmerking ? `Opmerking: ${opmerking}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    window.location.href = `mailto:info@lacaleta.nl?subject=${encodeURIComponent(
+      onderwerp,
+    )}&body=${encodeURIComponent(body)}`;
+
+    melding?.classList.remove('hidden');
+    melding?.scrollIntoView({ block: 'nearest' });
+  });
+</script>

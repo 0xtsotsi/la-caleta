@@ -1,0 +1,138 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import OpeningHours from '../components/OpeningHours.astro';
+import ReserveForm from '../components/ReserveForm.astro';
+
+import heroImage from '../assets/images/exterieur.jpg';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Contact & reserveren"
+  description="Restaurant La Caleta, Raadhuisplein 4a in Rozenburg. Reserveer een tafel, bel 0181 - 214342 of mail info@lacaleta.nl. Gratis parkeren."
+>
+  <PageHero
+    eyebrow="La Caleta · Contact"
+    title="Reserveer uw tafel"
+    intro="Kom langs aan het Raadhuisplein in Rozenburg. Gratis parkeren in de directe omgeving en binnen een kwartier bij de metro."
+    image={heroImage}
+    imageAlt="Restaurant La Caleta aan het Raadhuisplein in Rozenburg"
+  />
+
+  <!-- Contactgegevens -->
+  <section class="paper py-20 md:py-28">
+    <div class="shell grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+      <div>
+        <SectionTitle
+          script="contacto"
+          eyebrow="Contact"
+          title="Bel, mail of loop binnen"
+          intro="Voor reserveringen of vragen kunt u ons bellen of mailen. Wij antwoorden zo snel mogelijk."
+        />
+
+        <div class="mt-10 grid gap-8 sm:grid-cols-2">
+          <div class="border-t border-tinta/15 pt-6">
+            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Telefoon</h3>
+            <a href={site.phoneHref} class="mt-3 block font-display text-3xl font-medium text-rojo">
+              {site.phone}
+            </a>
+            <p class="mt-2 text-sm text-tinta/60">Voor reserveringen en vragen</p>
+          </div>
+
+          <div class="border-t border-tinta/15 pt-6">
+            <h3 class="eyebrow text-[0.66rem] text-tinta/50">E-mail</h3>
+            <a href={`mailto:${site.email}`} class="mt-3 block font-display text-3xl font-medium text-rojo">
+              {site.email}
+            </a>
+            <p class="mt-2 text-sm text-tinta/60">We antwoorden binnen 24 uur</p>
+          </div>
+
+          <div class="border-t border-tinta/15 pt-6">
+            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Adres</h3>
+            <address class="mt-3 text-base not-italic leading-relaxed text-tinta/75">
+              {site.legalName}<br />
+              {site.address.street}<br />
+              {site.address.postalCode} {site.address.city}
+            </address>
+          </div>
+
+          <div class="border-t border-tinta/15 pt-6">
+            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Parkeren</h3>
+            <p class="mt-3 text-base leading-relaxed text-tinta/75">
+              Gratis parkeren<br />
+              in de directe omgeving
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12">
+          <h3 class="eyebrow text-[0.66rem] text-tinta/50">Openingstijden</h3>
+          <div class="mt-5 max-w-sm">
+            <OpeningHours />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div
+          class="overflow-hidden border border-tinta/10"
+        >
+          <iframe
+            title="Locatie van Restaurant La Caleta op de kaart"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`}
+            class="h-80 w-full border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm">
+          <p class="text-tinta/60">Raadhuisplein 4a, {site.address.postalCode} {site.address.city}</p>
+          <a
+            href={site.mapsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-underline text-rojo"
+          >
+            Open in Google Maps &rarr;
+          </a>
+        </div>
+
+        <div class="mt-10 border border-tinta/10 bg-crema-oscuro p-8">
+          <Image
+            src={heroImage}
+            alt="De gevel van Restaurant La Caleta in Rozenburg"
+            class="aspect-3/2 w-full object-cover"
+            widths={[640, 1024]}
+            sizes="(min-width: 1024px) 45vw, 90vw"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserveren -->
+  <section class="bg-carbon py-20 text-crema md:py-28">
+    <div class="shell">
+      <SectionTitle
+        script="reservar"
+        eyebrow="Reserveren"
+        title="Reserveer een tafel"
+        intro="Vul het formulier in en uw e-mailprogramma opent met de reservering. U ontvangt een bevestiging zodra wij uw reservering hebben verwerkt."
+        tone="light"
+      />
+
+      <div class="mt-12 max-w-3xl">
+        <ReserveForm />
+      </div>
+
+      <p class="mt-10 text-sm text-crema/60">
+        Liever direct contact? Bel ons op
+        <a href={site.phoneHref} class="link-underline text-crema">{site.phone}</a> of stuur een mail naar
+        <a href={`mailto:${site.email}`} class="link-underline text-crema">{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/images/hero-cadiz.jpg';
+
+const facts = [
+  { label: 'Tapas dag', value: 'wo & do' },
+  { label: 'Verse Spaanse wijnen', value: 'vanaf €21' },
+  { label: 'Parkeren', value: 'gratis' },
+];
+---
+
+<section class="relative isolate overflow-hidden bg-tinta">
+  <Image
+    src={heroImage}
+    alt="Zonsondergang over de baai van La Caleta in Cadiz, Spanje"
+    class="absolute inset-0 -z-10 h-full w-full object-cover"
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
+    quality={80}
+  />
+  <div class="hero-scrim absolute inset-0 -z-10"></div>
+
+  <div
+    class="shell relative flex min-h-[94svh] flex-col justify-end pt-40 pb-10 text-crema md:pb-14"
+  >
+    <div class="max-w-3xl">
+      <p class="font-script text-3xl text-crema/85 md:text-4xl">Bienvenido</p>
+      <h1
+        class="mt-3 font-display text-[3.1rem] leading-[0.95] font-medium sm:text-7xl lg:text-[5.6rem]"
+      >
+        Cocina de España<br />en tu mesa
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-crema/85 md:text-lg">
+        Tapas, grill en verse vis in het hart van Rozenburg. Al meer dan zeventien jaar serveren wij
+        Spaanse gerechten met passie, bereid in olijfolie en met vlees van het beste.
+      </p>
+
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="/contact/#reserveren" class="btn btn-rojo">Reserveer een tafel</a>
+        <a href="/menu/" class="btn btn-line">Bekijk het menu</a>
+      </div>
+    </div>
+
+    <div
+      class="mt-14 flex flex-col gap-6 border-t border-crema/20 pt-6 text-[0.68rem] tracking-[0.2em] uppercase sm:flex-row sm:items-center sm:justify-between"
+    >
+      <ul class="flex flex-wrap gap-x-10 gap-y-3 text-crema/70">
+        {
+          facts.map((fact) => (
+            <li>
+              <span class="text-crema">{fact.value}</span> · {fact.label}
+            </li>
+          ))
+        }
+      </ul>
+
+      <a
+        href="#intro"
+        class="hidden items-center gap-3 text-crema/60 transition-colors hover:text-crema sm:flex"
+        aria-label="Scroll naar de introductie"
+      >
+        <span class="flex h-9 w-9 items-center justify-center rounded-full border border-crema/40">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M6 1v10M2 7l4 4 4-4" stroke="currentColor" stroke-width="1.2" />
+          </svg>
+        </span>
+        Scroll
+      </a>
+    </div>
+  </div>
+</section>

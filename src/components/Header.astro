@@ -1,0 +1,283 @@
+---
+import { site, navItems, openingHours } from '../data/site';
+
+interface Props {
+  transparent?: boolean;
+  currentPath: string;
+}
+
+const { transparent = true, currentPath } = Astro.props;
+
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+
+const todayIndex = new Date().getDay();
+const today = openingHours.find((h) => h.index === todayIndex);
+---
+
+<div
+  id="site-header"
+  data-transparent={transparent ? 'true' : 'false'}
+  data-scrolled={transparent ? 'false' : 'true'}
+  class="fixed inset-x-0 top-0 z-50 transition-colors duration-300"
+>
+  <!-- Utiliteitsbalk -->
+  <div
+    id="topbar"
+    class="hidden border-b border-white/10 bg-rojo-oscuro text-crema/80 transition-colors duration-300 lg:block"
+  >
+    <div class="shell flex h-9 items-center justify-between text-[0.68rem] tracking-[0.18em] uppercase">
+      <p>Restaurante Español · Rozenburg</p>
+      <div class="flex items-center gap-6">
+        <p id="vandaag-status" class="flex items-center gap-2">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-crema/70"></span>
+          <span data-status-text>Vandaag: {today?.status === 'closed' ? 'gesloten' : `geopend vanaf ${today?.opens}`}</span>
+        </p>
+        <a href={site.phoneHref} class="transition-colors hover:text-crema">Tel. {site.phone}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hoofdnavigatie -->
+  <div
+    id="navbar"
+    class="transition-all duration-300"
+  >
+    <div class="shell flex h-20 items-center justify-between gap-6">
+      <a href="/" class="group flex flex-col leading-none" aria-label={`${site.legalName} — naar de homepage`}>
+        <span
+          class="font-script text-4xl leading-none transition-colors duration-300 md:text-[2.6rem]"
+          id="logo"
+        >La Caleta</span>
+        <span
+          class="eyebrow mt-1 hidden text-[0.6rem] transition-colors duration-300 sm:block"
+          id="logo-sub"
+        >Restaurante Español</span>
+      </a>
+
+      <nav class="hidden items-center gap-8 lg:flex" aria-label="Hoofdmenu">
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class="nav-link relative py-2 text-[0.72rem] font-medium tracking-[0.2em] uppercase transition-colors duration-300"
+              data-nav-link
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a
+          href="/contact/#reserveren"
+          class="btn btn-rojo hidden !px-6 !py-3 text-[0.66rem] sm:inline-flex"
+          id="header-cta"
+        >
+          Reserveer
+        </a>
+
+        <button
+          type="button"
+          id="menu-toggle"
+          class="relative z-[60] flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Menu openen"
+        >
+          <span class="menu-bar block h-px w-6 bg-current transition-all duration-300"></span>
+          <span class="menu-bar block h-px w-6 bg-current transition-all duration-300"></span>
+          <span class="menu-bar block h-px w-6 bg-current transition-all duration-300"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobiel menu -->
+  <div
+    id="mobile-menu"
+    class="pointer-events-none fixed inset-0 z-50 flex flex-col justify-center bg-rojo-oscuro text-crema opacity-0 transition-opacity duration-300 lg:hidden"
+  >
+    <nav class="shell flex flex-col gap-2" aria-label="Mobiel menu">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="mobile-link border-b border-crema/15 py-4 font-display text-3xl"
+            data-mobile-link
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/contact/#reserveren" class="btn btn-rojo mt-8 !bg-crema !text-rojo-oscuro" data-mobile-link>
+        Reserveer een tafel
+      </a>
+      <div class="mt-10 space-y-1 text-sm text-crema/70">
+        <p>{site.address.street}, {site.address.postalCode} {site.address.city}</p>
+        <a href={site.phoneHref} class="block">Tel. {site.phone}</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<style>
+  #navbar {
+    border-bottom: 1px solid transparent;
+  }
+
+  #site-header[data-scrolled='true'] #navbar {
+    background-color: var(--color-crema);
+    border-bottom-color: rgba(27, 24, 21, 0.1);
+    box-shadow: 0 10px 30px -22px rgba(27, 24, 21, 0.55);
+  }
+
+  #site-header[data-scrolled='true'] #topbar {
+    background-color: var(--color-rojo-oscuro);
+  }
+
+  #site-header[data-scrolled='false'] #navbar {
+    background-color: transparent;
+  }
+
+  /* Tekstkleur: boven de hero wit, na scroll donker */
+  #site-header[data-scrolled='false'] :is(#logo, #logo-sub, .nav-link, #menu-toggle) {
+    color: var(--color-crema);
+  }
+
+  #site-header[data-scrolled='true'] :is(#logo, #logo-sub, .nav-link) {
+    color: var(--color-tinta);
+  }
+
+  #site-header[data-scrolled='true'] #menu-toggle {
+    color: var(--color-tinta);
+  }
+
+  #site-header[data-scrolled='false'] #logo {
+    color: var(--color-crema);
+  }
+
+  #logo {
+    color: var(--color-rojo);
+  }
+
+  #site-header[data-scrolled='false'] #logo {
+    color: var(--color-crema);
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  .mobile-link {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  #mobile-menu[data-open='true'] {
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  #mobile-menu[data-open='true'] .mobile-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #mobile-menu[data-open='true'] #menu-toggle {
+    color: var(--color-crema);
+  }
+
+  #menu-toggle[data-open='true'] .menu-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  #menu-toggle[data-open='true'] .menu-bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  #menu-toggle[data-open='true'] .menu-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const statusText = document.querySelector('[data-status-text]');
+
+  const setScrolled = () => {
+    const scrolled = window.scrollY > 24;
+    header?.setAttribute('data-scrolled', String(scrolled));
+  };
+
+  setScrolled();
+  window.addEventListener('scroll', setScrolled, { passive: true });
+
+  const closeMenu = () => {
+    mobileMenu?.setAttribute('data-open', 'false');
+    toggle?.setAttribute('data-open', 'false');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Menu openen');
+    document.body.style.removeProperty('overflow');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.getAttribute('data-open') === 'true';
+    if (isOpen) {
+      closeMenu();
+      return;
+    }
+    mobileMenu?.setAttribute('data-open', 'true');
+    toggle.setAttribute('data-open', 'true');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Menu sluiten');
+    document.body.style.overflow = 'hidden';
+  });
+
+  document.querySelectorAll('[data-mobile-link]').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMenu();
+  });
+
+  // Openingstijden live tonen, zodat de status niet veroudert na publicatie.
+  const hours = [
+    { day: 1, open: false },
+    { day: 2, open: false },
+    { day: 3, open: true, opens: '11:00' },
+    { day: 4, open: true, opens: '11:00' },
+    { day: 5, open: true, opens: '11:00' },
+    { day: 6, open: true, opens: '11:00' },
+    { day: 0, open: true, opens: '16:00' },
+  ];
+
+  const today = hours.find((entry) => entry.day === new Date().getDay());
+  if (statusText && today) {
+    statusText.textContent = today.open
+      ? `Vandaag geopend vanaf ${today.opens}`
+      : 'Vandaag gesloten';
+  }
+</script>

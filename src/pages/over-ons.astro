@@ -1,0 +1,188 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+
+import heroImage from '../assets/images/kokers.jpg';
+import award from '../assets/images/award-gouden-knip.jpg';
+import team from '../assets/images/team-2018.jpg';
+import interieur from '../assets/images/interieur-2.jpg';
+import bar from '../assets/images/bar.jpg';
+import keuken from '../assets/images/keuken-tapas.jpg';
+import { site } from '../data/site';
+
+const waarden = [
+  {
+    title: 'Verse import uit Zuid-Amerika',
+    body: 'Ons rundvlees wordt vers op +1 graden geïmporteerd en is afkomstig van 100% biologische runderen. Deze dieren leven in de vrije natuur, waardoor het vlees kwalitatief hoogwaardig is met een zeer laag vetgehalte.',
+  },
+  {
+    title: 'Alles bereid in olijfolie',
+    body: 'Al onze producten worden in olijfolie bereid, zoals voor uw gezondheid wordt aanbevolen. Geen boter, geen margarine — alleen olijfolie, kruiden en vuur.',
+  },
+  {
+    title: 'Voor iedereen',
+    body: 'Vegetarisch eten of een speciaal dieet? Natuurlijk is dat mogelijk. Wij zoeken samen met u naar een gerecht dat past.',
+  },
+];
+---
+
+<BaseLayout
+  title="Over ons"
+  description="Restaurant La Caleta in Rozenburg: sinds 2007 een vast adres voor Spaanse tapas, grill en verse vis. In 2024 overgedragen van vader naar dochter."
+>
+  <PageHero
+    eyebrow="La Caleta · Over ons"
+    title="Zeventien jaar Spaanse sfeer in Rozenburg"
+    intro="La Caleta is in 2024 overgedragen van vader naar dochter. Zeventien jaar later doen we het nog altijd samen, met ons geweldige team."
+    image={heroImage}
+    imageAlt="Koks van La Caleta in de keuken"
+  />
+
+  <!-- Verhaal -->
+  <section class="paper py-20 md:py-28">
+    <div class="shell grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
+      <div>
+        <p class="font-script text-3xl text-rojo md:text-4xl">La Caleta</p>
+        <h2 class="mt-3 font-display text-4xl leading-[1.05] font-medium md:text-6xl">
+          Hartelijk welkom bij Restaurant La Caleta
+        </h2>
+        <p class="mt-6 text-base leading-relaxed text-tinta/70 md:text-lg">
+          Onze naam klinkt niet alleen Spaans, dat zijn wij ook gewoon: wij laten u graag van de Spaanse
+          sfeer proeven, zowel in onze prachtige gerechten als in ons gezellige restaurant.
+        </p>
+        <p class="mt-4 text-base leading-relaxed text-tinta/70">
+          In 2024 is het restaurant overgegaan van vader naar dochter, na zeventien jaar. We zijn trots
+          op wat we samen hebben opgebouwd en werpen dit nu met veel plezier verder. Het idee blijft
+          hetzelfde: gasten laten proeven van de Spaanse keuken, met aandacht voor product, kwaliteit en
+          sfeer.
+        </p>
+        <p class="mt-4 text-base leading-relaxed text-tinta/70">
+          Naast diverse vlees- en visgerechten serveren wij een uitgebreid tapas-menu. In Spanje eten
+          ze tapas natuurlijk met een drankje aan de bar, maar bij La Caleta serveren wij onze tapas ook
+          bij de lunch en bij het diner.
+        </p>
+
+        <div class="mt-10 grid grid-cols-3 gap-6 border-t border-tinta/10 pt-8">
+          <div>
+            <p class="font-display text-4xl font-medium text-rojo">17+</p>
+            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Jaar in Rozenburg</p>
+          </div>
+          <div>
+            <p class="font-display text-4xl font-medium text-rojo">30+</p>
+            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Soorten tapas</p>
+          </div>
+          <div>
+            <p class="font-display text-4xl font-medium text-rojo">2018</p>
+            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Leukste restaurant</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <Image
+          src={interieur}
+          alt="Gezellige eethoek van Restaurant La Caleta"
+          class="aspect-3/4 w-full object-cover"
+          widths={[320, 640]}
+          sizes="(min-width: 1024px) 22vw, 45vw"
+          loading="lazy"
+        />
+        <Image
+          src={bar}
+          alt="Bar van Restaurant La Caleta"
+          class="mt-10 aspect-3/4 w-full object-cover"
+          widths={[320, 640]}
+          sizes="(min-width: 1024px) 22vw, 45vw"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Waarden -->
+  <section class="bg-carbon py-20 text-crema md:py-28">
+    <div class="shell">
+      <SectionTitle
+        script="calidad"
+        eyebrow="Onze aanpak"
+        title="Waar wij op letten"
+        intro="Het begint bij het product. Wat op tafel komt, komt met zorg."
+        tone="light"
+      />
+
+      <div class="mt-14 grid gap-10 md:grid-cols-3">
+        {
+          waarden.map((waarde, index) => (
+            <div class="border-t border-crema/20 pt-7">
+              <p class="font-display text-3xl text-dorado">0{index + 1}</p>
+              <h3 class="mt-4 font-display text-2xl font-medium md:text-3xl">{waarde.title}</h3>
+              <p class="mt-4 text-sm leading-relaxed text-crema/65">{waarde.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Erkenning -->
+  <section class="bg-crema-oscuro py-20 md:py-28">
+    <div class="shell grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+      <div class="order-2 lg:order-1">
+        <Image
+          src={award}
+          alt="Winnaar Gouden Knip — beste restaurant van Rotterdam"
+          class="w-full shadow-xl shadow-tinta/10"
+          widths={[480, 800]}
+          sizes="(min-width: 1024px) 45vw, 90vw"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="order-1 lg:order-2">
+        <SectionTitle
+          script="premios"
+          eyebrow="Erkenning"
+          title="Beste restaurant van Rotterdam"
+          intro="La Caleta won de Gouden Knip: de hoogste waardering van de gemeente Rotterdam. Ook in 2018 werd La Caleta verkozen tot het leukste restaurant van de regio."
+        />
+        <div class="mt-9 grid grid-cols-2 gap-4">
+          <Image
+            src={team}
+            alt="Team van Restaurant La Caleta"
+            class="aspect-4/3 w-full object-cover"
+            widths={[320, 640]}
+            sizes="(min-width: 1024px) 22vw, 45vw"
+            loading="lazy"
+          />
+          <Image
+            src={keuken}
+            alt="Tapas in de keuken van La Caleta"
+            class="aspect-4/3 w-full object-cover"
+            widths={[320, 640]}
+            sizes="(min-width: 1024px) 22vw, 45vw"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kom langs -->
+  <section class="bg-rojo py-16 text-crema md:py-20">
+    <div class="shell flex flex-col items-center gap-6 text-center">
+      <h2 class="font-display text-4xl font-medium md:text-5xl">Kom proeven</h2>
+      <p class="max-w-xl text-crema/80">
+        {site.address.street}, {site.address.postalCode} {site.address.city} — met gratis parkeren in
+        de directe omgeving.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="/contact/#reserveren" class="btn bg-crema text-rojo hover:bg-crema-oscuro">
+          Reserveer een tafel
+        </a>
+        <a href={site.phoneHref} class="btn btn-line">Bel {site.phone}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

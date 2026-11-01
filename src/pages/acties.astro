@@ -1,0 +1,175 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+
+import heroImage from '../assets/images/tapas-bord.jpg';
+import lunchBaguettes from '../assets/images/lunch-baguettes.jpg';
+import kaasPlank from '../assets/images/kaas-plank.jpg';
+import tafelGasten from '../assets/images/tafel-gasten.jpg';
+
+const acties = [
+  {
+    label: 'Tapas dag',
+    title: 'Een tafel vol Spanje',
+    dagen: 'Elke woensdag en donderdag',
+    prijs: '€34,50 p.p.',
+    body: 'Een tafel vol Spaanse gerechten om samen te delen. Onze koude en warme tapas, met brood en verse salsa. Bij de tapasdag betaalt u een vast bedrag per persoon, onbeperkt eten binnen de regels.',
+    bullets: ['Maximaal 2 tapas p.p. per ronde', 'Desserts niet inbegrepen', 'Drank niet inbegrepen'],
+    image: heroImage,
+    alt: 'Tapas op een houten tafel',
+  },
+  {
+    label: 'Seniorenmenu',
+    title: 'Seniorenmenu van de dag',
+    dagen: 'Dagelijks, op aanvraag',
+    prijs: '€28,50',
+    body: 'Soep van de dag, hoofdgerecht, nagerecht en koffie of thee. Keuze uit lomo (ossenhaas) of quadrill (biefstuk) of drie grote garnalen van de grill. Het hoofdgerecht wordt geserveerd met friet of gepofte aardappel, salade en saus.',
+    bullets: ['Hoofdgerecht naar keuze', 'Nagerecht met koffie of thee', 'Bij een dessert: bolletje ijs met slagroom'],
+    image: tafelGasten,
+    alt: 'Gasten aan een gedekte tafel bij La Caleta',
+  },
+  {
+    label: '12-uurtje lunch',
+    title: 'Elke dag een lunch',
+    dagen: 'Elke dag',
+    prijs: '€14,50',
+    body: 'Soep van de dag met brood, Griekse yoghurt met granola en honing of een baguette met kaas, vis of vlees. Keuze uit bruin of wit brood en ook glutenvrij. Voor kinderen van 3 tot 10 jaar: €15,50 p.p.',
+    bullets: ['Keuze uit bruin of wit brood', 'Ook glutenvrij', 'Kinderen 3–10 jaar: €15,50 p.p.'],
+    image: lunchBaguettes,
+    alt: 'Baguette met Spaanse vleeswaren en salade',
+  },
+];
+
+const kindermenu = [
+  'Kinder nuggets',
+  'Bitterballetjes',
+  'Frikandel',
+  'Kroket en patatjes',
+  'Sparerib',
+];
+---
+
+<BaseLayout
+  title="Acties"
+  description="Acties van Restaurant La Caleta: elke woensdag en donderdag een tapasdag, het seniorenmenu en het 12-uurtje lunchmenu. Ook kunt u uw VVV cadeaukaart gebruiken."
+>
+  <PageHero
+    eyebrow="La Caleta · Acties"
+    title="Meer genieten, minder betalen"
+    intro="Tijdens de week bieden wij speciale menu's aan. Bekijk wat er op de kaart staat en reserveer je tafel."
+    image={heroImage}
+    imageAlt="Tapas op een houten tafel"
+  />
+
+  <section class="paper py-20 md:py-28">
+    <div class="shell space-y-20 md:space-y-28">
+      {
+        acties.map((actie, index) => (
+          <article class="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
+            <div class:list={[index % 2 === 1 && 'lg:order-2']}>
+              <Image
+                src={actie.image}
+                alt={actie.alt}
+                class="aspect-4/3 w-full object-cover"
+                widths={[640, 1024]}
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                loading="lazy"
+              />
+            </div>
+
+            <div>
+              <p class="eyebrow text-rojo">{actie.label}</p>
+              <h2 class="mt-3 font-display text-4xl leading-[1.05] font-medium md:text-5xl">
+                {actie.title}
+              </h2>
+              <p class="mt-2 text-sm tracking-[0.16em] text-tinta/50 uppercase">{actie.dagen}</p>
+              <p class="mt-6 text-base leading-relaxed text-tinta/70">{actie.body}</p>
+
+              <ul class="mt-7 space-y-2.5">
+                {actie.bullets.map((bullet) => (
+                  <li class="flex gap-3 text-sm text-tinta/70">
+                    <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-rojo" aria-hidden="true" />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+
+              <p class="mt-8 font-display text-5xl leading-none font-medium text-rojo">{actie.prijs}</p>
+              <a href="/contact/#reserveren" class="btn btn-rojo mt-7">
+                Reserveer nu
+              </a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Kinderen & cadeaukaart -->
+  <section class="bg-carbon py-20 text-crema md:py-28">
+    <div class="shell grid gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <SectionTitle
+          script="niños"
+          eyebrow="Voor de kleinste gasten"
+          title="Niños · 3 tot 10 jaar"
+          intro="Kinderen kiezen zelf wat ze willen eten. Voor €15,50 per kind krijgen ze een van de volgende gerechten met patatjes en een drankje."
+          tone="light"
+        />
+        <ul class="mt-8 grid gap-2 sm:grid-cols-2">
+          {
+            kindermenu.map((item) => (
+              <li class="flex items-center gap-3 border-b border-crema/15 pb-2 text-sm text-crema/80">
+                <span class="h-1 w-1 rounded-full bg-dorado" aria-hidden="true" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 font-display text-4xl font-medium text-dorado">€15,50 p.p.</p>
+      </div>
+
+      <div class="rounded-sm bg-rojo p-8 md:p-10">
+        <p class="font-script text-3xl">Regalos</p>
+        <h2 class="mt-3 font-display text-3xl font-medium md:text-4xl">Cadeaukaart</h2>
+        <p class="mt-5 text-sm leading-relaxed text-crema/85">
+          Je kunt jouw VVV cadeaukaart gebruiken in ons restaurant. Geef bij het afrekenen even aan
+          dat je de kaart wilt gebruiken, dan rekenen wij het bedrag af.
+        </p>
+        <p class="mt-5 text-sm leading-relaxed text-crema/70">
+          Ook voor verjaardagen en zakelijke diners zoeken wij graag een mooi cadeaupakketje met een
+          fles Spaanse wijn uit onze wijnkaart.
+        </p>
+        <a href="/contact/" class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
+          Vraag naar de mogelijkheden
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lunch -->
+  <section class="bg-crema-oscuro py-20 md:py-28">
+    <div class="shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-20">
+      <Image
+        src={kaasPlank}
+        alt="Spaanse kazen en worsten op een plank"
+        class="aspect-4/3 w-full object-cover"
+        widths={[640, 1024]}
+        sizes="(min-width: 1024px) 42vw, 90vw"
+        loading="lazy"
+      />
+      <div>
+        <SectionTitle
+          script="menú del día"
+          eyebrow="Ook voor de lunch"
+          title="De lunchplank voor twee"
+          intro="Een compleet Spaanse lunchplank om samen te delen: kaas, worst, chorizo, olijven, tapas, brood en salades."
+        />
+        <p class="mt-7 font-display text-5xl font-medium text-rojo">€25,00</p>
+        <p class="mt-2 text-sm text-tinta/55">voor 2 personen</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

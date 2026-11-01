@@ -1,0 +1,235 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import DishList from '../components/DishList.astro';
+
+import heroImage from '../assets/images/hero-cadiz.jpg';
+import lunchTwaalf from '../assets/images/lunch-12uurtje.jpg';
+import lunchSalades from '../assets/images/lunch-salades.jpg';
+
+import menu01 from '../assets/images/menu-kaart-01.jpg';
+import menu02 from '../assets/images/menu-kaart-02.jpg';
+import menu04 from '../assets/images/menu-kaart-04.jpg';
+import menu05 from '../assets/images/menu-kaart-05.jpg';
+import menu06 from '../assets/images/menu-kaart-06.jpg';
+import menu07 from '../assets/images/menu-kaart-07.jpg';
+import menu08 from '../assets/images/menu-kaart-08.jpg';
+import menu09 from '../assets/images/menu-kaart-09.jpg';
+import menu10 from '../assets/images/menu-kaart-10.jpg';
+import menu11 from '../assets/images/menu-kaart-11.jpg';
+import menu12 from '../assets/images/menu-kaart-12.jpg';
+import menu13 from '../assets/images/menu-kaart-13.jpg';
+import menu14 from '../assets/images/menu-kaart-14.jpg';
+
+import {
+  desserts,
+  fish,
+  meatFromTheGrill,
+  starters,
+  tapasPriced,
+  wines,
+} from '../data/site';
+
+const kaarten = [
+  { image: menu01, label: 'Omslag' },
+  { image: menu02, label: 'Welkom' },
+  { image: menu04, label: 'Groepen' },
+  { image: menu05, label: 'Entremeses' },
+  { image: menu06, label: 'Meat guide' },
+  { image: menu07, label: 'Carne & plancha' },
+  { image: menu08, label: 'Pescados' },
+  { image: menu09, label: 'Menukaart' },
+  { image: menu10, label: 'Tapas' },
+  { image: menu11, label: 'Menukaart' },
+  { image: menu12, label: 'Dessert & koffie' },
+  { image: menu13, label: 'Helados' },
+  { image: menu14, label: 'Wijnkaart' },
+];
+
+const lunch = [
+  { name: 'Soep van de dag', description: 'Met brood', price: '€8,00' },
+  { name: 'Griekse yoghurt met granola en honing', description: '', price: '€7,50' },
+  { name: 'Baguette kaas', description: '', price: '€5,50' },
+  { name: 'Uitsmiiter kaas', description: '', price: '€9,00' },
+  { name: 'Baguette gezond', description: '', price: '€8,00' },
+  { name: 'Uitsmiiter ham kaas', description: '', price: '€10,25' },
+  { name: 'Baguette Serranoham', description: '', price: '€8,00' },
+  { name: 'Baguette brie wit', description: 'Met honing en walnoten', price: '€10,50' },
+  { name: 'Baguette gekookt ei', description: '', price: '€5,50' },
+  { name: 'Baguette frikandel speciaal', description: '', price: '€7,00' },
+];
+---
+
+<BaseLayout
+  title="Menukaart"
+  description="De menukaart van Restaurant La Caleta: Spaanse tapas, entremeses, vlees van de grill, verse vis, desserten en Spaanse wijnen."
+>
+  <PageHero
+    eyebrow="La Caleta · Menukaart"
+    title="Cocina de España en tu mesa"
+    intro="Van koude en warme tapas tot het beste vlees en de beste vis van de grill. Alles wordt in olijfolie bereid, met Spaanse wijnen en een Kaartje koffie of sangria erbij."
+    image={heroImage}
+    imageAlt="Zonsondergang over de baai van La Caleta in Cadiz"
+  />
+
+  <!-- Menukaarten -->
+  <section class="bg-carbon py-20 text-crema md:py-24">
+    <div class="shell">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionTitle
+          script="menú"
+          eyebrow="De menukaart"
+          title="Swipe om de menukaart te bekijken"
+          tone="light"
+        />
+        <p class="max-w-sm text-sm leading-relaxed text-crema/60">
+          Onze menukaart is ook als pdf verkrijgbaar bij de host. Vraag er gerust naar.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-12 overflow-hidden">
+      <ul
+        class="flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 md:px-10"
+        tabindex="0"
+        aria-label="Menukaarten, horizontaal scrollbaar"
+      >
+        {
+          kaarten.map((card) => (
+            <li class="w-[240px] shrink-0 snap-center sm:w-[280px]">
+              <Image
+                src={card.image}
+                alt={`Menukaart: ${card.label}`}
+                class="w-full shadow-2xl shadow-black/40"
+                widths={[320, 566]}
+                sizes="(min-width: 640px) 280px, 240px"
+                loading="lazy"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Gerechten -->
+  <section class="paper py-20 md:py-28">
+    <div class="shell">
+      <SectionTitle
+        script="la carta"
+        eyebrow="Wat wij serveren"
+        title="De gerechten op een rij"
+        intro="Een selectie uit onze kaart. Alle hoofdgerechten worden geserveerd met friet of gepofte aardappel, salade en saus."
+      />
+
+      <div class="mt-14 grid gap-x-16 gap-y-14 md:grid-cols-2">
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Entremeses</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Voorgerechten</p>
+          <DishList dishes={starters} />
+        </div>
+
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Tapas</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Klein gerecht om te delen</p>
+          <DishList dishes={tapasPriced} />
+        </div>
+
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Platos de la carne</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Vlees van de grill</p>
+          <DishList dishes={meatFromTheGrill} />
+        </div>
+
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Platos de pescado</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Verse vis</p>
+          <DishList dishes={fish} />
+        </div>
+
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Postres</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Zoet</p>
+          <DishList dishes={desserts} />
+        </div>
+
+        <div>
+          <h3 class="font-display text-3xl font-medium text-rojo">Vinos</h3>
+          <p class="mb-6 mt-1 text-sm text-tinta/50">Spaanse wijnen</p>
+          <DishList dishes={wines} />
+        </div>
+      </div>
+
+      <p class="mt-14 text-sm text-tinta/55">
+        Prijzen zijn indicatief en kunnen wijzigen. Vraag naar de dagelijkse specials en het
+        vegetarische aanbod. <a href="/contact/" class="link-underline text-rojo">Neem contact op</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Lunch -->
+  <section class="bg-crema-oscuro py-20 md:py-28">
+    <div class="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div>
+        <Image
+          src={lunchTwaalf}
+          alt="Lunchmenu van La Caleta"
+          class="aspect-4/5 w-full object-cover"
+          widths={[480, 768]}
+          sizes="(min-width: 1024px) 36vw, 90vw"
+          loading="lazy"
+        />
+      </div>
+
+      <div>
+        <SectionTitle
+          script="mediodía"
+          eyebrow="Lunch"
+          title="Elke dag een lunchplank"
+          intro="Een lunch voor iedereen: soep van de dag, Griekse yoghurt met granola en honing of een baguette met kaas, vis of vlees. Je kiest zelf — bruin of wit brood, ook glutenvrij."
+        />
+
+        <div class="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
+          <DishList dishes={lunch} />
+          <div class="flex flex-col gap-6">
+            <Image
+              src={lunchSalades}
+              alt="Maaltijdsalades van La Caleta"
+              class="aspect-3/2 w-full object-cover"
+              widths={[480, 768]}
+              sizes="(min-width: 640px) 45vw, 90vw"
+              loading="lazy"
+            />
+            <div class="border border-tinta/10 bg-crema p-6">
+              <h3 class="font-display text-2xl font-medium">Lunchplank</h3>
+              <p class="mt-2 text-sm leading-relaxed text-tinta/65">
+                <strong class="text-tinta">Española</strong> — chorizo, salchichón, manchego kaas,
+                vijgenjam, olijven, galapeños, albóndigas, kruidenboter, tapenade, tortilla en brood.
+                <br />
+                <strong class="text-tinta">Vegetal</strong> — kruidenboter, tapenade, aubergine salade,
+                gebakken paprika, olijven, cherrytomaatjes, galapeños, bladerdeeg gevuld met feta, zoete
+                aardappelfrietjes, brood.
+              </p>
+              <p class="mt-4 text-sm font-medium text-rojo">€25,00 voor 2 personen</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserveren -->
+  <section class="bg-rojo py-16 text-crema md:py-20">
+    <div class="shell flex flex-col items-center gap-6 text-center">
+      <h2 class="font-display text-4xl font-medium md:text-5xl">Reserveer uw tafel</h2>
+      <p class="max-w-xl text-crema/80">
+        Laat ons weten wanneer u komt. Voor groepen boven de tien personen bellen wij even vooraf.
+      </p>
+      <a href="/contact/#reserveren" class="btn bg-crema text-rojo hover:bg-crema-oscuro">
+        Naar het reserveringsformulier
+      </a>
+    </div>
+  </section>
+</BaseLayout>

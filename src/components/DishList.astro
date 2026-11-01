@@ -1,0 +1,34 @@
+---
+import type { Dish } from '../data/site';
+
+interface Props {
+  dishes: Dish[];
+  showTags?: boolean;
+}
+
+const { dishes, showTags = false } = Astro.props;
+---
+
+<ul class="space-y-3.5">
+  {
+    dishes.map((dish) => (
+      <li class="group">
+        <div class="dish-row">
+          <span class="font-medium text-tinta">{dish.name}</span>
+          {dish.price && <span class="shrink-0 font-medium text-rojo">{dish.price}</span>}
+        </div>
+        {dish.description && (
+          <p class="mt-1 text-sm leading-relaxed text-tinta/60">{dish.description}</p>
+        )}
+        {showTags && dish.tags && dish.tags.length > 0 && (
+          <p class="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[0.62rem] tracking-[0.16em] uppercase text-tinta/45">
+            {dish.tags.includes('vegetarian') && <span>Vegetarisch</span>}
+            {dish.tags.includes('fish') && <span>Vis</span>}
+            {dish.tags.includes('meat') && <span>Vlees</span>}
+            {dish.tags.includes('chicken') && <span>Kip</span>}
+          </p>
+        )}
+      </li>
+    ))
+  }
+</ul>
