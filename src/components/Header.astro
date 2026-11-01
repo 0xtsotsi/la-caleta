@@ -276,8 +276,28 @@ const today = openingHours.find((h) => h.index === todayIndex);
 
   const today = hours.find((entry) => entry.day === new Date().getDay());
   if (statusText && today) {
-    statusText.textContent = today.open
-      ? `Vandaag geopend vanaf ${today.opens}`
-      : 'Vandaag gesloten';
+    if (today.open) {
+      statusText.textContent = `Vandaag geopend vanaf ${today.opens}`;
+    } else {
+      // Gesloten: zoek de eerstvolgende open dag
+      const dayNames = [
+        'zondag',
+        'maandag',
+        'dinsdag',
+        'woensdag',
+        'donderdag',
+        'vrijdag',
+        'zaterdag',
+      ];
+      const current = new Date().getDay();
+      for (let step = 1; step <= 7; step += 1) {
+        const next = (current + step) % 7;
+        const entry = hours.find((item) => item.day === next);
+        if (!entry?.open) continue;
+        const label = step === 1 ? 'Morgen' : step === 2 ? 'Overmorgen' : dayNames[next];
+        statusText.textContent = `Vandaag gesloten · ${label} vanaf ${entry.opens}`;
+        break;
+      }
+    }
   }
 </script>

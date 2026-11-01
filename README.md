@@ -39,6 +39,22 @@ src/
 └── styles/global.css   design tokens (kleuren, typografie) en componentklassen
 ```
 
+## Sfeer en beweging
+
+De site is opgebouwd rond warmte: Spaanse rode en goud-tinten, een donkere kaarslicht-glans over de
+donkere secties en een zachte fade-in van de inhoud zodra die in beeld komt.
+
+| Wat                  | Waar                                                                         |
+| -------------------- | ---------------------------------------------------------------------------- |
+| Fade-in bij scrollen | `src/scripts/motion.ts` — IntersectionObserver, met vertraging per element   |
+| Parallax in de hero  | `[data-parallax]` op het beeld in `Hero.astro`                               |
+| Kaarten die opveren  | `.lift` in `src/styles/global.css`                                           |
+| Ankers per sectie    | `#intro`, `#specialiteiten`, `#favoritos`, `#acties`, `#ambiente`, `#visita` |
+
+Alle bewegingen schakelen automatisch uit bij `prefers-reduced-motion`. Zonder JavaScript blijft
+alle tekst zichtbaar (de reveal-stijlen hangen aan een `.js` klasse die alleen door JavaScript wordt
+gezet).
+
 ## Content beheren
 
 Alles wat te maken heeft met de inhoud staat in **`src/data/site.ts`**:
@@ -58,14 +74,14 @@ De site staat op GitHub en draait op GitHub Pages. Bij elke push naar `main` wor
 automatisch opnieuw gebouwd en staat de wijziging binnen een minuut live — precies zoals bij je
 andere sites.
 
-| Pagina | Link |
-| --- | --- |
-| Home | https://jalvdbroek-ship-it.github.io/la-caleta/ |
-| Menu | https://jalvdbroek-ship-it.github.io/la-caleta/menu/ |
-| Tapas | https://jalvdbroek-ship-it.github.io/la-caleta/tapas/ |
+| Pagina   | Link                                                     |
+| -------- | -------------------------------------------------------- |
+| Home     | https://jalvdbroek-ship-it.github.io/la-caleta/          |
+| Menu     | https://jalvdbroek-ship-it.github.io/la-caleta/menu/     |
+| Tapas    | https://jalvdbroek-ship-it.github.io/la-caleta/tapas/    |
 | Over ons | https://jalvdbroek-ship-it.github.io/la-caleta/over-ons/ |
-| Acties | https://jalvdbroek-ship-it.github.io/la-caleta/acties/ |
-| Contact | https://jalvdbroek-ship-it.github.io/la-caleta/contact/ |
+| Acties   | https://jalvdbroek-ship-it.github.io/la-caleta/acties/   |
+| Contact  | https://jalvdbroek-ship-it.github.io/la-caleta/contact/  |
 
 > **Let op:** GitHub Pages kan op een gratis account alleen voor openbare repos. De repo
 > `jalvdbroek-ship-it/la-caleta` is daarom openbaar, net als je andere websites.
@@ -96,5 +112,15 @@ De site bouwt naar een volledig statische `dist/`. Elke statische host werkt:
 
 ## Beeldmateriaal
 
-Alle foto's en menukaarten zijn overgenomen van de huidige website van het restaurant
-(`lacaleta.nl`) en behoren toe aan Restaurant La Caleta.
+**Eigen foto's** — de foto's en menukaarten van het restaurant zelf zijn overgenomen van de huidige
+website (`lacaleta.nl`) en behoren toe aan Restaurant La Caleta. De originele bestanden waren maar
+400px breed; die zijn opgeschaald en verscherpt zodat ze niet wazig ogen.
+
+**Sfeerfoto's** — voor de sfeerbeelden op de homepage en de tapaspagina zijn foto's van Pexels
+gebruikt (gratis te gebruiken, geen credit verplicht). **Dit zijn ter illustratie: vervang ze door
+echt materiaal van het restaurant voordat de site live gaat.** De bestanden herken je aan de
+bestandsnamen `sfeer-*`, `tapas-*`, `bar-*`, `lunch-*`, `grill-*`, `paella-*`, `tafel-*` en
+`verse-vis.jpg`.
+
+**Kleurgrading** — alle beelden zijn één keer warmtegraded (rode en groen iets omhoog, blauw omlaag)
+zodat de sfeer overal hetzelfde is.

@@ -5,18 +5,21 @@ import Hero from '../components/Hero.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import OpeningHours from '../components/OpeningHours.astro';
 
-import interieur from '../assets/images/interieur-1.jpg';
-import tapasBord from '../assets/images/tapas-bord.jpg';
-import grillVuur from '../assets/images/grill-vuur.jpg';
-import lunchBaguettes from '../assets/images/lunch-baguettes.jpg';
-import kokers from '../assets/images/kokers.jpg';
+import tafelSpaans2 from '../assets/images/tafel-spaans.jpg';
+import tapasBord from '../assets/images/tapas-bord-warm.jpg';
+import grillVuur from '../assets/images/grill-garnalen.jpg';
+import lunchServeren from '../assets/images/lunch-serveren.jpg';
+import tapasTafel from '../assets/images/tapas-tafel.jpg';
 import exterieur from '../assets/images/exterieur.jpg';
-import grillSkewers from '../assets/images/grill-skewers.jpg';
 import kaasPlank from '../assets/images/kaas-plank.jpg';
-import interieur2 from '../assets/images/interieur-2.jpg';
-import keukenTapas from '../assets/images/keuken-tapas.jpg';
-import tafelGasten from '../assets/images/tafel-gasten.jpg';
-import brunch from '../assets/images/brunch.jpg';
+import sfeerWijn from '../assets/images/sfeer-wijn-kaarsen.jpg';
+import sfeerKaarsen from '../assets/images/sfeer-kaarsen.jpg';
+import sfeerGasten from '../assets/images/sfeer-gasten.jpg';
+import barBediening from '../assets/images/bar-bediening.jpg';
+import tapasPaprika from '../assets/images/tapas-paprika.jpg';
+import sfeerBloem from '../assets/images/sfeer-bloem-kaars.jpg';
+import tafelSpaans from '../assets/images/tafel-spaans.jpg';
+import paellaPan from '../assets/images/paella-pan.jpg';
 
 import { acts, site, tapasPriced } from '../data/site';
 
@@ -25,32 +28,34 @@ const specialiteiten = [
     title: 'Tapas & de bar',
     body: 'In Spanje eet je tapas met een drankje aan de bar. Bij La Caleta serveren wij ze ook bij de lunch en het diner — of laat ze naar uw tafel komen.',
     image: tapasBord,
-    alt: 'Tapas bord met Spaanse gerechten op houten tafel',
+    alt: 'Tapas op een houten serveerplank',
     href: '/tapas/',
   },
   {
     title: 'Grill & verse vis',
     body: 'Het beste vlees en de beste vis van de grill. Lomo, entrecote, ribeye en dagverse vis, alles bereid in olijfolie.',
     image: grillVuur,
-    alt: 'Vlees aan de barbecue met vuur',
+    alt: 'Garnalen op de houten grill',
     href: '/menu/',
   },
   {
     title: 'Lunch voor iedereen',
     body: 'Van het 12-uurtje tot een lunchplank voor twee. Met keuze uit bruin of wit brood en ook glutenvrij.',
-    image: lunchBaguettes,
-    alt: 'Baguette met Spaanse vleeswaren en salade',
+    image: lunchServeren,
+    alt: 'Bediening serveert Spaanse tapas met olijven en brood',
     href: '/menu/',
   },
 ];
 
 const gallery = [
-  { image: interieur2, alt: 'Gezellige eethoek van Restaurant La Caleta' },
-  { image: keukenTapas, alt: 'Tapas worden klaargemaakt in de keuken' },
-  { image: tafelGasten, alt: 'Gasten aan tafel bij La Caleta' },
-  { image: kaasPlank, alt: 'Spaanse kazen en worsten op een plank' },
-  { image: grillSkewers, alt: 'Spiesen met vlees op de houten grill' },
-  { image: brunch, alt: 'Verjaardagsbrunch bij La Caleta' },
+  { image: sfeerWijn, alt: 'Spaanse wijn en kaarslicht op tafel' },
+  { image: barBediening, alt: 'Bediening aan de bar' },
+  { image: sfeerKaarsen, alt: 'Kaarslicht in de sfeerige ruimte' },
+  { image: tapasPaprika, alt: 'Spaanse tapas met paprika' },
+  { image: paellaPan, alt: 'Spaanse paella met olijven' },
+  { image: sfeerGasten, alt: 'Gasten genieten in het restaurant' },
+  { image: sfeerBloem, alt: 'Verse bloemen en kaarslicht op tafel' },
+  { image: lunchServeren, alt: 'Tapas en brood aan tafel' },
 ];
 ---
 
@@ -83,11 +88,12 @@ const gallery = [
 
       <div class="relative">
         <Image
-          src={interieur}
-          alt="Interieur van Restaurant La Caleta met gasten aan tafel"
+          src={tafelSpaans2}
+          alt="Spaanse gerechten en wijn op tafel bij La Caleta"
           class="aspect-4/5 w-full object-cover"
           widths={[480, 768]}
           sizes="(min-width: 1024px) 40vw, 90vw"
+          data-reveal="right"
         />
         <div class="absolute -bottom-6 -left-4 hidden bg-rojo px-8 py-6 text-crema md:block">
           <p class="font-display text-5xl leading-none font-medium">17+</p>
@@ -98,7 +104,7 @@ const gallery = [
   </section>
 
   <!-- Specialiteiten -->
-  <section class="bg-carbon py-20 text-crema md:py-28">
+  <section id="specialiteiten" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
     <div class="shell">
       <SectionTitle
         script=" specialties"
@@ -110,8 +116,8 @@ const gallery = [
 
       <div class="mt-14 grid gap-8 md:grid-cols-3">
         {
-          specialiteiten.map((item) => (
-            <a href={item.href} class="group block">
+          specialiteiten.map((item, index) => (
+            <a href={item.href} class="group block" data-reveal data-reveal-delay={String(index * 110)}>
               <div class="overflow-hidden">
                 <Image
                   src={item.image}
@@ -137,15 +143,16 @@ const gallery = [
   </section>
 
   <!-- Uitgelicht -->
-  <section class="paper py-20 md:py-28">
+  <section id="favoritos" class="paper py-20 md:py-28">
     <div class="shell grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20">
       <div class="relative order-2 lg:order-1">
         <Image
-          src={kokers}
-          alt="Koks van La Caleta in de keuken"
+          src={tapasTafel}
+          alt="Spaanse tapas aan tafel bij La Caleta"
           class="aspect-4/5 w-full object-cover"
           widths={[480, 768]}
           sizes="(min-width: 1024px) 38vw, 90vw"
+          data-reveal="left"
         />
       </div>
 
@@ -179,7 +186,7 @@ const gallery = [
   </section>
 
   <!-- Acties -->
-  <section class="bg-crema-oscuro py-20 md:py-28">
+  <section id="acties" class="bg-crema-oscuro py-20 md:py-28">
     <div class="shell">
       <SectionTitle
         script="ofertas"
@@ -190,8 +197,12 @@ const gallery = [
 
       <div class="mt-14 grid gap-6 md:grid-cols-3">
         {
-          acts.map((act) => (
-            <article class="flex flex-col border border-tinta/10 bg-crema p-8 transition-shadow duration-300 hover:shadow-xl hover:shadow-tinta/5">
+          acts.map((act, index) => (
+            <article
+              class="lift flex flex-col border border-tinta/10 bg-crema p-8"
+              data-reveal
+              data-reveal-delay={String(index * 110)}
+            >
               <p class="eyebrow text-[0.62rem] text-rojo">{act.label}</p>
               <h3 class="mt-4 font-display text-2xl leading-snug font-medium md:text-[1.75rem]">
                 {act.title}
@@ -214,7 +225,7 @@ const gallery = [
   </section>
 
   <!-- Sfeer -->
-  <section class="bg-carbon py-20 text-crema md:py-28">
+  <section id="ambiente" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
     <div class="shell">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <SectionTitle
@@ -237,6 +248,8 @@ const gallery = [
                 index === 0 && 'col-span-2 row-span-2',
                 index === 3 && 'md:row-span-2',
               ]}
+              data-reveal
+              data-reveal-delay={String((index % 3) * 120)}
             >
               <Image
                 src={photo.image}
@@ -254,7 +267,7 @@ const gallery = [
   </section>
 
   <!-- Bezoek ons -->
-  <section class="paper py-20 md:py-28">
+  <section id="visita" class="paper py-20 md:py-28">
     <div class="shell grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
       <div>
         <SectionTitle
@@ -299,6 +312,7 @@ const gallery = [
           class="aspect-3/2 w-full object-cover"
           widths={[640, 1024]}
           sizes="(min-width: 1024px) 45vw, 90vw"
+          data-reveal
         />
         <div class="mt-6 overflow-hidden border border-tinta/10">
           <iframe

@@ -7,7 +7,7 @@ import DishList from '../components/DishList.astro';
 
 import heroImage from '../assets/images/tapas-bord.jpg';
 import keukenTapas from '../assets/images/keuken-tapas.jpg';
-import kaasPlank from '../assets/images/kaas-plank.jpg';
+import tapasTafel from '../assets/images/tapas-tafel.jpg';
 import tapasKaart1 from '../assets/images/tapas-kaart-1.jpg';
 import tapasKaart2 from '../assets/images/tapas-kaart-2.jpg';
 
@@ -44,7 +44,7 @@ const regels = [
   />
 
   <!-- Tapas dag -->
-  <section class="bg-rojo py-16 text-crema md:py-24">
+  <section class="bg-rojo kaarslicht py-16 text-crema md:py-24">
     <div class="shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-20">
       <div>
         <p class="font-script text-3xl text-crema/85">Tapas dag</p>
@@ -64,8 +64,8 @@ const regels = [
 
       <div class="grid grid-cols-2 gap-4">
         <Image
-          src={kaasPlank}
-          alt="Spaanse kazen en worsten"
+          src={tapasTafel}
+          alt="Tapas op tafel bij kaarslicht"
           class="aspect-square w-full object-cover"
           widths={[320, 640]}
           sizes="(min-width: 1024px) 20vw, 45vw"
@@ -73,7 +73,7 @@ const regels = [
         />
         <Image
           src={keukenTapas}
-          alt="Tapas klaargemaakt in de keuken"
+          alt="Bediening in de warme sfeer van La Caleta"
           class="aspect-square w-full object-cover"
           widths={[320, 640]}
           sizes="(min-width: 1024px) 20vw, 45vw"
@@ -109,7 +109,7 @@ const regels = [
   </section>
 
   <!-- Tapas kaarten -->
-  <section class="bg-carbon py-20 text-crema md:py-24">
+  <section class="bg-carbon kaarslicht py-20 text-crema md:py-24">
     <div class="shell">
       <SectionTitle
         script="la carta"

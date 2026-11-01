@@ -7,7 +7,7 @@ import DishList from '../components/DishList.astro';
 
 import heroImage from '../assets/images/hero-cadiz.jpg';
 import lunchTwaalf from '../assets/images/lunch-12uurtje.jpg';
-import lunchSalades from '../assets/images/lunch-salades.jpg';
+import lunchServeren from '../assets/images/lunch-serveren.jpg';
 
 import menu01 from '../assets/images/menu-kaart-01.jpg';
 import menu02 from '../assets/images/menu-kaart-02.jpg';
@@ -75,7 +75,7 @@ const lunch = [
   />
 
   <!-- Menukaarten -->
-  <section class="bg-carbon py-20 text-crema md:py-24">
+  <section class="bg-carbon kaarslicht py-20 text-crema md:py-24">
     <div class="shell">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <SectionTitle
@@ -175,7 +175,7 @@ const lunch = [
       <div>
         <Image
           src={lunchTwaalf}
-          alt="Lunchmenu van La Caleta"
+          alt="Menukaart van het lunchmenu van La Caleta"
           class="aspect-4/5 w-full object-cover"
           widths={[480, 768]}
           sizes="(min-width: 1024px) 36vw, 90vw"
@@ -195,7 +195,7 @@ const lunch = [
           <DishList dishes={lunch} />
           <div class="flex flex-col gap-6">
             <Image
-              src={lunchSalades}
+              src={lunchServeren}
               alt="Maaltijdsalades van La Caleta"
               class="aspect-3/2 w-full object-cover"
               widths={[480, 768]}
