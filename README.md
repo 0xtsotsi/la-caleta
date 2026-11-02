@@ -83,6 +83,23 @@ Alle bewegingen schakelen automatisch uit bij `prefers-reduced-motion`. Zonder J
 alle tekst zichtbaar (de reveal-stijlen hangen aan een `.js` klasse die alleen door JavaScript wordt
 gezet).
 
+## Links en het basispad
+
+De site draait op GitHub Pages in de map `/la-caleta`, maar later waarschijnlijk op het eigen
+domein van het restaurant. Daarom loopt elke interne link via de helper `withBase` uit
+`src/lib/urls.ts`:
+
+```astro
+---
+import { withBase } from '../lib/urls';
+---
+<a href={withBase('/menu/')}>Menu</a>
+```
+
+**Schrijf nooit `href="/menu/"` maar `href={withBase('/menu/')}`.** Een kale `href="/menu/"`
+verwijst naar de root van het domein en geeft op GitHub Pages een 404, omdat de site daar in een
+submap staat. In `astro.config.mjs` staat de `base`, in `src/lib/urls.ts` wordt die toegepast.
+
 ## Content beheren
 
 Alles wat te maken heeft met de inhoud staat in **`src/data/site.ts`**:
@@ -145,9 +162,13 @@ website (`lacaleta.nl`) en behoren toe aan Restaurant La Caleta. De originele be
 400px breed; die zijn opgeschaald, verscherpt en voorzien van een fijne filmkorrel zodat ze niet
 wazig ogen.
 
-De hero op de homepage toont de eigen zaal van La Caleta (gasten, tafels, tegelvloer). De
-zonsondergang over de baai van Cádiz — het beeld van de omslag van hun menukaart — staat als
+De hero op de homepage toont een tafel vol Spaanse tapas — meteen duidelijk dat dit een restaurant
+is. De zonsondergang over de baai van Cádiz (het beeld op de omslag van hun menukaart) staat als
 sfeer-intermezzo verderop de pagina (`src/components/Intermezzo.astro`).
+
+**Let op bij nieuwe foto's:** controleer de scherpte voordat je ze gebruikt. De meting in
+`sharp` op de Laplacian-variant geeft een score; boven ongeveer 500 is een foto bruikbaar op
+volledig scherm.
 
 **Sfeerfoto's** — voor de sfeerbeelden op de homepage en de tapaspagina zijn foto's van Pexels
 gebruikt (gratis te gebruiken, geen credit verplicht). **Dit zijn ter illustratie: vervang ze door
