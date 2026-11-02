@@ -8,6 +8,7 @@ import heroImage from '../assets/images/tapas-bord.jpg';
 import lunchBaguettes from '../assets/images/lunch-serveren.jpg';
 import kaasPlank from '../assets/images/tapas-tafel.jpg';
 import tafelGasten from '../assets/images/tafel-gasten.jpg';
+import { withBase } from '../lib/urls';
 
 const acties = [
   {
@@ -97,7 +98,7 @@ const kindermenu = [
               </ul>
 
               <p class="mt-8 font-display text-5xl leading-none font-medium text-rojo">{actie.prijs}</p>
-              <a href="/contact/#reserveren" class="btn btn-rojo mt-7">
+              <a href={withBase('/contact/#reserveren')} class="btn btn-rojo mt-7">
                 Reserveer nu
               </a>
             </div>
@@ -142,7 +143,7 @@ const kindermenu = [
           Ook voor verjaardagen en zakelijke diners zoeken wij graag een mooi cadeaupakketje met een
           fles Spaanse wijn uit onze wijnkaart.
         </p>
-        <a href="/contact/" class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
+        <a href={withBase('/contact/')} class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
           Vraag naar de mogelijkheden
         </a>
       </div>

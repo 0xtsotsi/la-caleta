@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/hero-tapas.jpg';
+import { withBase } from '../lib/urls';
 
 const facts = [
   { label: 'Tapas dag', value: 'wo & do' },
@@ -45,8 +46,8 @@ const facts = [
       </p>
 
       <div class="mt-9 flex flex-wrap gap-3" data-reveal data-reveal-delay="260">
-        <a href="/contact/#reserveren" class="btn btn-rojo">Reserveer een tafel</a>
-        <a href="/menu/" class="btn btn-line">Bekijk het menu</a>
+        <a href={withBase('/contact/#reserveren')} class="btn btn-rojo">Reserveer een tafel</a>
+        <a href={withBase('/menu/')} class="btn btn-line">Bekijk het menu</a>
       </div>
     </div>
 

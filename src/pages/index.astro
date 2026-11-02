@@ -24,6 +24,7 @@ import paellaPan from '../assets/images/paella-pan.jpg';
 import cadiz from '../assets/images/hero-cadiz.jpg';
 
 import { acts, site, tapasPriced } from '../data/site';
+import { withBase } from '../lib/urls';
 
 const specialiteiten = [
   {
@@ -83,8 +84,8 @@ const gallery = [
           om vegetarisch of met een speciaal dieet te lunchen of te dineren.
         </p>
         <div class="mt-9 flex flex-wrap items-center gap-4">
-          <a href="/over-ons/" class="btn btn-rojo">Meer over ons</a>
-          <a href="/menu/" class="link-underline text-sm tracking-[0.18em] uppercase">Bekijk het menu</a>
+          <a href={withBase('/over-ons/')} class="btn btn-rojo">Meer over ons</a>
+          <a href={withBase('/menu/')} class="link-underline text-sm tracking-[0.18em] uppercase">Bekijk het menu</a>
         </div>
       </div>
 
@@ -119,7 +120,7 @@ const gallery = [
       <div class="mt-14 grid gap-8 md:grid-cols-3">
         {
           specialiteiten.map((item, index) => (
-            <a href={item.href} class="group block" data-reveal data-reveal-delay={String(index * 110)}>
+            <a href={withBase(item.href)} class="group block" data-reveal data-reveal-delay={String(index * 110)}>
               <div class="overflow-hidden">
                 <Image
                   src={item.image}
@@ -182,7 +183,7 @@ const gallery = [
           }
         </div>
 
-        <a href="/menu/" class="btn btn-line mt-12">De volledige menukaart</a>
+        <a href={withBase('/menu/')} class="btn btn-line mt-12">De volledige menukaart</a>
       </div>
     </div>
   </section>
@@ -222,7 +223,7 @@ const gallery = [
               <div class="mt-7 flex items-end justify-between gap-4 border-t border-tinta/10 pt-6">
                 <p class="font-display text-4xl leading-none font-medium text-rojo">{act.price}</p>
                 <a
-                  href={act.cta.href}
+                  href={withBase(act.cta.href)}
                   class="text-[0.68rem] tracking-[0.2em] uppercase transition-colors hover:text-rojo"
                 >
                   {act.cta.label} &rarr;
@@ -311,7 +312,7 @@ const gallery = [
                 <a href={`mailto:${site.email}`} class="link-underline">{site.email}</a>
               </li>
             </ul>
-            <a href="/contact/#reserveren" class="btn btn-rojo mt-8">Reserveer een tafel</a>
+            <a href={withBase('/contact/#reserveren')} class="btn btn-rojo mt-8">Reserveer een tafel</a>
           </div>
         </div>
       </div>

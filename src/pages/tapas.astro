@@ -12,6 +12,7 @@ import tapasKaart1 from '../assets/images/tapas-kaart-1.jpg';
 import tapasKaart2 from '../assets/images/tapas-kaart-2.jpg';
 
 import { tapasCold, tapasWarm } from '../data/site';
+import { withBase } from '../lib/urls';
 
 const sangria = [
   { name: 'Karaf (1 liter)', price: '€29' },
@@ -57,7 +58,7 @@ const regels = [
           gaan er los bij.
         </p>
         <p class="mt-8 font-display text-6xl leading-none font-medium">€34,50 <span class="text-2xl">p.p.</span></p>
-        <a href="/contact/#reserveren" class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
+        <a href={withBase('/contact/#reserveren')} class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
           Reserveer voor de tapasdag
         </a>
       </div>

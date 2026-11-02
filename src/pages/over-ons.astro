@@ -11,6 +11,7 @@ import interieur from '../assets/images/interieur-2.jpg';
 import bar from '../assets/images/bar.jpg';
 import keuken from '../assets/images/keuken-tapas.jpg';
 import { site } from '../data/site';
+import { withBase } from '../lib/urls';
 
 const waarden = [
   {
@@ -179,7 +180,7 @@ const waarden = [
         de directe omgeving.
       </p>
       <div class="flex flex-wrap justify-center gap-3">
-        <a href="/contact/#reserveren" class="btn bg-crema text-rojo hover:bg-crema-oscuro">
+        <a href={withBase('/contact/#reserveren')} class="btn bg-crema text-rojo hover:bg-crema-oscuro">
           Reserveer een tafel
         </a>
         <a href={site.phoneHref} class="btn btn-line">Bel {site.phone}</a>

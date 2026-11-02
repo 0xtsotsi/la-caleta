@@ -22,6 +22,7 @@ import menu11 from '../assets/images/menu-kaart-11.jpg';
 import menu12 from '../assets/images/menu-kaart-12.jpg';
 import menu13 from '../assets/images/menu-kaart-13.jpg';
 import menu14 from '../assets/images/menu-kaart-14.jpg';
+import { withBase } from '../lib/urls';
 
 import {
   desserts,
@@ -124,47 +125,62 @@ const lunch = [
         intro="Een selectie uit onze kaart. Alle hoofdgerechten worden geserveerd met friet of gepofte aardappel, salade en saus."
       />
 
-      <div class="mt-14 grid gap-x-16 gap-y-14 md:grid-cols-2">
+      <!-- Twee vaste kolommen: zo blijft de leesvolgorde intact en vallen de categorieën niet uit elkaar -->
+      <div class="mt-14 grid gap-x-16 gap-y-4 md:grid-cols-2">
         <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Entremeses</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Voorgerechten</p>
-          <DishList dishes={starters} />
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Entremeses</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Voorgerechten</p>
+            <DishList dishes={starters} />
+          </section>
+
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Tapas</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Klein gerecht om te delen</p>
+            <DishList dishes={tapasPriced} />
+          </section>
+
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Platos de la carne</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Vlees van de grill</p>
+            <DishList dishes={meatFromTheGrill} />
+          </section>
         </div>
 
         <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Tapas</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Klein gerecht om te delen</p>
-          <DishList dishes={tapasPriced} />
-        </div>
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Platos de pescado</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Verse vis</p>
+            <DishList dishes={fish} />
+          </section>
 
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Platos de la carne</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Vlees van de grill</p>
-          <DishList dishes={meatFromTheGrill} />
-        </div>
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Postres</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Zoet</p>
+            <DishList dishes={desserts} />
+          </section>
 
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Platos de pescado</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Verse vis</p>
-          <DishList dishes={fish} />
-        </div>
+          <section class="mb-12">
+            <h3 class="font-display text-3xl font-medium text-rojo">Vinos</h3>
+            <p class="mb-5 mt-1 text-sm text-tinta/50">Spaanse wijnen</p>
+            <DishList dishes={wines} />
+          </section>
 
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Postres</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Zoet</p>
-          <DishList dishes={desserts} />
-        </div>
-
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Vinos</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Spaanse wijnen</p>
-          <DishList dishes={wines} />
+          <aside class="border border-tinta/10 bg-crema-oscuro p-7">
+            <h3 class="font-display text-2xl font-medium text-rojo">Goed om te weten</h3>
+            <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-tinta/65">
+              <li>Alle hoofdgerechten worden geserveerd met friet of gepofte aardappel, salade en saus.</li>
+              <li>Er is ook een kindermenu, met kroketten, nuggets en patatjes.</li>
+              <li>Huisgemaakte sangria en verse Spaanse wijnen per glas.</li>
+              <li>Vegetarische en speciale dieeten zijn altijd mogelijk.</li>
+            </ul>
+          </aside>
         </div>
       </div>
 
       <p class="mt-14 text-sm text-tinta/55">
         Prijzen zijn indicatief en kunnen wijzigen. Vraag naar de dagelijkse specials en het
-        vegetarische aanbod. <a href="/contact/" class="link-underline text-rojo">Neem contact op</a>.
+        vegetarische aanbod. <a href={withBase('/contact/')} class="link-underline text-rojo">Neem contact op</a>.
       </p>
     </div>
   </section>
@@ -227,7 +243,7 @@ const lunch = [
       <p class="max-w-xl text-crema/80">
         Laat ons weten wanneer u komt. Voor groepen boven de tien personen bellen wij even vooraf.
       </p>
-      <a href="/contact/#reserveren" class="btn bg-crema text-rojo hover:bg-crema-oscuro">
+      <a href={withBase('/contact/#reserveren')} class="btn bg-crema text-rojo hover:bg-crema-oscuro">
         Naar het reserveringsformulier
       </a>
     </div>

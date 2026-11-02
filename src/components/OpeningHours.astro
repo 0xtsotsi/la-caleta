@@ -1,5 +1,6 @@
 ---
 import { site, openingHours } from '../data/site';
+import { withBase } from '../lib/urls';
 ---
 
 <div>
@@ -29,7 +30,7 @@ import { site, openingHours } from '../data/site';
   <p class="mt-6 text-sm leading-relaxed opacity-70">
     Reserveren kan telefonisch via
     <a href={site.phoneHref} class="link-underline">{site.phone}</a> of via het
-    <a href="/contact/#reserveren" class="link-underline">reserveringsformulier</a>.
+    <a href={withBase('/contact/#reserveren')} class="link-underline">reserveringsformulier</a>.
   </p>
 </div>
 

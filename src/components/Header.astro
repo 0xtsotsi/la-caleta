@@ -1,5 +1,6 @@
 ---
 import { site, navItems, openingHours } from '../data/site';
+import { withBase } from '../lib/urls';
 
 interface Props {
   transparent?: boolean;
@@ -27,7 +28,7 @@ const today = openingHours.find((h) => h.index === todayIndex);
     class="hidden border-b border-white/10 bg-rojo-oscuro text-crema/80 transition-colors duration-300 lg:block"
   >
     <div class="shell flex h-9 items-center justify-between text-[0.68rem] tracking-[0.18em] uppercase">
-      <p>Restaurante Español · Rozenburg</p>
+      <p>Cocina de España en tu mesa · Rozenburg</p>
       <div class="flex items-center gap-6">
         <p id="vandaag-status" class="flex items-center gap-2">
           <span class="inline-block h-1.5 w-1.5 rounded-full bg-crema/70"></span>
@@ -44,7 +45,7 @@ const today = openingHours.find((h) => h.index === todayIndex);
     class="transition-all duration-300"
   >
     <div class="shell flex h-20 items-center justify-between gap-6">
-      <a href="/" class="group flex flex-col leading-none" aria-label={`${site.legalName} — naar de homepage`}>
+      <a href={withBase('/')} class="group flex flex-col leading-none" aria-label={`${site.legalName} — naar de homepage`}>
         <span
           class="font-script text-4xl leading-none transition-colors duration-300 md:text-[2.6rem]"
           id="logo"
@@ -52,14 +53,14 @@ const today = openingHours.find((h) => h.index === todayIndex);
         <span
           class="eyebrow mt-1 hidden text-[0.6rem] transition-colors duration-300 sm:block"
           id="logo-sub"
-        >Restaurante Español</span>
+        >Cocina de España en tu mesa</span>
       </a>
 
       <nav class="hidden items-center gap-8 lg:flex" aria-label="Hoofdmenu">
         {
           navItems.map((item) => (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class="nav-link relative py-2 text-[0.72rem] font-medium tracking-[0.2em] uppercase transition-colors duration-300"
               data-nav-link
@@ -72,7 +73,7 @@ const today = openingHours.find((h) => h.index === todayIndex);
 
       <div class="flex items-center gap-3">
         <a
-          href="/contact/#reserveren"
+          href={withBase('/contact/#reserveren')}
           class="btn btn-rojo hidden !px-6 !py-3 text-[0.66rem] sm:inline-flex"
           id="header-cta"
         >
@@ -104,7 +105,7 @@ const today = openingHours.find((h) => h.index === todayIndex);
       {
         navItems.map((item) => (
           <a
-            href={item.href}
+            href={withBase(item.href)}
             class="mobile-link border-b border-crema/15 py-4 font-display text-3xl"
             data-mobile-link
           >
@@ -112,7 +113,7 @@ const today = openingHours.find((h) => h.index === todayIndex);
           </a>
         ))
       }
-      <a href="/contact/#reserveren" class="btn btn-rojo mt-8 !bg-crema !text-rojo-oscuro" data-mobile-link>
+      <a href={withBase('/contact/#reserveren')} class="btn btn-rojo mt-8 !bg-crema !text-rojo-oscuro" data-mobile-link>
         Reserveer een tafel
       </a>
       <div class="mt-10 space-y-1 text-sm text-crema/70">

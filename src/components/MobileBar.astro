@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { withBase } from '../lib/urls';
 
 interface Props {
   /** Verberg de balk op pagina's die al een reserveringsvormulier bevatten. */
@@ -31,7 +32,7 @@ const { hide = false } = Astro.props;
           Bellen
         </a>
         <a
-          href="/contact/#reserveren"
+          href={withBase('/contact/#reserveren')}
           class="flex items-center justify-center bg-rojo py-4 text-[0.7rem] font-medium tracking-[0.18em] text-crema uppercase transition-colors active:bg-rojo-oscuro"
         >
           Reserveren
