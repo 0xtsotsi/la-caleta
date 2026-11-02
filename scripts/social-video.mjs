@@ -156,9 +156,9 @@ const sceneFrame = async (scene, progress) => {
 
 const scenes = [
   {
-    image: 'hero-interieur.jpg',
+    image: 'hero-tapas.jpg',
     focus: 'center',
-    zoomStart: 1.14,
+    zoomStart: 1.12,
     zoomEnd: 1.02,
     pan: 0.12,
     logo: true,
