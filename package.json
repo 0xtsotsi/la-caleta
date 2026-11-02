@@ -9,6 +9,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "lint": "biome check .",
+    "social:posts": "node scripts/social-post.mjs",
+    "social:video": "node scripts/social-video.mjs",
+    "social:video:landscape": "node scripts/social-video.mjs landscape",
     "format": "biome check --write ."
   },
   "dependencies": {

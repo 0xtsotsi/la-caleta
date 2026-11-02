@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 
-import heroImage from '../assets/images/kokers.jpg';
+import heroImage from '../assets/images/team-2018.jpg';
 import award from '../assets/images/award-gouden-knip.jpg';
 import team from '../assets/images/team-2018.jpg';
 import interieur from '../assets/images/interieur-2.jpg';
@@ -37,11 +37,11 @@ const waarden = [
     title="Zeventien jaar Spaanse sfeer in Rozenburg"
     intro="La Caleta is in 2024 overgedragen van vader naar dochter. Zeventien jaar later doen we het nog altijd samen, met ons geweldige team."
     image={heroImage}
-    imageAlt="De keuken van Restaurant La Caleta"
+    imageAlt="Het team van Restaurant La Caleta met de Gouden Knip"
   />
 
   <!-- Verhaal -->
-  <section class="paper py-20 md:py-28">
+  <section id="verhaal" class="paper py-20 md:py-28">
     <div class="shell grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
       <div>
         <p class="font-script text-3xl text-rojo md:text-4xl">La Caleta</p>
@@ -102,7 +102,7 @@ const waarden = [
   </section>
 
   <!-- Waarden -->
-  <section class="bg-carbon kaarslicht py-20 text-crema md:py-28">
+  <section id="werkwijze" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
     <div class="shell">
       <SectionTitle
         script="calidad"
@@ -127,7 +127,7 @@ const waarden = [
   </section>
 
   <!-- Erkenning -->
-  <section class="bg-crema-oscuro py-20 md:py-28">
+  <section id="erkenning" class="bg-crema-oscuro py-20 md:py-28">
     <div class="shell grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
       <div class="order-2 lg:order-1">
         <Image
@@ -137,6 +137,7 @@ const waarden = [
           widths={[480, 800]}
           sizes="(min-width: 1024px) 45vw, 90vw"
           loading="lazy"
+          data-reveal="left"
         />
       </div>
 
@@ -150,7 +151,7 @@ const waarden = [
         <div class="mt-9 grid grid-cols-2 gap-4">
           <Image
             src={team}
-            alt="Team van Restaurant La Caleta"
+            alt="Het team van Restaurant La Caleta viert de Gouden Knip"
             class="aspect-4/3 w-full object-cover"
             widths={[320, 640]}
             sizes="(min-width: 1024px) 22vw, 45vw"

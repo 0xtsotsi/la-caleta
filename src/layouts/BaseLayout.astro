@@ -12,6 +12,7 @@ import '@fontsource/dancing-script/400.css';
 
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
 import { site, jsonLd } from '../data/site';
 
 interface Props {
@@ -71,7 +72,7 @@ const structuredData = {
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
-  <body class="min-h-screen bg-crema text-tinta antialiased">
+  <body class="min-h-screen bg-crema text-tinta antialiased pb-[57px] lg:pb-0">
     <a
       href="#hoofdinhoud"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-rojo focus:px-5 focus:py-3 focus:text-crema"
@@ -86,6 +87,8 @@ const structuredData = {
     </main>
 
     <Footer />
+
+    <MobileBar hide={Astro.url.pathname.startsWith('/contact')} />
 
     <script>
       import '../scripts/motion.ts';

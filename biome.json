@@ -6,7 +6,15 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!**/dist", "!**/.astro", "!**/node_modules", "!src/**/*.astro"]
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/.astro",
+      "!**/node_modules",
+      "!src/**/*.astro",
+      "!social/.tmp",
+      "!social/fonts"
+    ]
   },
   "formatter": {
     "enabled": true,

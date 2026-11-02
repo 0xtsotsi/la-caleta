@@ -25,6 +25,12 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* Ankers landen onder de vaste header */
+  section[id],
+  [id="reserveren"] {
+    scroll-margin-top: 7.5rem;
+  }
+
   body {
     background-color: var(--color-crema);
     color: var(--color-tinta);
@@ -149,6 +155,32 @@
     border-bottom: 1px dotted currentColor;
     opacity: 0.35;
     transform: translateY(-0.25rem);
+  }
+}
+
+/* Print: alles zichtbaar, geen beweging */
+@media print {
+  /* biome-ignore-start lint/complexity/noImportantStyles: print moet de bewegingsstyling overschrijven */
+  .js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  /* biome-ignore-end lint/complexity/noImportantStyles: zie hierboven */
+
+  #site-header,
+  #mobile-bar,
+  .mobile-bar {
+    /* biome-ignore lint/complexity/noImportantStyles: de header mag niet afgedrukt worden */
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  section {
+    break-inside: avoid;
   }
 }
 

@@ -75,7 +75,7 @@ const lunch = [
   />
 
   <!-- Menukaarten -->
-  <section class="bg-carbon kaarslicht py-20 text-crema md:py-24">
+  <section id="menukaarten" class="bg-carbon kaarslicht py-20 text-crema md:py-24">
     <div class="shell">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <SectionTitle
@@ -105,7 +105,7 @@ const lunch = [
                 class="w-full shadow-2xl shadow-black/40"
                 widths={[320, 566]}
                 sizes="(min-width: 640px) 280px, 240px"
-                loading="lazy"
+                loading="eager"
               />
             </li>
           ))
@@ -115,7 +115,7 @@ const lunch = [
   </section>
 
   <!-- Gerechten -->
-  <section class="paper py-20 md:py-28">
+  <section id="gerechten" class="paper py-20 md:py-28">
     <div class="shell">
       <SectionTitle
         script="la carta"
@@ -170,7 +170,7 @@ const lunch = [
   </section>
 
   <!-- Lunch -->
-  <section class="bg-crema-oscuro py-20 md:py-28">
+  <section id="lunch" class="bg-crema-oscuro py-20 md:py-28">
     <div class="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
       <div>
         <Image

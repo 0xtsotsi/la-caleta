@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import Intermezzo from '../components/Intermezzo.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import OpeningHours from '../components/OpeningHours.astro';
 
@@ -20,6 +21,7 @@ import tapasPaprika from '../assets/images/tapas-paprika.jpg';
 import sfeerBloem from '../assets/images/sfeer-bloem-kaars.jpg';
 import tafelSpaans from '../assets/images/tafel-spaans.jpg';
 import paellaPan from '../assets/images/paella-pan.jpg';
+import cadiz from '../assets/images/hero-cadiz.jpg';
 
 import { acts, site, tapasPriced } from '../data/site';
 
@@ -41,8 +43,8 @@ const specialiteiten = [
   {
     title: 'Lunch voor iedereen',
     body: 'Van het 12-uurtje tot een lunchplank voor twee. Met keuze uit bruin of wit brood en ook glutenvrij.',
-    image: lunchServeren,
-    alt: 'Bediening serveert Spaanse tapas met olijven en brood',
+    image: tafelSpaans,
+    alt: 'Spaanse gerechten en wijn op tafel',
     href: '/menu/',
   },
 ];
@@ -184,6 +186,15 @@ const gallery = [
       </div>
     </div>
   </section>
+
+  <!-- Sfeer-intermezzo -->
+  <Intermezzo
+    image={cadiz}
+    imageAlt="Zonsondergang over de baai van La Caleta in Cadiz, Spanje"
+    script="elke dag op tafel"
+    title="De sfeer van Spanje, met zorg geserveerd"
+    quote="Kaarslicht, een goed glas Spaanse wijn en gerechten die naar Spanje smaken. Dat is waar het bij ons om draait."
+  />
 
   <!-- Acties -->
   <section id="acties" class="bg-crema-oscuro py-20 md:py-28">

@@ -39,6 +39,34 @@ src/
 └── styles/global.css   design tokens (kleuren, typografie) en componentklassen
 ```
 
+## Social media
+
+De map `social/` bevat kant-en-klare social assets in de huisstijl van de site.
+
+| Bestand                                        | Formaat | Gebruik                    |
+| ---------------------------------------------- | ------- | -------------------------- |
+| `posts/instagram-feed-1080x1350.jpg`           | 4:5     | Instagram-feed (1080×1350) |
+| `posts/instagram-square-1080x1080.jpg`         | 1:1     | Instagram vierkant         |
+| `posts/instagram-story-1080x1920.jpg`          | 9:16    | Instagram story            |
+| `posts/instagram-feed-interieur-1080x1350.jpg` | 4:5     | Het restaurant zelf        |
+| `posts/instagram-feed-paella-1080x1350.jpg`    | 4:5     | Paella                     |
+| `posts/facebook-banner-1200x630.jpg`           | 1.91:1  | Facebook-banner            |
+| `posts/la-caleta-reel-1080x1920.mp4`           | 9:16    | Reel/TikTok (14 sec)       |
+| `posts/la-caleta-reel-1920x1080.mp4`           | 16:9    | Facebook/YouTube (14 sec)  |
+
+De bijbehorende teksten staan in `social/CAPTIONS.md`.
+
+### Opnieuw genereren
+
+```bash
+npm run social:posts              # alle beelden
+npm run social:video              # verticale reel
+npm run social:video:landscape    # liggende video
+```
+
+De scripts gebruiken Chromium (via Playwright) en ffmpeg. De beelden worden opgebouwd uit
+HTML/CSS en de video uit losse frames die ffmpeg tot een filmpje voegt.
+
 ## Sfeer en beweging
 
 De site is opgebouwd rond warmte: Spaanse rode en goud-tinten, een donkere kaarslicht-glans over de
@@ -114,7 +142,12 @@ De site bouwt naar een volledig statische `dist/`. Elke statische host werkt:
 
 **Eigen foto's** — de foto's en menukaarten van het restaurant zelf zijn overgenomen van de huidige
 website (`lacaleta.nl`) en behoren toe aan Restaurant La Caleta. De originele bestanden waren maar
-400px breed; die zijn opgeschaald en verscherpt zodat ze niet wazig ogen.
+400px breed; die zijn opgeschaald, verscherpt en voorzien van een fijne filmkorrel zodat ze niet
+wazig ogen.
+
+De hero op de homepage toont de eigen zaal van La Caleta (gasten, tafels, tegelvloer). De
+zonsondergang over de baai van Cádiz — het beeld van de omslag van hun menukaart — staat als
+sfeer-intermezzo verderop de pagina (`src/components/Intermezzo.astro`).
 
 **Sfeerfoto's** — voor de sfeerbeelden op de homepage en de tapaspagina zijn foto's van Pexels
 gebruikt (gratis te gebruiken, geen credit verplicht). **Dit zijn ter illustratie: vervang ze door

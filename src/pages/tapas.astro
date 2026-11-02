@@ -6,7 +6,7 @@ import SectionTitle from '../components/SectionTitle.astro';
 import DishList from '../components/DishList.astro';
 
 import heroImage from '../assets/images/tapas-bord.jpg';
-import keukenTapas from '../assets/images/keuken-tapas.jpg';
+import keukenTapas from '../assets/images/sfeer-gasten.jpg';
 import tapasTafel from '../assets/images/tapas-tafel.jpg';
 import tapasKaart1 from '../assets/images/tapas-kaart-1.jpg';
 import tapasKaart2 from '../assets/images/tapas-kaart-2.jpg';
@@ -44,7 +44,7 @@ const regels = [
   />
 
   <!-- Tapas dag -->
-  <section class="bg-rojo kaarslicht py-16 text-crema md:py-24">
+  <section id="tapasdag" class="bg-rojo kaarslicht py-16 text-crema md:py-24">
     <div class="shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-20">
       <div>
         <p class="font-script text-3xl text-crema/85">Tapas dag</p>
@@ -84,7 +84,7 @@ const regels = [
   </section>
 
   <!-- Koude en warme tapas -->
-  <section class="paper py-20 md:py-28">
+  <section id="tapaslijst" class="paper py-20 md:py-28">
     <div class="shell">
       <SectionTitle
         script="para compartir"
@@ -93,7 +93,7 @@ const regels = [
         intro="Kies zelf wat je aan de bar of aan tafel wilt bestellen. Alles wordt vers bereid en met brood geserveerd."
       />
 
-      <div class="mt-14 grid gap-x-16 gap-y-14 md:grid-cols-2">
+      <div class="mt-14 grid gap-x-16 gap-y-14 lg:grid-cols-[1fr_1.7fr]">
         <div>
           <h3 class="font-display text-3xl font-medium text-rojo">Tapas frías</h3>
           <p class="mb-6 mt-1 text-sm text-tinta/50">Koude tapas</p>
@@ -102,14 +102,16 @@ const regels = [
         <div>
           <h3 class="font-display text-3xl font-medium text-rojo">Tapas calientes</h3>
           <p class="mb-6 mt-1 text-sm text-tinta/50">Warme tapas</p>
-          <DishList dishes={tapasWarm} showTags />
+          <div class="lg:columns-2 lg:gap-12">
+            <DishList dishes={tapasWarm} showTags />
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Tapas kaarten -->
-  <section class="bg-carbon kaarslicht py-20 text-crema md:py-24">
+  <section id="tapaskaarten" class="bg-carbon kaarslicht py-20 text-crema md:py-24">
     <div class="shell">
       <SectionTitle
         script="la carta"
@@ -127,7 +129,7 @@ const regels = [
               class="w-full shadow-2xl shadow-black/40"
               widths={[480, 575]}
               sizes="(min-width: 768px) 45vw, 90vw"
-              loading="lazy"
+              loading="eager"
             />
           ))
         }
@@ -136,7 +138,7 @@ const regels = [
   </section>
 
   <!-- Sangria & regels -->
-  <section class="bg-crema-oscuro py-20 md:py-28">
+  <section id="sangria" class="bg-crema-oscuro py-20 md:py-28">
     <div class="shell grid gap-14 lg:grid-cols-2 lg:gap-20">
       <div>
         <SectionTitle

@@ -7,7 +7,7 @@ import SectionTitle from '../components/SectionTitle.astro';
 import heroImage from '../assets/images/tapas-bord.jpg';
 import lunchBaguettes from '../assets/images/lunch-serveren.jpg';
 import kaasPlank from '../assets/images/tapas-tafel.jpg';
-import tafelGasten from '../assets/images/sfeer-gasten.jpg';
+import tafelGasten from '../assets/images/tafel-gasten.jpg';
 
 const acties = [
   {
@@ -63,7 +63,7 @@ const kindermenu = [
     imageAlt="Tapas op een houten tafel"
   />
 
-  <section class="paper py-20 md:py-28">
+  <section id="aanbiedingen" class="paper py-20 md:py-28">
     <div class="shell space-y-20 md:space-y-28">
       {
         acties.map((actie, index) => (
@@ -108,7 +108,7 @@ const kindermenu = [
   </section>
 
   <!-- Kinderen & cadeaukaart -->
-  <section class="bg-carbon kaarslicht py-20 text-crema md:py-28">
+  <section id="kinderen" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
     <div class="shell grid gap-14 lg:grid-cols-2 lg:gap-20">
       <div>
         <SectionTitle
@@ -150,7 +150,7 @@ const kindermenu = [
   </section>
 
   <!-- Lunch -->
-  <section class="bg-crema-oscuro py-20 md:py-28">
+  <section id="lunchplank" class="bg-crema-oscuro py-20 md:py-28">
     <div class="shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-20">
       <Image
         src={kaasPlank}
