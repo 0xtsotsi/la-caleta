@@ -81,10 +81,10 @@ import { site } from '../data/site';
           class="overflow-hidden border border-tinta/10"
         >
           <iframe
-            title="Locatie van Restaurant La Caleta op de kaart"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`}
+            title="Locatie van Restaurant La Caleta op de kaart (OpenStreetMap)"
+            src={site.mapEmbedUrl}
             class="h-80 w-full border-0"
-            loading="lazy"
+            loading="eager"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
         <div class="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm">
@@ -129,8 +129,8 @@ import { site } from '../data/site';
       </div>
 
       <p class="mt-10 text-sm text-crema/60">
-        Liever direct contact? Bel ons op
-        <a href={site.phoneHref} class="link-underline text-crema">{site.phone}</a> of stuur een mail naar
+        Liever direct contact? Bel ons op{' '}
+        <a href={site.phoneHref} class="link-underline text-crema">{site.phone}</a>{' '}of stuur een mail naar{' '}
         <a href={`mailto:${site.email}`} class="link-underline text-crema">{site.email}</a>.
       </p>
     </div>

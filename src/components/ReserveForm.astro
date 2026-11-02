@@ -79,7 +79,7 @@ import { site } from '../data/site';
       <select
         id="personen"
         name="personen"
-        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
+        class="select-personen border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
       >
         {
           Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
@@ -112,10 +112,23 @@ import { site } from '../data/site';
     class="hidden border border-verde/50 bg-verde/10 px-4 py-3 text-sm"
     role="status"
   >
-    Je e-mailprogramma opent met de reservering. Weet je zeker dat je liever belt? Ons nummer is
+    Je e-mailprogramma opent met de reservering. Weet je zeker dat je liever belt? Ons nummer is{' '}
     <a href={site.phoneHref} class="link-underline">{site.phone}</a>.
   </p>
 </form>
+
+<style>
+  /* De openstaande lijst van een native select tekent zichzelf met het kleurenschema
+     van het besturingssysteem. Zonder deze kleuren wordt de crème tekst onleesbaar. */
+  .select-personen {
+    color-scheme: dark;
+  }
+
+  .select-personen option {
+    background-color: #1e1510;
+    color: #fdf8ef;
+  }
+</style>
 
 <script>
   const form = document.getElementById('reserveren') as HTMLFormElement | null;

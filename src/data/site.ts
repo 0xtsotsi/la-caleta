@@ -17,6 +17,9 @@ export const site = {
   mapsQuery: 'Raadhuisplein 4a, 3181 CG Rozenburg',
   mapsHref:
     'https://www.google.com/maps/search/?api=1&query=Raadhuisplein%204a%2C%203181%20CG%20Rozenburg',
+  /** OpenStreetMap-embed: werkt zonder API-sleutel en toont de pin op het adres. */
+  mapEmbedUrl:
+    'https://www.openstreetmap.org/export/embed.html?bbox=4.245445%2C51.902438%2C4.253445%2C51.907772&layer=mapnik&marker=51.905105%2C4.2494451',
   social: {
     facebook: 'https://www.facebook.com/',
     instagram: 'https://www.instagram.com/',

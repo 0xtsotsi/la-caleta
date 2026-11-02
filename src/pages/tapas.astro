@@ -11,7 +11,7 @@ import tapasTafel from '../assets/images/tapas-tafel.jpg';
 import tapasKaart1 from '../assets/images/tapas-kaart-1.jpg';
 import tapasKaart2 from '../assets/images/tapas-kaart-2.jpg';
 
-import { tapasCold, tapasWarm } from '../data/site';
+import { site, tapasCold, tapasWarm } from '../data/site';
 import { withBase } from '../lib/urls';
 
 const sangria = [
@@ -168,8 +168,8 @@ const regels = [
           }
         </ul>
         <p class="mt-8 text-sm text-tinta/55">
-          Wilt u weten wat de voorwaarden zijn? Bel ons gerust via
-          <a href="tel:+31181214342" class="link-underline text-rojo">0181 - 214342</a>.
+          Wilt u weten wat de voorwaarden zijn? Bel ons gerust via{' '}
+          <a href={site.phoneHref} class="link-underline text-rojo">{site.phone}</a>.
         </p>
       </div>
     </div>

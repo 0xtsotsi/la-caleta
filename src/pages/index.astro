@@ -133,7 +133,7 @@ const gallery = [
               <h3 class="mt-6 font-display text-2xl font-medium md:text-3xl">{item.title}</h3>
               <p class="mt-3 text-sm leading-relaxed text-crema/65">{item.body}</p>
               <span class="mt-4 inline-flex items-center gap-2 text-[0.68rem] tracking-[0.2em] uppercase text-dorado">
-                Lees meer
+                Lees meer{' '}
                 <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
                   &rarr;
                 </span>
@@ -328,8 +328,8 @@ const gallery = [
         />
         <div class="mt-6 overflow-hidden border border-tinta/10">
           <iframe
-            title="Locatie van Restaurant La Caleta op de kaart"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(site.mapsQuery)}&output=embed`}
+            title="Locatie van Restaurant La Caleta op de kaart (OpenStreetMap)"
+            src={site.mapEmbedUrl}
             class="h-72 w-full border-0"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
