@@ -113,7 +113,7 @@ Alles wat te maken heeft met de inhoud staat in **`src/data/site.ts`**:
 
 ## De live site
 
-**https://jalvdbroek-ship-it.github.io/la-caleta/**
+**https://0xtsotsi.github.io/la-caleta/**
 
 De site staat op GitHub en draait op GitHub Pages. Bij elke push naar `main` wordt de site
 automatisch opnieuw gebouwd en staat de wijziging binnen een minuut live — precies zoals bij je
@@ -121,15 +121,15 @@ andere sites.
 
 | Pagina   | Link                                                     |
 | -------- | -------------------------------------------------------- |
-| Home     | https://jalvdbroek-ship-it.github.io/la-caleta/          |
-| Menu     | https://jalvdbroek-ship-it.github.io/la-caleta/menu/     |
-| Tapas    | https://jalvdbroek-ship-it.github.io/la-caleta/tapas/    |
-| Over ons | https://jalvdbroek-ship-it.github.io/la-caleta/over-ons/ |
-| Acties   | https://jalvdbroek-ship-it.github.io/la-caleta/acties/   |
-| Contact  | https://jalvdbroek-ship-it.github.io/la-caleta/contact/  |
+| Home     | https://0xtsotsi.github.io/la-caleta/          |
+| Menu     | https://0xtsotsi.github.io/la-caleta/menu/     |
+| Tapas    | https://0xtsotsi.github.io/la-caleta/tapas/    |
+| Over ons | https://0xtsotsi.github.io/la-caleta/over-ons/ |
+| Acties   | https://0xtsotsi.github.io/la-caleta/acties/   |
+| Contact  | https://0xtsotsi.github.io/la-caleta/contact/  |
 
 > **Let op:** GitHub Pages kan op een gratis account alleen voor openbare repos. De repo
-> `jalvdbroek-ship-it/la-caleta` is daarom openbaar, net als je andere websites.
+> `0xtsotsi/la-caleta` is daarom openbaar, net als je andere websites.
 
 ## Deployment
 
