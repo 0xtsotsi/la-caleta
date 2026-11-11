@@ -11,10 +11,22 @@ reserveringsformulier toe.
 
 ## De live site
 
-**https://0xtsotsi.github.io/la-caleta/** (preview op GitHub Pages)
+**https://0xtsotsi.github.io/la-caleta/**
 
-Let op: deze redesign is alleen lokaal gebouwd en nog **niet gepusht**. De live preview toont
-de vorige versie tot er naar `main` wordt gepusht.
+Bij elke push naar `main` bouwt GitHub Actions de site en staat de wijziging binnen een
+minuut live.
+
+| Pagina   | Link                                            |
+| -------- | ----------------------------------------------- |
+| Home     | https://0xtsotsi.github.io/la-caleta/           |
+| Menu     | https://0xtsotsi.github.io/la-caleta/menu/      |
+| Tapas    | https://0xtsotsi.github.io/la-caleta/tapas/     |
+| Over ons | https://0xtsotsi.github.io/la-caleta/over-ons/  |
+| Acties   | https://0xtsotsi.github.io/la-caleta/acties/    |
+| Contact  | https://0xtsotsi.github.io/la-caleta/contact/   |
+
+> **Let op:** GitHub Pages kan op een gratis account alleen voor openbare repos. De repo
+> `0xtsotsi/la-caleta` is daarom openbaar, net als je andere websites.
 
 ## De site lokaal openen
 
