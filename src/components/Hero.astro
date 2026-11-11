@@ -1,130 +1,107 @@
 ---
 import { Image } from 'astro:assets';
-import heroImage from '../assets/images/hero-tapas.jpg';
+import heroPhoto from '../assets/images/stock-hero-bar.jpg';
+import { tapasDay } from '../data/site';
 import { withBase } from '../lib/urls';
-
-const facts = [
-  { label: 'Tapas dag', value: 'wo & do' },
-  { label: 'Verse Spaanse wijnen', value: 'vanaf €21' },
-  { label: 'Parkeren', value: 'gratis' },
-];
 ---
 
-<section class="hero relative isolate overflow-hidden bg-carbon">
-  <div class="hero__photo">
-    <Image
-      src={heroImage}
-      alt="Een tafel vol Spaanse tapas: gambas, chorizo, olijven, kaas en croquettes in terracotta schalen"
-      class="h-full w-full object-cover"
-      widths={[768, 1280, 2200]}
-      sizes="100vw"
-      loading="eager"
-      quality={84}
-      data-parallax
-    />
-  </div>
-  <div class="hero__scrim"></div>
-  <div class="kaarslicht absolute inset-0 -z-10"></div>
-
-  <div class="shell relative flex min-h-[92svh] flex-col justify-end pt-40 pb-10 text-crema md:pb-14">
-    <div class="max-w-xl lg:max-w-[36rem]">
-      <p class="font-script text-3xl text-dorado-licht md:text-4xl" data-reveal>Bienvenido</p>
-      <h1
-        class="mt-3 font-display text-[3.1rem] leading-[0.95] font-medium sm:text-7xl lg:text-[5.2rem]"
-        data-reveal
-        data-reveal-delay="90"
-      >
-        Cocina de España<br />en tu mesa
+<section class="hero on-dark" data-hero aria-labelledby="hero-title">
+  <div class="hero-copy shell" data-hero-copy>
+    <div class="max-w-[34rem]">
+      <p class="label text-cobre">Raadhuisplein 4a, Rozenburg</p>
+      <h1 id="hero-title" class="display-xl mt-5 text-crema" data-lines>
+        <span class="line"><span>Cocina de España</span></span>
+        <span class="line"><span class="italic">en tu mesa</span></span>
       </h1>
-      <p
-        class="mt-6 max-w-lg text-base leading-relaxed text-crema/90 md:text-lg"
-        data-reveal
-        data-reveal-delay="180"
-      >
-        Tapas, grill en verse vis in het hart van Rozenburg. Al meer dan zeventien jaar serveren wij
-        Spaanse gerechten met passie, bereid in olijfolie en met vlees van het beste.
+      <p class="lede mt-6 max-w-md text-crema-2">
+        Tapas, vlees van de grill, vis en paella. Van vader op dochter overgegaan, met dezelfde
+        keuken en hetzelfde team.
       </p>
-
-      <div class="mt-9 flex flex-wrap gap-3" data-reveal data-reveal-delay="260">
-        <a href={withBase('/contact/#reserveren')} class="btn btn-rojo">Reserveer een tafel</a>
-        <a href={withBase('/menu/')} class="btn btn-line">Bekijk het menu</a>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={withBase('/reserveren/')} class="btn btn-reserve">Reserveer een tafel</a>
+        <a href={withBase('/menu/')} class="btn btn-line">Bekijk de kaart</a>
       </div>
+      <dl class="mt-10 grid gap-4 border-t border-crema/15 pt-6 text-[0.9375rem] sm:grid-cols-2">
+        <div>
+          <dt class="text-crema-2">Vandaag</dt>
+          <dd class="mt-0.5 flex items-center gap-2 text-crema">
+            <span class="open-dot" data-open-dot aria-hidden="true"></span>
+            <span data-open-today>Wo t/m za vanaf 11:00, zo vanaf 16:00</span>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-crema-2">Tapasdag</dt>
+          <dd class="mt-0.5 text-crema">Wo en do, {tapasDay.price} p.p.</dd>
+        </div>
+      </dl>
     </div>
+  </div>
 
-    <div
-      class="mt-14 flex flex-col gap-6 border-t border-crema/25 pt-6 text-[0.68rem] tracking-[0.2em] uppercase sm:flex-row sm:items-center sm:justify-between"
-      data-reveal
-      data-reveal-delay="340"
-    >
-      <ul class="flex flex-wrap gap-x-10 gap-y-3 text-crema/80">
-        {
-          facts.map((fact) => (
-            <li>
-              <span class="text-crema">{fact.value}</span> · {fact.label}
-            </li>
-          ))
-        }
-      </ul>
-
-      <a
-        href="#intro"
-        class="hidden items-center gap-3 text-crema/70 transition-colors hover:text-crema sm:flex"
-        aria-label="Scroll naar de introductie"
-      >
-        <span class="flex h-9 w-9 items-center justify-center rounded-full border border-crema/50">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M6 1v10M2 7l4 4 4-4" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-        </span>
-        Scroll
-      </a>
-    </div>
+  <div class="hero-media" data-hero-media>
+    <Image
+      src={heroPhoto}
+      alt="Tapas op de toonbank van een Spaanse bar, met hangende wijnglazen er boven"
+      widths={[640, 1024, 1600, 2400]}
+      sizes="(min-width: 768px) 100vw, 90vw"
+      loading="eager"
+      fetchpriority="high"
+      class="hero-img"
+      data-hero-img
+    />
   </div>
 </section>
 
 <style>
-  .hero__photo {
-    position: absolute;
-    inset: 0;
-    z-index: -10;
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: 7rem;
+    padding-bottom: 3rem;
   }
 
-  /* Links donker voor de tekst, rechts het eten helder zichtbaar */
-  .hero__scrim {
-    position: absolute;
-    inset: 0;
-    z-index: -10;
-    background:
-      linear-gradient(
-        to right,
-        rgba(20, 13, 8, 0.94) 0%,
-        rgba(20, 13, 8, 0.74) 34%,
-        rgba(20, 13, 8, 0.28) 62%,
-        rgba(20, 13, 8, 0.12) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        rgba(20, 13, 8, 0.72) 0%,
-        rgba(20, 13, 8, 0.14) 34%,
-        rgba(20, 13, 8, 0) 62%
-      ),
-      linear-gradient(to top, rgba(20, 13, 8, 0.92) 0%, rgba(20, 13, 8, 0) 46%);
+  .hero-media {
+    position: relative;
+    margin: 2.5rem 1.25rem 0;
+    aspect-ratio: 4 / 5;
+    clip-path: inset(0% 0% 0% 0% round 999px 999px 0px 0px);
+    background-color: var(--color-espresso-2);
   }
 
-  @media (max-width: 1023px) {
-    .hero__photo {
-      top: -6%;
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .hero-media {
+      margin-inline: 2.5rem;
+      aspect-ratio: 3 / 2;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero {
+      display: flex;
+      align-items: center;
+      min-height: max(100svh, 40rem);
+      padding-bottom: 4rem;
     }
 
-    .hero__scrim {
-      background:
-        linear-gradient(
-          to top,
-          rgba(20, 13, 8, 0.95) 0%,
-          rgba(20, 13, 8, 0.78) 32%,
-          rgba(20, 13, 8, 0.34) 62%,
-          rgba(20, 13, 8, 0.55) 100%
-        );
+    .hero-copy {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      aspect-ratio: auto;
+      clip-path: inset(16% 5% 0% 52% round 999px 999px 0px 0px);
+      z-index: 1;
     }
   }
 </style>

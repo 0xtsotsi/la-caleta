@@ -1,138 +1,97 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionTitle from '../components/SectionTitle.astro';
+import exterieur from '../assets/images/exterieur.jpg';
+import Icon from '../components/Icon.astro';
 import OpeningHours from '../components/OpeningHours.astro';
-import ReserveForm from '../components/ReserveForm.astro';
-
-import heroImage from '../assets/images/exterieur.jpg';
-import { site } from '../data/site';
+import PageHero from '../components/PageHero.astro';
+import { reservation, site } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/urls';
 ---
 
 <BaseLayout
-  title="Contact & reserveren"
-  description="Restaurant La Caleta, Raadhuisplein 4a in Rozenburg. Reserveer een tafel, bel 0181 - 214342 of mail info@lacaleta.nl. Gratis parkeren."
+  title="Contact en route"
+  description="Restaurant La Caleta, Raadhuisplein 4a, 3181 CG Rozenburg. Bel 0181 - 214342 of mail info@lacaleta.nl. Gratis parkeren in de buurt."
 >
   <PageHero
-    eyebrow="La Caleta · Contact"
-    title="Reserveer uw tafel"
-    intro="Kom langs aan het Raadhuisplein in Rozenburg. Gratis parkeren in de directe omgeving en binnen een kwartier bij de metro."
-    image={heroImage}
-    imageAlt="Restaurant La Caleta aan het Raadhuisplein in Rozenburg"
+    label="Contact"
+    title={site.address.street}
+    titleItalic={`in ${site.address.city}`}
+    intro="Bel, mail of loop binnen. Parkeren is gratis, in de directe omgeving."
+    image={exterieur}
+    imageAlt="De gevel van Restaurant La Caleta aan het Raadhuisplein"
   />
 
-  <!-- Contactgegevens -->
-  <section id="gegevens" class="paper py-20 md:py-28">
-    <div class="shell grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+  <section class="section" aria-labelledby="gegevens-title">
+    <div class="shell grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
       <div>
-        <SectionTitle
-          script="ven a vernos"
-          eyebrow="Contact"
-          title="Bel, mail of loop binnen"
-          intro="Voor reserveringen of vragen kunt u ons bellen of mailen. Wij antwoorden zo snel mogelijk."
-        />
-
-        <div class="mt-10 grid gap-8 sm:grid-cols-2">
-          <div class="border-t border-tinta/15 pt-6">
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Telefoon</h3>
-            <a href={site.phoneHref} class="mt-3 block font-display text-3xl font-medium text-rojo">
-              {site.phone}
-            </a>
-            <p class="mt-2 text-sm text-tinta/60">Voor reserveringen en vragen</p>
+        <h2 id="gegevens-title" class="sr-only">Contactgegevens</h2>
+        <dl class="divide-y divide-tinta/15 border-y border-tinta/15">
+          <div class="py-5">
+            <dt class="text-tinta-2">Telefoon, ook voor reserveren</dt>
+            <dd class="mt-1">
+              <a href={site.phoneHref} class="link-u font-display text-[2rem] leading-tight text-tinta">{site.phone}</a>
+            </dd>
           </div>
-
-          <div class="border-t border-tinta/15 pt-6">
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">E-mail</h3>
-            <a href={`mailto:${site.email}`} class="mt-3 block font-display text-3xl font-medium text-rojo">
-              {site.email}
-            </a>
-            <p class="mt-2 text-sm text-tinta/60">We antwoorden binnen 24 uur</p>
+          <div class="py-5">
+            <dt class="text-tinta-2">E-mail</dt>
+            <dd class="mt-1">
+              <a href={`mailto:${site.email}`} class="link-u font-display text-[2rem] leading-tight text-tinta">{site.email}</a>
+            </dd>
           </div>
-
-          <div class="border-t border-tinta/15 pt-6">
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Adres</h3>
-            <address class="mt-3 text-base not-italic leading-relaxed text-tinta/75">
-              {site.legalName}<br />
-              {site.address.street}<br />
-              {site.address.postalCode} {site.address.city}
-            </address>
+          <div class="py-5">
+            <dt class="text-tinta-2">Adres</dt>
+            <dd class="mt-1 text-tinta">
+              <address class="not-italic">
+                {site.legalName}<br />{site.address.street}<br />{site.address.postalCode} {site.address.city}
+              </address>
+            </dd>
           </div>
-
-          <div class="border-t border-tinta/15 pt-6">
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Parkeren</h3>
-            <p class="mt-3 text-base leading-relaxed text-tinta/75">
-              Gratis parkeren<br />
-              in de directe omgeving
-            </p>
+          <div class="flex items-start gap-3 py-5">
+            <Icon name="car" class="mt-1 text-terracota" />
+            <div>
+              <dt class="font-medium text-tinta">Gratis parkeren</dt>
+              <dd class="text-tinta-2">In de directe omgeving van het restaurant.</dd>
+            </div>
           </div>
-        </div>
-
-        <div class="mt-12">
-          <h3 class="eyebrow text-[0.66rem] text-tinta/50">Openingstijden</h3>
-          <div class="mt-5 max-w-sm">
-            <OpeningHours />
+          <div class="flex items-start gap-3 py-5">
+            <Icon name="gift" class="mt-1 text-terracota" />
+            <div>
+              <dt class="font-medium text-tinta">VVV-cadeaukaart</dt>
+              <dd class="text-tinta-2">Welkom bij het afrekenen. We hebben ook een eigen cadeaubon.</dd>
+            </div>
           </div>
-        </div>
+        </dl>
+
+        <h2 class="mt-12 font-display text-[1.75rem] text-tinta">Openingstijden</h2>
+        <div class="mt-3 max-w-md"><OpeningHours /></div>
+        <p class="mt-3 text-[0.9375rem] text-tinta-2">De warme keuken sluit om {reservation.kitchenCloses}.</p>
       </div>
 
       <div>
-        <div
-          class="overflow-hidden border border-tinta/10"
-        >
+        <div class="border border-tinta/15">
           <iframe
-            title="Locatie van Restaurant La Caleta op de kaart (OpenStreetMap)"
+            title="Kaart met de ligging van Restaurant La Caleta (OpenStreetMap)"
             src={site.mapEmbedUrl}
-            class="h-80 w-full border-0"
+            class="block h-[22rem] w-full border-0 md:h-[30rem]"
             loading="eager"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <div class="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm">
-          <p class="text-tinta/60">Raadhuisplein 4a, {site.address.postalCode} {site.address.city}</p>
-          <a
-            href={site.mapsHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="link-underline text-rojo"
-          >
-            Open in Google Maps &rarr;
-          </a>
-        </div>
-
-        <div class="mt-10 border border-tinta/10 bg-crema-oscuro p-8">
-          <Image
-            src={heroImage}
-            alt="De gevel van Restaurant La Caleta in Rozenburg"
-            class="aspect-3/2 w-full object-cover"
-            widths={[640, 1024]}
-            sizes="(min-width: 1024px) 45vw, 90vw"
-            loading="lazy"
-          />
-        </div>
+        <a href={site.mapsHref} target="_blank" rel="noopener noreferrer" class="link-u mt-4 inline-flex items-center gap-2 text-tinta">
+          Route plannen in Google Maps <Icon name="arrow-up-right" size={16} />
+          <span class="sr-only">(opent in een nieuw venster)</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Reserveren -->
-  <section id="reserveren" class="bg-carbon py-20 text-crema md:py-28">
-    <div class="shell">
-      <SectionTitle
-        script="reservar"
-        eyebrow="Reserveren"
-        title="Reserveer een tafel"
-        intro="Vul het formulier in en uw e-mailprogramma opent met de reservering. U ontvangt een bevestiging zodra wij uw reservering hebben verwerkt."
-        tone="light"
-      />
-
-      <div class="mt-12 max-w-3xl">
-        <ReserveForm />
+  <section class="on-dark glow-host section" aria-labelledby="online-title">
+    <div class="glow" data-glow aria-hidden="true"></div>
+    <div class="shell flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
+      <div>
+        <h2 id="online-title" class="display-l text-crema">Liever online reserveren?</h2>
+        <p class="lede mt-4 text-crema-2">Kies een datum, tijd en het aantal personen.</p>
       </div>
-
-      <p class="mt-10 text-sm text-crema/60">
-        Liever direct contact? Bel ons op{' '}
-        <a href={site.phoneHref} class="link-underline text-crema">{site.phone}</a>{' '}of stuur een mail naar{' '}
-        <a href={`mailto:${site.email}`} class="link-underline text-crema">{site.email}</a>.
-      </p>
+      <a href={withBase('/reserveren/')} class="btn btn-reserve">Naar het reserveringsformulier</a>
     </div>
   </section>
 </BaseLayout>

@@ -1,0 +1,129 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { withBase } from '../lib/urls';
+
+export type Moment = {
+  label: string;
+  title: string;
+  body: string;
+  image: ImageMetadata;
+  alt: string;
+  href: string;
+  cta: string;
+};
+
+interface Props {
+  moments: Moment[];
+  title: string;
+}
+
+const { moments, title } = Astro.props;
+---
+
+<section class="on-dark glow-host section" data-story aria-labelledby="story-title">
+  <div class="glow" data-glow aria-hidden="true"></div>
+  <div class="shell">
+    <h2 id="story-title" class="display-l max-w-xl text-crema">{title}</h2>
+    <div class="story-grid mt-12 md:mt-16">
+      <div class="story-stack-wrap" aria-hidden="true">
+        <div class="story-stack">
+          {
+            moments.map((moment, index) => (
+              <div class="story-frame arch" data-story-frame={index}>
+                <Image
+                  src={moment.image}
+                  alt=""
+                  widths={[640, 960, 1280]}
+                  sizes="40vw"
+                  loading="lazy"
+                  class="arch-media"
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <ol class="story-steps">
+        {
+          moments.map((moment, index) => (
+            <li class="story-step" data-story-step={index}>
+              <div class="story-inline arch aspect-[4/5]" data-arch-reveal>
+                <Image
+                  src={moment.image}
+                  alt={moment.alt}
+                  widths={[480, 800]}
+                  sizes="88vw"
+                  loading="lazy"
+                  class="arch-media"
+                />
+              </div>
+              <p class="label mt-8 text-cobre md:mt-0">{moment.label}</p>
+              <h3 class="display-m mt-3 text-crema">{moment.title}</h3>
+              <p class="mt-4 max-w-md text-crema-2">{moment.body}</p>
+              <a href={withBase(moment.href)} class="link-u mt-6 self-start text-crema">
+                {moment.cta}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-stack-wrap {
+    display: none;
+  }
+
+  .story-steps {
+    display: grid;
+    gap: 4rem;
+  }
+
+  .story-step {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 768px) {
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+    }
+
+    :global(.js) .story-stack-wrap {
+      display: block;
+    }
+
+    .story-stack {
+      position: sticky;
+      top: 6.5rem;
+      height: min(calc(100svh - 9rem), 46rem);
+    }
+
+    .story-frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    :global(.js) .story-frame:not(:first-child) {
+      clip-path: inset(100% 0% 0% 0% round 999px 999px 0px 0px);
+    }
+
+    :global(.js) .story-inline {
+      display: none;
+    }
+
+    .story-steps {
+      gap: 0;
+    }
+
+    .story-step {
+      min-height: 72svh;
+      justify-content: center;
+    }
+  }
+</style>

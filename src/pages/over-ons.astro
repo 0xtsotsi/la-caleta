@@ -1,189 +1,124 @@
 ---
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-
-import heroImage from '../assets/images/team-2018.jpg';
 import award from '../assets/images/award-gouden-knip.jpg';
-import team from '../assets/images/team-2018.jpg';
 import interieur from '../assets/images/interieur-2.jpg';
-import bar from '../assets/images/bar.jpg';
-import keuken from '../assets/images/keuken-tapas.jpg';
-import { site } from '../data/site';
+import puerta from '../assets/images/stock-puerta-caleta.jpg';
+import team from '../assets/images/team-2018.jpg';
+import PageHero from '../components/PageHero.astro';
+import { facts } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/urls';
 
-const waarden = [
+const timeline = [
   {
-    title: 'Verse import uit Zuid-Amerika',
-    body: 'Ons rundvlees wordt vers op +1 graden geïmporteerd en is afkomstig van 100% biologische runderen. Deze dieren leven in de vrije natuur, waardoor het vlees kwalitatief hoogwaardig is met een zeer laag vetgehalte.',
+    when: `De eerste ${facts.yearsBeforeHandover} jaar`,
+    title: 'Een Spaans restaurant aan het Raadhuisplein',
+    body: 'Vader bouwt La Caleta op: tapas aan de bar en aan tafel, vlees en vis van de grill, en een team dat blijft.',
   },
   {
-    title: 'Alles bereid in olijfolie',
-    body: 'Al onze producten worden in olijfolie bereid, zoals voor uw gezondheid wordt aanbevolen. Geen boter, geen margarine — alleen olijfolie, kruiden en vuur.',
+    when: String(facts.award.year),
+    title: facts.award.title,
+    body: facts.award.detail,
   },
   {
-    title: 'Voor iedereen',
-    body: 'Vegetarisch eten of een speciaal dieet? Natuurlijk is dat mogelijk. Wij zoeken samen met u naar een gerecht dat past.',
+    when: String(facts.handover),
+    title: 'Van vader op dochter',
+    body: 'De dochter neemt het restaurant over. Ze doen het nog altijd samen, met hetzelfde team.',
+  },
+];
+
+const values = [
+  {
+    title: 'Rundvlees op +1 graad',
+    body: 'Het rundvlees komt vers uit Zuid-Amerika, van 100 procent biologische runderen die in de vrije natuur leven. Mals, met weinig vet.',
+  },
+  {
+    title: 'Alles in olijfolie',
+    body: 'Al onze gerechten worden in olijfolie bereid. De carpaccio maken we zelf, van ons eigen vlees.',
+  },
+  {
+    title: 'Voor iedereen een bord',
+    body: 'Vegetarisch, een allergie of een speciaal dieet: zeg het, dan zoeken we samen gerechten die u wel mag eten.',
   },
 ];
 ---
 
 <BaseLayout
   title="Over ons"
-  description="Restaurant La Caleta in Rozenburg: sinds 2007 een vast adres voor Spaanse tapas, grill en verse vis. In 2024 overgedragen van vader naar dochter."
+  description="La Caleta in Rozenburg: na 17 jaar overgegaan van vader op dochter. Rundvlees uit Zuid-Amerika, alles in olijfolie en winnaar van de Verkiezing Leukste Restaurant 2018."
 >
   <PageHero
-    eyebrow="La Caleta · Over ons"
-    title="Zeventien jaar Spaanse sfeer in Rozenburg"
-    intro="La Caleta is in 2024 overgedragen van vader naar dochter. Zeventien jaar later doen we het nog altijd samen, met ons geweldige team."
-    image={heroImage}
-    imageAlt="Het team van Restaurant La Caleta met de Gouden Knip"
+    label="Over ons"
+    title="Van vader"
+    titleItalic="op dochter"
+    intro={`${facts.yearsBeforeHandover} jaar lang stond vader in de keuken aan het Raadhuisplein. In ${facts.handover} nam zijn dochter het over. Het team bleef, de keuken ook.`}
+    image={puerta}
+    imageAlt="De Puerta de La Caleta in Cádiz: een witte poort met een stenen boog"
   />
 
-  <!-- Verhaal -->
-  <section id="verhaal" class="paper py-20 md:py-28">
-    <div class="shell grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
+  <section class="section" aria-labelledby="tijdlijn-title">
+    <div class="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
       <div>
-        <p class="font-script text-3xl text-rojo md:text-4xl">La Caleta</p>
-        <h2 class="mt-3 font-display text-4xl leading-[1.05] font-medium md:text-6xl">
-          Hartelijk welkom bij Restaurant La Caleta
-        </h2>
-        <p class="mt-6 text-base leading-relaxed text-tinta/70 md:text-lg">
-          Onze naam klinkt niet alleen Spaans, dat zijn wij ook gewoon: wij laten u graag van de Spaanse
-          sfeer proeven, zowel in onze prachtige gerechten als in ons gezellige restaurant.
-        </p>
-        <p class="mt-4 text-base leading-relaxed text-tinta/70">
-          In 2024 is het restaurant overgegaan van vader naar dochter, na zeventien jaar. We zijn trots
-          op wat we samen hebben opgebouwd en werpen dit nu met veel plezier verder. Het idee blijft
-          hetzelfde: gasten laten proeven van de Spaanse keuken, met aandacht voor product, kwaliteit en
-          sfeer.
-        </p>
-        <p class="mt-4 text-base leading-relaxed text-tinta/70">
-          Naast diverse vlees- en visgerechten serveren wij een uitgebreid tapas-menu. In Spanje eten
-          ze tapas natuurlijk met een drankje aan de bar, maar bij La Caleta serveren wij onze tapas ook
-          bij de lunch en bij het diner.
-        </p>
-
-        <div class="mt-10 grid grid-cols-3 gap-6 border-t border-tinta/10 pt-8">
-          <div>
-            <p class="font-display text-4xl font-medium text-rojo">17+</p>
-            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Jaar in Rozenburg</p>
-          </div>
-          <div>
-            <p class="font-display text-4xl font-medium text-rojo">30+</p>
-            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Soorten tapas</p>
-          </div>
-          <div>
-            <p class="font-display text-4xl font-medium text-rojo">2018</p>
-            <p class="mt-1 text-xs tracking-[0.16em] text-tinta/55 uppercase">Leukste restaurant</p>
-          </div>
+        <h2 id="tijdlijn-title" class="display-l text-tinta">Hoe het ging</h2>
+        <div class="zoom-frame mt-10 hidden aspect-[16/9] max-w-md lg:block">
+          <Image src={interieur} alt="De eetzaal van La Caleta met gedekte tafels" widths={[480, 800]} sizes="28rem" class="h-full w-full object-cover" />
         </div>
       </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <Image
-          src={interieur}
-          alt="Gezellige eethoek van Restaurant La Caleta"
-          class="aspect-3/4 w-full object-cover"
-          widths={[320, 640]}
-          sizes="(min-width: 1024px) 22vw, 45vw"
-          loading="lazy"
-        />
-        <Image
-          src={bar}
-          alt="Bar van Restaurant La Caleta"
-          class="mt-10 aspect-3/4 w-full object-cover"
-          widths={[320, 640]}
-          sizes="(min-width: 1024px) 22vw, 45vw"
-          loading="lazy"
-        />
-      </div>
+      <ol class="border-l border-tinta/20">
+        {
+          timeline.map((item) => (
+            <li class="relative pb-10 pl-8 last:pb-0">
+              <span class="absolute top-2.5 -left-[5px] h-2.5 w-2.5 rounded-full bg-terracota" aria-hidden="true" />
+              <p class="label text-terracota">{item.when}</p>
+              <h3 class="mt-2 font-display text-[1.75rem] leading-tight text-tinta">{item.title}</h3>
+              <p class="mt-2 max-w-lg text-tinta-2">{item.body}</p>
+            </li>
+          ))
+        }
+      </ol>
     </div>
   </section>
 
-  <!-- Waarden -->
-  <section id="werkwijze" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
+  <section class="on-dark glow-host section" aria-labelledby="keuken-title">
+    <div class="glow" data-glow aria-hidden="true"></div>
     <div class="shell">
-      <SectionTitle
-        script="calidad"
-        eyebrow="Onze aanpak"
-        title="Waar wij op letten"
-        intro="Het begint bij het product. Wat op tafel komt, komt met zorg."
-        tone="light"
-      />
-
-      <div class="mt-14 grid gap-10 md:grid-cols-3">
+      <h2 id="keuken-title" class="display-l max-w-2xl text-crema">Waar de keuken op let</h2>
+      <dl class="mt-12 grid gap-10 md:grid-cols-3 md:gap-12">
         {
-          waarden.map((waarde, index) => (
-            <div class="border-t border-crema/20 pt-7">
-              <p class="font-display text-3xl text-dorado">0{index + 1}</p>
-              <h3 class="mt-4 font-display text-2xl font-medium md:text-3xl">{waarde.title}</h3>
-              <p class="mt-4 text-sm leading-relaxed text-crema/65">{waarde.body}</p>
+          values.map((value) => (
+            <div class="border-t border-crema/20 pt-6">
+              <dt class="font-display text-[1.75rem] leading-tight text-crema">{value.title}</dt>
+              <dd class="mt-3 text-crema-2">{value.body}</dd>
             </div>
           ))
         }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="award-title">
+    <div class="shell grid items-center gap-12 md:grid-cols-2 md:gap-20">
+      <div class="grid grid-cols-[0.8fr_1fr] items-end gap-4">
+        <Image src={award} alt={`Oorkonde: ${facts.award.title}, winnaar gemeente Rotterdam en Gold Award, La Caleta`} widths={[320, 640]} sizes="(min-width: 768px) 18vw, 40vw" class="w-full border border-tinta/15" />
+        <Image src={team} alt="Het team van La Caleta bij de verkiezing in 2018" widths={[400, 800]} sizes="(min-width: 768px) 22vw, 50vw" class="aspect-[4/3] w-full object-cover" />
+      </div>
+      <div>
+        <p class="label text-terracota">{facts.award.year}</p>
+        <h2 id="award-title" class="display-l mt-3 text-tinta">Leukste restaurant van de gemeente Rotterdam</h2>
+        <p class="lede mt-5 text-tinta-2">
+          Bij de {facts.award.title} won La Caleta de hoogste waardering in de gemeente Rotterdam, en
+          de Gold Award.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Erkenning -->
-  <section id="erkenning" class="bg-crema-oscuro py-20 md:py-28">
-    <div class="shell grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-20">
-      <div class="order-2 lg:order-1">
-        <Image
-          src={award}
-          alt="Winnaar Gouden Knip — beste restaurant van Rotterdam"
-          class="w-full shadow-xl shadow-tinta/10"
-          widths={[480, 800]}
-          sizes="(min-width: 1024px) 45vw, 90vw"
-          loading="lazy"
-          data-reveal="left"
-        />
-      </div>
-
-      <div class="order-1 lg:order-2">
-        <SectionTitle
-          script="premios"
-          eyebrow="Erkenning"
-          title="Beste restaurant van Rotterdam"
-          intro="La Caleta won de Gouden Knip: de hoogste waardering van de gemeente Rotterdam. Ook in 2018 werd La Caleta verkozen tot het leukste restaurant van de regio."
-        />
-        <div class="mt-9 grid grid-cols-2 gap-4">
-          <Image
-            src={team}
-            alt="Het team van Restaurant La Caleta viert de Gouden Knip"
-            class="aspect-4/3 w-full object-cover"
-            widths={[320, 640]}
-            sizes="(min-width: 1024px) 22vw, 45vw"
-            loading="lazy"
-          />
-          <Image
-            src={keuken}
-            alt="Tapas in de keuken van La Caleta"
-            class="aspect-4/3 w-full object-cover"
-            widths={[320, 640]}
-            sizes="(min-width: 1024px) 22vw, 45vw"
-            loading="lazy"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Kom langs -->
-  <section class="bg-rojo kaarslicht py-16 text-crema md:py-20">
-    <div class="shell flex flex-col items-center gap-6 text-center">
-      <h2 class="font-display text-4xl font-medium md:text-5xl">Kom proeven</h2>
-      <p class="max-w-xl text-crema/80">
-        {site.address.street}, {site.address.postalCode} {site.address.city} — met gratis parkeren in
-        de directe omgeving.
-      </p>
-      <div class="flex flex-wrap justify-center gap-3">
-        <a href={withBase('/contact/#reserveren')} class="btn bg-crema text-rojo hover:bg-crema-oscuro">
-          Reserveer een tafel
-        </a>
-        <a href={site.phoneHref} class="btn btn-line">Bel {site.phone}</a>
+  <section class="section" aria-labelledby="langs-title">
+    <div class="shell flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
+      <h2 id="langs-title" class="display-l max-w-xl text-tinta">Kom proeven</h2>
+      <div class="flex flex-wrap gap-3">
+        <a href={withBase('/reserveren/')} class="btn btn-reserve">Reserveer een tafel</a>
+        <a href={withBase('/menu/')} class="btn btn-line">Bekijk de kaart</a>
       </div>
     </div>
   </section>

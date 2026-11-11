@@ -18,8 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://jalvdbroek-ship-it.github.io/la-caleta
+      SITE_URL: https://0xtsotsi.github.io/la-caleta
       DEPLOY_BASE: la-caleta
+      # Repository-variabele (Settings > Variables). Leeg = mailto-terugval.
+      PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
     steps:
       - uses: actions/checkout@v4
 

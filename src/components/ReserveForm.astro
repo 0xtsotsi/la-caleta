@@ -1,189 +1,275 @@
 ---
-import { site } from '../data/site';
+import { openingHours, reservation, site } from '../data/site';
+import Icon from './Icon.astro';
+
+const key = (import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '').trim();
+const toMinutes = (time: string) => {
+  const [h, m] = time.split(':').map(Number);
+  return h * 60 + m;
+};
+const fmt = (minutes: number) =>
+  `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`;
+
+// Alle sloten die op enige dag kunnen; reserve.ts verbergt wat op de gekozen dag niet kan.
+const earliest = Math.min(
+  ...openingHours.filter((d) => d.status === 'open').map((d) => toMinutes(d.opens)),
+);
+const last = toMinutes(reservation.kitchenCloses) - reservation.lastSlotOffset;
+const slots: string[] = [];
+for (let t = earliest; t <= last; t += reservation.slotStep) slots.push(fmt(t));
 ---
 
-<form id="reserveren" class="grid gap-5 [color-scheme:dark]" novalidate>
-  <div class="grid gap-5 sm:grid-cols-2">
-    <div class="flex flex-col gap-2">
-      <label for="naam" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Naam</label>
-      <input
-        id="naam"
-        name="naam"
-        type="text"
-        required
-        autocomplete="name"
-        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-      />
-      <p class="hidden text-xs text-rojo-claro" data-error-for="naam">Vul uw naam in.</p>
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label for="telefoon" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Telefoon</label>
-      <input
-        id="telefoon"
-        name="telefoon"
-        type="tel"
-        required
-        autocomplete="tel"
-        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-      />
-      <p class="hidden text-xs text-rojo-claro" data-error-for="telefoon">
-        Vul uw telefoonnummer in.
-      </p>
-    </div>
+<form
+  id="reserveer-form"
+  class="reserve-form [color-scheme:dark]"
+  action={key ? 'https://api.web3forms.com/submit' : `mailto:${site.email}`}
+  method="post"
+  enctype={key ? undefined : 'text/plain'}
+  novalidate
+  data-reserve-form
+  data-key={key || undefined}
+>
+  {key && <input type="hidden" name="access_key" value={key} />}
+  <input type="hidden" name="subject" value="Reserveringsaanvraag via lacaleta.nl" />
+  <input type="hidden" name="from_name" value="Website La Caleta" />
+  <div class="hp" aria-hidden="true">
+    <label for="botcheck">Laat dit veld leeg</label>
+    <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off" />
   </div>
 
-  <div class="flex flex-col gap-2">
-    <label for="email" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">E-mail</label>
-    <input
-      id="email"
-      name="email"
-      type="email"
-      required
-      autocomplete="email"
-      class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-    />
-    <p class="hidden text-xs text-rojo-claro" data-error-for="email">
-      Vul een geldig e-mailadres in.
+  <div class="rounded-none border border-err-dark p-4 text-[0.9375rem]" role="alert" data-form-error hidden>
+    <p class="flex items-center gap-2 font-medium text-crema">
+      <Icon name="alert" class="text-err-dark" /> Uw aanvraag is niet verstuurd.
+    </p>
+    <p class="mt-1 text-crema-2" data-form-error-text>
+      Er ging iets mis bij het versturen. Uw gegevens staan er nog. Probeer het opnieuw, of bel ons.
+    </p>
+    <p class="mt-2 text-crema-2">
+      Bel <a class="link-text text-crema" href={site.phoneHref}>{site.phone}</a> of mail{' '}
+      <a class="link-text text-crema" href={`mailto:${site.email}`}>{site.email}</a>.
     </p>
   </div>
 
-  <div class="grid gap-5 sm:grid-cols-3">
-    <div class="flex flex-col gap-2">
-      <label for="datum" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Datum</label>
-      <input
-        id="datum"
-        name="datum"
-        type="date"
-        required
-        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-      />
-      <p class="hidden text-xs text-rojo-claro" data-error-for="datum">Kies een datum.</p>
+  <fieldset class="step">
+    <legend class="step-legend"><span class="step-num">1</span> Datum en gezelschap</legend>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div class="field">
+        <label for="datum" class="field-label">Datum</label>
+        <input id="datum" name="datum" type="date" required class="field-input" aria-describedby="datum-hint datum-error" />
+        <p id="datum-hint" class="text-[0.875rem] text-crema-2">Maandag en dinsdag gesloten.</p>
+        <p id="datum-error" class="field-error" data-error-for="datum" hidden></p>
+      </div>
+      <div class="field">
+        <label for="personen" class="field-label">Aantal personen</label>
+        <select id="personen" name="personen" class="field-input select" aria-describedby="personen-error">
+          {
+            Array.from({ length: reservation.maxGuests }, (_, i) => i + 1).map((n) => (
+              <option value={n} selected={n === 2}>
+                {n} {n === 1 ? 'persoon' : 'personen'}
+              </option>
+            ))
+          }
+          <option value="meer">Meer dan {reservation.maxGuests} personen</option>
+        </select>
+        <p id="personen-error" class="field-error" data-error-for="personen" hidden></p>
+      </div>
     </div>
+  </fieldset>
 
-    <div class="flex flex-col gap-2">
-      <label for="tijd" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Tijd</label>
-      <input
-        id="tijd"
-        name="tijd"
-        type="time"
-        required
-        value="19:00"
-        class="border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-      />
-      <p class="hidden text-xs text-rojo-claro" data-error-for="tijd">Kies een tijd.</p>
+  <fieldset class="step" aria-describedby="tijd-hint tijd-error">
+    <legend class="step-legend"><span class="step-num">2</span> Tijd</legend>
+    <p id="tijd-hint" class="text-[0.9375rem] text-crema-2" data-slot-hint>
+      Kies een tijd. De keuken sluit om {reservation.kitchenCloses}.
+    </p>
+    <div class="slots mt-4" data-slots>
+      {
+        slots.map((slot) => (
+          <label class="slot" data-slot={slot}>
+            <input type="radio" name="tijd" value={slot} required />
+            <span>{slot}</span>
+          </label>
+        ))
+      }
     </div>
+    <p id="tijd-error" class="field-error mt-3" data-error-for="tijd" hidden></p>
+  </fieldset>
 
-    <div class="flex flex-col gap-2">
-      <label for="personen" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">Personen</label>
-      <select
-        id="personen"
-        name="personen"
-        class="select-personen border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors focus:border-rojo"
-      >
-        {
-          Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
-            <option value={n}>{n} {n === 1 ? 'persoon' : 'personen'}</option>
-          ))
-        }
-      </select>
+  <fieldset class="step">
+    <legend class="step-legend"><span class="step-num">3</span> Uw gegevens</legend>
+    <div class="grid gap-5 sm:grid-cols-2">
+      <div class="field sm:col-span-2">
+        <label for="naam" class="field-label">Naam</label>
+        <input id="naam" name="naam" type="text" required autocomplete="name" class="field-input" aria-describedby="naam-error" />
+        <p id="naam-error" class="field-error" data-error-for="naam" hidden></p>
+      </div>
+      <div class="field">
+        <label for="telefoon" class="field-label">Telefoon</label>
+        <input id="telefoon" name="telefoon" type="tel" required autocomplete="tel" inputmode="tel" class="field-input" aria-describedby="telefoon-error" />
+        <p id="telefoon-error" class="field-error" data-error-for="telefoon" hidden></p>
+      </div>
+      <div class="field">
+        <label for="email" class="field-label">E-mail</label>
+        <input id="email" name="email" type="email" required autocomplete="email" class="field-input" aria-describedby="email-error" />
+        <p id="email-error" class="field-error" data-error-for="email" hidden></p>
+      </div>
+      <div class="field sm:col-span-2">
+        <label for="opmerking" class="field-label">Opmerking <span class="font-normal text-crema-2">(niet verplicht)</span></label>
+        <textarea id="opmerking" name="opmerking" rows="3" class="field-input resize-y" placeholder="Allergie, kinderstoel, iets te vieren, paella vooraf bestellen"></textarea>
+      </div>
     </div>
-  </div>
+  </fieldset>
 
-  <div class="flex flex-col gap-2">
-    <label for="opmerking" class="text-[0.7rem] tracking-[0.2em] uppercase opacity-70">
-      Opmerking <span class="normal-case opacity-60">(optioneel)</span>
-    </label>
-    <textarea
-      id="opmerking"
-      name="opmerking"
-      rows="3"
-      placeholder="Allergieën, gelegenheidskans, kinderen…"
-      class="resize-none border-b border-current/30 bg-transparent py-2.5 outline-none transition-colors placeholder:text-current/40 focus:border-rojo"></textarea>
+  <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+    <button type="submit" class="btn btn-reserve" data-submit>
+      <span class="spinner" data-spinner hidden><Icon name="loader" /></span>
+      <span data-submit-label>{key ? 'Verstuur aanvraag' : 'Verstuur aanvraag per e-mail'}</span>
+    </button>
+    <a href={site.phoneHref} class="link-u inline-flex items-center gap-2 text-crema">
+      <Icon name="phone" /> Of bel {site.phone}
+    </a>
   </div>
-
-  <div class="mt-2 flex flex-wrap items-center gap-5">
-    <button type="submit" class="btn btn-rojo">Verstuur reservering</button>
-    <p class="text-sm opacity-70">Liever direct bellen? <a href={site.phoneHref} class="link-underline">{site.phone}</a></p>
-  </div>
-
-  <p
-    id="reservering-melding"
-    class="hidden border border-verde/50 bg-verde/10 px-4 py-3 text-sm"
-    role="status"
-  >
-    Je e-mailprogramma opent met de reservering. Weet je zeker dat je liever belt? Ons nummer is{' '}
-    <a href={site.phoneHref} class="link-underline">{site.phone}</a>.
+  <p class="text-[0.875rem] text-crema-2">
+    Dit is een aanvraag. U krijgt een bevestiging van ons per e-mail of telefoon.
   </p>
+  <p class="sr-only" aria-live="polite" data-form-status></p>
 </form>
 
+<div class="success scroll-mt-28" data-form-success hidden tabindex="-1" role="status">
+  <p class="flex items-center gap-2 text-cobre">
+    <Icon name="check" size={22} /> <span class="label" data-success-label>Aanvraag verstuurd</span>
+  </p>
+  <h2 class="display-m mt-3 text-crema" data-success-title>Bedankt, we hebben uw aanvraag.</h2>
+  <p class="mt-3 max-w-lg text-crema-2" data-success-text>
+    We bevestigen uw reservering zo snel mogelijk per e-mail of telefoon.
+  </p>
+  <dl class="mt-6 grid max-w-lg grid-cols-[auto_1fr] gap-x-6 gap-y-2 border-t border-crema/15 pt-5 text-[0.9375rem]">
+    <dt class="text-crema-2">Datum</dt><dd class="text-crema" data-sum="datum"></dd>
+    <dt class="text-crema-2">Tijd</dt><dd class="text-crema" data-sum="tijd"></dd>
+    <dt class="text-crema-2">Personen</dt><dd class="text-crema" data-sum="personen"></dd>
+    <dt class="text-crema-2">Naam</dt><dd class="text-crema" data-sum="naam"></dd>
+  </dl>
+  <p class="mt-6 text-[0.9375rem] text-crema-2">
+    Iets veranderen? Bel <a class="link-text text-crema" href={site.phoneHref}>{site.phone}</a>.
+  </p>
+  <button type="button" class="btn btn-line mt-6" data-form-reset>Nog een aanvraag doen</button>
+</div>
+
 <style>
-  /* De openstaande lijst van een native select tekent zichzelf met het kleurenschema
-     van het besturingssysteem. Zonder deze kleuren wordt de crème tekst onleesbaar. */
-  .select-personen {
-    color-scheme: dark;
+  .reserve-form {
+    display: grid;
+    gap: 2.5rem;
   }
 
-  .select-personen option {
-    background-color: #1e1510;
-    color: #fdf8ef;
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .step {
+    display: grid;
+    gap: 1.25rem;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .step-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.1;
+    color: var(--color-crema);
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--color-cobre);
+    border-radius: 999px 999px 0 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-cobre);
+  }
+
+  .slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5.25rem, 1fr));
+    gap: 0.5rem;
+  }
+
+  .slot {
+    position: relative;
+    display: block;
+  }
+
+  .slot input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .slot span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    border: 1px solid var(--color-line-dark);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-crema);
+    transition:
+      background-color var(--duration-quick) ease,
+      border-color var(--duration-quick) ease,
+      color var(--duration-quick) ease;
+  }
+
+  .slot:hover span {
+    border-color: var(--color-crema-2);
+  }
+
+  .slot input:checked + span {
+    background-color: var(--color-cobre);
+    border-color: var(--color-cobre);
+    color: var(--color-espresso);
+    font-weight: 500;
+  }
+
+  .slot input:focus-visible + span {
+    outline: 2px solid var(--color-cobre);
+    outline-offset: 3px;
+  }
+
+  .slot[data-hidden='true'] {
+    display: none;
+  }
+
+  .spinner {
+    display: inline-flex;
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .success:focus {
+    outline: none;
   }
 </style>
 
 <script>
-  const form = document.getElementById('reserveren') as HTMLFormElement | null;
-  const melding = document.getElementById('reservering-melding');
-
-  const showError = (name: string, visible: boolean) => {
-    const target = form?.querySelector(`[data-error-for="${name}"]`);
-    target?.classList.toggle('hidden', !visible);
-    const input = form?.querySelector(`#${name}`) as HTMLInputElement | null;
-    input?.setAttribute('aria-invalid', String(visible));
-  };
-
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-
-    const data = new FormData(form);
-    const naam = String(data.get('naam') ?? '').trim();
-    const telefoon = String(data.get('telefoon') ?? '').trim();
-    const email = String(data.get('email') ?? '').trim();
-    const datum = String(data.get('datum') ?? '');
-    const tijd = String(data.get('tijd') ?? '');
-    const personen = String(data.get('personen') ?? '');
-    const opmerking = String(data.get('opmerking') ?? '').trim();
-
-    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-
-    showError('naam', !naam);
-    showError('telefoon', !telefoon);
-    showError('email', !emailValid);
-    showError('datum', !datum);
-    showError('tijd', !tijd);
-
-    if (!naam || !telefoon || !emailValid || !datum || !tijd) {
-      (form.querySelector('[aria-invalid="true"]') as HTMLElement | null)?.focus();
-      return;
-    }
-
-    const onderwerp = `Reservering · ${naam} · ${datum} ${tijd}`;
-    const body = [
-      `Naam: ${naam}`,
-      `Telefoon: ${telefoon}`,
-      `E-mail: ${email}`,
-      `Datum: ${datum}`,
-      `Tijd: ${tijd}`,
-      `Personen: ${personen}`,
-      opmerking ? `Opmerking: ${opmerking}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
-
-    window.location.href = `mailto:info@lacaleta.nl?subject=${encodeURIComponent(
-      onderwerp,
-    )}&body=${encodeURIComponent(body)}`;
-
-    melding?.classList.remove('hidden');
-    melding?.scrollIntoView({ block: 'nearest' });
-  });
+  import '../scripts/reserve.ts';
 </script>

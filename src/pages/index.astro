@@ -1,340 +1,198 @@
 ---
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import grillVuur from '../assets/images/grill-vuur.jpg';
+import barBediening from '../assets/images/bar-bediening.jpg';
+import exterieur from '../assets/images/exterieur.jpg';
+import lunchServeren from '../assets/images/lunch-serveren.jpg';
+import wijnKaarsen from '../assets/images/sfeer-wijn-kaarsen.jpg';
+import tapasCazuelas from '../assets/images/stock-tapas-cazuelas.jpg';
+import tapasTabla from '../assets/images/stock-tapas-tabla.jpg';
+import ArchImage from '../components/ArchImage.astro';
+import DishList from '../components/DishList.astro';
 import Hero from '../components/Hero.astro';
 import Intermezzo from '../components/Intermezzo.astro';
-import SectionTitle from '../components/SectionTitle.astro';
 import OpeningHours from '../components/OpeningHours.astro';
-
-import tafelSpaans2 from '../assets/images/tafel-spaans.jpg';
-import tapasBord from '../assets/images/tapas-bord-warm.jpg';
-import grillVuur from '../assets/images/grill-garnalen.jpg';
-import lunchServeren from '../assets/images/lunch-serveren.jpg';
-import tapasTafel from '../assets/images/tapas-tafel.jpg';
-import exterieur from '../assets/images/exterieur.jpg';
-import kaasPlank from '../assets/images/kaas-plank.jpg';
-import sfeerWijn from '../assets/images/sfeer-wijn-kaarsen.jpg';
-import sfeerKaarsen from '../assets/images/sfeer-kaarsen.jpg';
-import sfeerGasten from '../assets/images/sfeer-gasten.jpg';
-import barBediening from '../assets/images/bar-bediening.jpg';
-import tapasPaprika from '../assets/images/tapas-paprika.jpg';
-import sfeerBloem from '../assets/images/sfeer-bloem-kaars.jpg';
-import tafelSpaans from '../assets/images/tafel-spaans.jpg';
-import paellaPan from '../assets/images/paella-pan.jpg';
-import cadiz from '../assets/images/hero-cadiz.jpg';
-
-import { acts, site, tapasPriced } from '../data/site';
+import ReserveQuick from '../components/ReserveQuick.astro';
+import StoryScroll, { type Moment } from '../components/StoryScroll.astro';
+import {
+  desserts,
+  facts,
+  fish,
+  grill,
+  paella,
+  site,
+  starters,
+  tapasDay,
+  twaalfUurtje,
+} from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/urls';
 
-const specialiteiten = [
+const moments: Moment[] = [
   {
-    title: 'Tapas & de bar',
-    body: 'In Spanje eet je tapas met een drankje aan de bar. Bij La Caleta serveren wij ze ook bij de lunch en het diner — of laat ze naar uw tafel komen.',
-    image: tapasBord,
-    alt: 'Tapas op een houten serveerplank',
+    label: 'Vanaf 11:00',
+    title: 'Lunch',
+    body: `Baguettes, tosti's, maaltijdsalades of het 12-uurtje voor ${twaalfUurtje.price}: soep, twee boterhammen, een kroket en een gebakken ei. Brood bruin, wit of glutenvrij.`,
+    image: lunchServeren,
+    alt: 'Een lunchtafel met kleine schaaltjes, brood en olijven',
+    href: '/menu/#lunch',
+    cta: 'Naar de lunchkaart',
+  },
+  {
+    label: 'Woensdag en donderdag',
+    title: 'Tapas',
+    body: `Op tapasdag kiest u uit ${facts.tapasCount} koude en warme tapas, zoveel als u op kunt, voor ${tapasDay.price} per persoon. De andere dagen bestelt u ze los.`,
+    image: tapasCazuelas,
+    alt: 'Tapas in terracotta schaaltjes op een houten tafel',
     href: '/tapas/',
+    cta: 'Bekijk alle tapas',
   },
   {
-    title: 'Grill & verse vis',
-    body: 'Het beste vlees en de beste vis van de grill. Lomo, entrecote, ribeye en dagverse vis, alles bereid in olijfolie.',
+    label: 'Van de grill',
+    title: 'Vlees en vis',
+    body: 'Het rundvlees komt vers, op +1 graad, uit Zuid-Amerika en is 100 procent biologisch. Lomo, entrecote, ribeye of T-bone, in olijfolie bereid. Of vis van de plancha.',
     image: grillVuur,
-    alt: 'Garnalen op de houten grill',
-    href: '/menu/',
+    alt: 'Vlees op een grill boven open vuur',
+    href: '/menu/#grill',
+    cta: 'Naar de grillkaart',
   },
   {
-    title: 'Lunch voor iedereen',
-    body: 'Van het 12-uurtje tot een lunchplank voor twee. Met keuze uit bruin of wit brood en ook glutenvrij.',
-    image: tafelSpaans,
-    alt: 'Spaanse gerechten en wijn op tafel',
-    href: '/menu/',
+    label: 'Na het eten',
+    title: 'Wijn en sangria',
+    body: 'Rioja van Montelciego en Muriel, zoete Moscatel uit Málaga en onze eigen sangria, rood of wit. Een karaf is een liter.',
+    image: wijnKaarsen,
+    alt: 'Een glas wijn bij kaarslicht',
+    href: '/menu/#wijn',
+    cta: 'Naar de wijnkaart',
   },
 ];
 
-const gallery = [
-  { image: sfeerWijn, alt: 'Spaanse wijn en kaarslicht op tafel' },
-  { image: barBediening, alt: 'Bediening aan de bar' },
-  { image: sfeerKaarsen, alt: 'Kaarslicht in de sfeerige ruimte' },
-  { image: tapasPaprika, alt: 'Spaanse tapas met paprika' },
-  { image: paellaPan, alt: 'Spaanse paella met olijven' },
-  { image: sfeerGasten, alt: 'Gasten genieten in het restaurant' },
-  { image: exterieur, alt: 'De gevel van Restaurant La Caleta aan het Raadhuisplein' },
-  { image: sfeerBloem, alt: 'Verse bloemen en kaarslicht op tafel' },
+const pick = (list: typeof grill, name: string) => list.filter((dish) => dish.name === name);
+const featured = [
+  ...pick(grill, 'Lomo'),
+  ...pick(paella, 'Paella de marisco'),
+  ...pick(starters, "Gamba's al ajillo"),
+  ...pick(starters, 'Carpaccio La Caleta'),
+  ...pick(fish, 'Frito gaditano'),
+  ...pick(desserts, 'Leche frita'),
 ];
 ---
 
 <BaseLayout>
   <Hero />
 
-  <!-- Introductie -->
-  <section id="intro" class="paper py-20 md:py-28">
-    <div class="shell grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
-      <div>
-        <p class="font-script text-3xl text-rojo md:text-4xl">Bienvenido</p>
-        <h2 class="mt-3 max-w-xl font-display text-4xl leading-[1.05] font-medium md:text-6xl">
-          Welkom bij <em class="text-rojo">La Caleta</em>
-        </h2>
-        <p class="mt-6 max-w-lg text-base leading-relaxed text-tinta/70 md:text-lg">
-          Wij laten u graag van de Spaanse sfeer proeven. La Caleta is sinds 2024 overgedragen van
-          vader naar dochter, na zeventien jaar — maar we doen het nog altijd samen, met ons geweldige
-          team. Onze naam klinkt niet alleen Spaans, dat zijn wij ook gewoon.
+  <section class="section" aria-labelledby="welkom-title">
+    <div class="shell grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+      <h2 id="welkom-title" class="display-l text-tinta">
+        Onze naam klinkt Spaans. <span class="italic text-terracota">Dat zijn wij ook gewoon.</span>
+      </h2>
+      <div class="lede space-y-5 text-tinta-2 lg:pt-3">
+        <p>
+          In {facts.handover} ging La Caleta na {facts.yearsBeforeHandover} jaar over van vader op
+          dochter. Het team is gebleven, net als de keuken: alles bereid in olijfolie, en vlees van de
+          beste kwaliteit.
         </p>
-        <p class="mt-4 max-w-lg text-base leading-relaxed text-tinta/70">
-          Naast diverse vlees- en visgerechten serveren wij een uitgebreid tapas-menu. Alles wordt in
-          olijfolie bereid, zoals voor uw gezondheid wordt aanbevolen. Natuurlijk is het ook mogelijk
-          om vegetarisch of met een speciaal dieet te lunchen of te dineren.
+        <p>
+          Vegetarisch eten of een speciaal dieet? Zeg het bij het reserveren, dan zoeken we samen iets
+          wat u lekker vindt.
         </p>
-        <div class="mt-9 flex flex-wrap items-center gap-4">
-          <a href={withBase('/over-ons/')} class="btn btn-rojo">Meer over ons</a>
-          <a href={withBase('/menu/')} class="link-underline text-sm tracking-[0.18em] uppercase">Bekijk het menu</a>
-        </div>
-      </div>
-
-      <div class="relative">
-        <Image
-          src={tafelSpaans2}
-          alt="Spaanse gerechten en wijn op tafel bij La Caleta"
-          class="aspect-4/5 w-full object-cover"
-          widths={[480, 768]}
-          sizes="(min-width: 1024px) 40vw, 90vw"
-          data-reveal="right"
-        />
-        <div class="absolute -bottom-6 -left-4 hidden bg-rojo px-8 py-6 text-crema md:block">
-          <p class="font-display text-5xl leading-none font-medium">17+</p>
-          <p class="eyebrow mt-2 text-[0.6rem] text-crema/70">Jaar aan het Raadhuisplein</p>
-        </div>
+        <a href={withBase('/over-ons/')} class="link-u inline-block text-[1rem] text-tinta">Ons verhaal</a>
       </div>
     </div>
   </section>
 
-  <!-- Specialiteiten -->
-  <section id="specialiteiten" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
-    <div class="shell">
-      <SectionTitle
-        script=" specialties"
-        eyebrow="Wat ons bijzonder maakt"
-        title="Spaanse keuken, Rozenburgse gezelligheid"
-        intro="Van een uitgebreid tapas-menu tot het beste vlees en de beste vis van de grill. Bij ons proef je Spanje, met een vleesvleesje van thuis."
-        tone="light"
+  <StoryScroll moments={moments} title="Van de lunch tot de laatste sangria" />
+
+  <section class="section bg-arena" aria-labelledby="tapasdag-title">
+    <div class="shell grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+      <ArchImage
+        image={tapasTabla}
+        alt="Een plank met tapas: gehaktballetjes, gamba's en olijven"
+        sizes="(min-width: 768px) 40vw, 88vw"
+        class="order-2 w-full md:order-1"
       />
-
-      <div class="mt-14 grid gap-8 md:grid-cols-3">
-        {
-          specialiteiten.map((item, index) => (
-            <a href={withBase(item.href)} class="group block" data-reveal data-reveal-delay={String(index * 110)}>
-              <div class="overflow-hidden">
-                <Image
-                  src={item.image}
-                  alt={item.alt}
-                  class="aspect-3/4 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  widths={[480, 768]}
-                  sizes="(min-width: 768px) 30vw, 90vw"
-                />
-              </div>
-              <h3 class="mt-6 font-display text-2xl font-medium md:text-3xl">{item.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-crema/65">{item.body}</p>
-              <span class="mt-4 inline-flex items-center gap-2 text-[0.68rem] tracking-[0.2em] uppercase text-dorado">
-                Lees meer{' '}
-                <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">
-                  &rarr;
-                </span>
-              </span>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Uitgelicht -->
-  <section id="favoritos" class="paper py-20 md:py-28">
-    <div class="shell grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-20">
-      <div class="relative order-2 lg:order-1">
-        <Image
-          src={tapasTafel}
-          alt="Spaanse tapas aan tafel bij La Caleta"
-          class="aspect-4/5 w-full object-cover"
-          widths={[480, 768]}
-          sizes="(min-width: 1024px) 38vw, 90vw"
-          data-reveal="left"
-        />
-      </div>
-
-      <div class="order-1 lg:order-2">
-        <SectionTitle
-          script="favoritos"
-          eyebrow="Uitgelicht"
-          title="Een greep uit onze kaart"
-          intro="Vaste gasten kennen de klassiekers. Deze gerechten horen bij elke avond in La Caleta."
-        />
-
-        <div class="mt-10 grid gap-10 sm:grid-cols-2">
-          {
-            tapasPriced.slice(0, 8).map((dish) => (
-              <div>
-                <div class="dish-row">
-                  <span class="font-medium text-tinta">{dish.name}</span>
-                  {dish.price && <span class="shrink-0 font-medium text-rojo">{dish.price}</span>}
-                </div>
-                {dish.description && (
-                  <p class="mt-1 text-sm leading-relaxed text-tinta/60">{dish.description}</p>
-                )}
-              </div>
-            ))
-          }
+      <div class="order-1 md:order-2">
+        <p class="label text-terracota">{tapasDay.days}</p>
+        <h2 id="tapasdag-title" class="display-l mt-3 text-tinta">Tapasdag</h2>
+        <p class="mt-6 flex items-baseline gap-3">
+          <span class="font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-none text-terracota">{tapasDay.price}</span>
+          <span class="text-tinta-2">per persoon</span>
+        </p>
+        <ul class="mt-8 space-y-2.5 text-tinta-2">
+          <li>Kies uit {facts.tapasCount} koude en warme tapas, met brood erbij.</li>
+          <li>Twee tapas per persoon per ronde, zo vaak als u wilt.</li>
+          <li>Inloop tussen {tapasDay.walkIn.from} en {tapasDay.walkIn.until}. Drank en dessert apart.</li>
+        </ul>
+        <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href={withBase('/reserveren/')} class="btn btn-reserve">Reserveer voor tapasdag</a>
+          <a href={withBase('/tapas/')} class="link-u text-tinta">Alle tapas en de regels</a>
         </div>
-
-        <a href={withBase('/menu/')} class="btn btn-line mt-12">De volledige menukaart</a>
       </div>
     </div>
   </section>
 
-  <!-- Sfeer-intermezzo -->
+  <section class="section" aria-labelledby="kaart-title">
+    <div class="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div>
+        <h2 id="kaart-title" class="display-l text-tinta">Een greep uit de kaart</h2>
+        <p class="lede mt-5 text-tinta-2">
+          De hele kaart staat online, met prijzen. Paella graag vooraf bestellen.
+        </p>
+        <a href={withBase('/menu/')} class="btn btn-line mt-8">Bekijk de hele kaart</a>
+      </div>
+      <DishList dishes={featured} columns={2} />
+    </div>
+  </section>
+
   <Intermezzo
-    image={cadiz}
-    imageAlt="Zonsondergang over de baai van La Caleta in Cadiz, Spanje"
-    script="elke dag op tafel"
-    title="De sfeer van Spanje, met zorg geserveerd"
-    quote="Kaarslicht, een goed glas Spaanse wijn en gerechten die naar Spanje smaken. Dat is waar het bij ons om draait."
+    image={barBediening}
+    imageAlt="Een Spaanse bar met hammen aan het plafond en wijnflessen in de kast"
+    title="Kaarslicht, een glas Rioja en geen haast"
+    body="Blijf zitten na het eten. De warme keuken sluit om 21:30, de koffie met een scheut Licor 43 is er daarna nog."
   />
 
-  <!-- Acties -->
-  <section id="acties" class="bg-crema-oscuro py-20 md:py-28">
-    <div class="shell">
-      <SectionTitle
-        script="ofertas"
-        eyebrow="Acties"
-        title="Goedkoper eten, meer genieten"
-        intro="Tijdens de week bieden wij speciale menu's aan. Bekijk wat er deze week op de kaart staat."
-      />
-
-      <div class="mt-14 grid gap-6 md:grid-cols-3">
-        {
-          acts.map((act, index) => (
-            <article
-              class="lift flex flex-col border border-tinta/10 bg-crema p-8"
-              data-reveal
-              data-reveal-delay={String(index * 110)}
-            >
-              <p class="eyebrow text-[0.62rem] text-rojo">{act.label}</p>
-              <h3 class="mt-4 font-display text-2xl leading-snug font-medium md:text-[1.75rem]">
-                {act.title}
-              </h3>
-              <p class="mt-4 flex-1 text-sm leading-relaxed text-tinta/65">{act.body}</p>
-              <div class="mt-7 flex items-end justify-between gap-4 border-t border-tinta/10 pt-6">
-                <p class="font-display text-4xl leading-none font-medium text-rojo">{act.price}</p>
-                <a
-                  href={withBase(act.cta.href)}
-                  class="text-[0.68rem] tracking-[0.2em] uppercase transition-colors hover:text-rojo"
-                >
-                  {act.cta.label} &rarr;
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Sfeer -->
-  <section id="ambiente" class="bg-carbon kaarslicht py-20 text-crema md:py-28">
-    <div class="shell">
-      <div class="flex flex-wrap items-end justify-between gap-6">
-        <SectionTitle
-          script="ambiente"
-          eyebrow="De sfeer"
-          title="Zo ziet La Caleta eruit"
-          tone="light"
-        />
-        <p class="max-w-sm text-sm leading-relaxed text-crema/60">
-          Gezellig tafelen, een open keuken en Spaanse muziek op de achtergrond. Kom het zelf ervaren.
-        </p>
-      </div>
-
-      <div class="mt-14 grid grid-cols-2 gap-4 md:auto-rows-[220px] md:grid-cols-4">
-        {
-          gallery.map((photo, index) => (
-            <div
-              class:list={[
-                'overflow-hidden',
-                index === 0 && 'col-span-2 row-span-2',
-                index === 3 && 'md:row-span-2',
-              ]}
-              data-reveal
-              data-reveal-delay={String((index % 3) * 120)}
-            >
-              <Image
-                src={photo.image}
-                alt={photo.alt}
-                class="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
-                widths={[320, 640]}
-                sizes="(min-width: 768px) 25vw, 45vw"
-                loading="lazy"
-              />
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- Bezoek ons -->
-  <section id="visita" class="paper py-20 md:py-28">
-    <div class="shell grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+  <section class="section" aria-labelledby="bezoek-title">
+    <div class="shell grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
       <div>
-        <SectionTitle
-          script="visita"
-          eyebrow="Bezoek ons"
-          title="Kom langs in Rozenburg"
-          intro="Vlakbij het winkelcentrum, met gratis parkeren in de directe omgeving. Reserveren kan telefonisch of via het formulier."
-        />
-
-        <div class="mt-10 grid gap-10 sm:grid-cols-2">
-          <div>
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Openingstijden</h3>
-            <div class="mt-5">
-              <OpeningHours />
-            </div>
-          </div>
-
-          <div>
-            <h3 class="eyebrow text-[0.66rem] text-tinta/50">Adres & contact</h3>
-            <address class="mt-5 space-y-1 text-sm not-italic text-tinta/70">
-              <p class="text-tinta">{site.legalName}</p>
-              <p>{site.address.street}</p>
-              <p>{site.address.postalCode} {site.address.city}</p>
-            </address>
-            <ul class="mt-6 space-y-2 text-sm">
-              <li>
-                <a href={site.phoneHref} class="link-underline">Tel. {site.phone}</a>
-              </li>
-              <li>
-                <a href={`mailto:${site.email}`} class="link-underline">{site.email}</a>
-              </li>
-            </ul>
-            <a href={withBase('/contact/#reserveren')} class="btn btn-rojo mt-8">Reserveer een tafel</a>
-          </div>
+        <h2 id="bezoek-title" class="display-l text-tinta">Raadhuisplein 4a</h2>
+        <address class="lede mt-5 not-italic text-tinta-2">
+          {site.address.postalCode} {site.address.city}. Gratis parkeren in de buurt.
+        </address>
+        <p class="mt-4 text-tinta-2">
+          Op Google {facts.google.rating} uit 5, op basis van {facts.google.reviews} reviews
+          (stand {facts.google.date}).
+        </p>
+        <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+          <a href={site.mapsHref} class="link-u text-tinta" target="_blank" rel="noopener noreferrer">
+            Route plannen<span class="sr-only"> (opent Google Maps in een nieuw venster)</span>
+          </a>
+          <a href={site.phoneHref} class="link-u text-tinta">Bel {site.phone}</a>
+        </div>
+        <div class="zoom-frame mt-10 aspect-[16/9] max-w-md">
+          <Image
+            src={exterieur}
+            alt="De gevel van Restaurant La Caleta aan het Raadhuisplein"
+            widths={[480, 800]}
+            sizes="(min-width: 1024px) 28rem, 88vw"
+            class="h-full w-full object-cover"
+          />
         </div>
       </div>
-
-      <div class="relative">
-        <Image
-          src={exterieur}
-          alt="Restaurant La Caleta aan het Raadhuisplein in Rozenburg"
-          class="aspect-3/2 w-full object-cover"
-          widths={[640, 1024]}
-          sizes="(min-width: 1024px) 45vw, 90vw"
-          data-reveal
-        />
-        <div class="mt-6 overflow-hidden border border-tinta/10">
-          <iframe
-            title="Locatie van Restaurant La Caleta op de kaart (OpenStreetMap)"
-            src={site.mapEmbedUrl}
-            class="h-72 w-full border-0"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+      <div>
+        <h3 class="font-display text-[1.75rem] text-tinta">Openingstijden</h3>
+        <div class="mt-3"><OpeningHours /></div>
       </div>
+    </div>
+  </section>
+
+  <section class="on-dark glow-host section" aria-labelledby="reserveer-title">
+    <div class="glow" data-glow aria-hidden="true"></div>
+    <div class="shell grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end lg:gap-20">
+      <div>
+        <h2 id="reserveer-title" class="display-l text-crema">Reserveer een tafel</h2>
+        <p class="lede mt-5 text-crema-2">Kies een dag en met hoeveel u komt. De tijd kiest u op de volgende pagina.</p>
+      </div>
+      <ReserveQuick />
     </div>
   </section>
 </BaseLayout>

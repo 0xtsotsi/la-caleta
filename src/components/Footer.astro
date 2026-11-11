@@ -1,93 +1,77 @@
 ---
-import { site, openingHours } from '../data/site';
+import { navItems, site } from '../data/site';
+import { withBase } from '../lib/urls';
+import Icon from './Icon.astro';
+import OpeningHours from './OpeningHours.astro';
 ---
 
-<footer class="bg-rojo text-crema">
-  <div class="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr] lg:gap-10 lg:py-20">
-    <!-- Merk -->
+<footer class="on-dark border-t border-crema/10">
+  <div class="shell grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:gap-10">
     <div>
-      <p class="font-script text-5xl leading-none">La Caleta</p>
-      <p class="eyebrow mt-3 text-[0.62rem] text-crema/60">Restaurant Español · sinds 2007</p>
-      <p class="mt-6 max-w-sm text-sm leading-relaxed text-crema/80">
-        Wij laten u graag van de Spaanse sfeer proeven: tapas, grill en verse vis, bereid in olijfolie en
-        geserveerd in ons gezellige restaurant aan het Raadhuisplein in Rozenburg.
+      <p class="font-script text-5xl leading-none text-crema">La Caleta</p>
+      <p class="mt-5 max-w-xs text-[0.9375rem] text-crema-2">
+        Spaanse tapas, vlees van de grill, vis en paella aan het Raadhuisplein in Rozenburg.
       </p>
-      <div class="mt-7 flex gap-4">
-        <a
-          href={site.social.facebook}
-          class="flex h-10 w-10 items-center justify-center rounded-full border border-crema/30 text-[0.7rem] tracking-widest transition-colors hover:bg-crema hover:text-rojo"
-          aria-label="Facebook"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          f
-        </a>
-        <a
-          href={site.social.instagram}
-          class="flex h-10 w-10 items-center justify-center rounded-full border border-crema/30 text-[0.7rem] tracking-widest transition-colors hover:bg-crema hover:text-rojo"
-          aria-label="Instagram"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          ig
-        </a>
-      </div>
-    </div>
-
-    <!-- Openingstijden -->
-    <div>
-      <h2 class="eyebrow text-[0.66rem] text-crema/60">Openingstijden</h2>
-      <dl class="mt-6 space-y-2 text-sm">
-        {
-          openingHours.map((day) => (
-            <div class="flex items-baseline justify-between gap-4 border-b border-crema/10 pb-2">
-              <dt class="text-crema/85">{day.day}</dt>
-              <dd class={day.status === 'closed' ? 'text-crema/45' : 'text-crema'}>
-                {day.status === 'closed' ? 'Gesloten' : `${day.opens} – ${day.closes}`}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-
-    <!-- Contact -->
-    <div>
-      <h2 class="eyebrow text-[0.66rem] text-crema/60">Contact</h2>
-      <ul class="mt-6 space-y-3 text-sm text-crema/85">
-        <li>
-          <a href={site.phoneHref} class="link-underline hover:text-crema">Tel. {site.phone}</a>
+      <ul class="mt-6 space-y-2 text-[0.9375rem]">
+        <li class="flex items-center gap-2.5 text-crema-2">
+          <Icon name="car" class="text-cobre" /> Gratis parkeren
         </li>
-        <li>
-          <a href={`mailto:${site.email}`} class="link-underline hover:text-crema">{site.email}</a>
+        <li class="flex items-center gap-2.5 text-crema-2">
+          <Icon name="gift" class="text-cobre" /> VVV-cadeaukaart welkom
         </li>
-        <li class="pt-2 text-crema/60">Gratis parkeren<br />in de directe omgeving</li>
       </ul>
     </div>
 
-    <!-- Adres -->
+    <nav id="footer-nav" aria-label="Footermenu">
+      <h2 class="label text-cobre">Pagina's</h2>
+      <ul class="mt-5 space-y-2 text-[0.9375rem]">
+        {
+          navItems.map((item) => (
+            <li>
+              <a href={withBase(item.href)} class="link-u text-crema">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
     <div>
-      <h2 class="eyebrow text-[0.66rem] text-crema/60">Adres</h2>
-      <address class="mt-6 space-y-1 text-sm not-italic text-crema/85">
+      <h2 class="label text-cobre">Openingstijden</h2>
+      <div class="mt-4">
+        <OpeningHours tone="dark" />
+      </div>
+    </div>
+
+    <div>
+      <h2 class="label text-cobre">Contact</h2>
+      <address class="mt-5 space-y-1 text-[0.9375rem] not-italic text-crema-2">
         <p class="text-crema">{site.legalName}</p>
         <p>{site.address.street}</p>
         <p>{site.address.postalCode} {site.address.city}</p>
       </address>
-      <a
-        href={site.mapsHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mt-6 inline-flex items-center gap-2 text-[0.72rem] tracking-[0.2em] uppercase transition-colors hover:text-crema/70"
-      >
-        <span aria-hidden="true">&rsaquo;&rsaquo;</span> Routebeschrijving
-      </a>
+      <ul class="mt-5 space-y-2 text-[0.9375rem]">
+        <li><a href={site.phoneHref} class="link-u text-crema">{site.phone}</a></li>
+        <li><a href={`mailto:${site.email}`} class="link-u text-crema">{site.email}</a></li>
+        <li>
+          <a href={site.social.instagram} class="link-u text-crema" rel="noopener noreferrer" target="_blank">
+            Instagram<span class="sr-only"> (opent in een nieuw venster)</span>
+          </a>
+        </li>
+        <li>
+          <a href={site.social.facebook} class="link-u text-crema" rel="noopener noreferrer" target="_blank">
+            Facebook<span class="sr-only"> (opent in een nieuw venster)</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <div class="bg-carbon">
-    <div class="shell flex flex-col gap-2 py-5 text-[0.68rem] tracking-[0.16em] text-crema/50 uppercase sm:flex-row sm:items-center sm:justify-between">
-      <p>© {new Date().getFullYear()} {site.legalName} · Alle rechten voorbehouden</p>
-      <p>Cocina de España en tu mesa</p>
+  <div class="border-t border-crema/10">
+    <div class="shell flex flex-col gap-1 py-5 text-[0.875rem] text-crema-2 sm:flex-row sm:justify-between">
+      <p>© {new Date().getFullYear()} {site.legalName}</p>
+      <p lang="es">Cocina de España en tu mesa</p>
     </div>
   </div>
 </footer>

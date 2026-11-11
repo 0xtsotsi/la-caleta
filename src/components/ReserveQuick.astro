@@ -1,0 +1,33 @@
+---
+// Compacte versie van het reserveringsformulier: datum en gezelschap, daarna verder op /reserveren/.
+import { reservation } from '../data/site';
+import { withBase } from '../lib/urls';
+---
+
+<form action={withBase('/reserveren/')} method="get" class="grid gap-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end [color-scheme:dark]">
+  <div class="field">
+    <label for="snel-datum" class="field-label">Datum</label>
+    <input id="snel-datum" name="datum" type="date" class="field-input" data-min-today />
+  </div>
+  <div class="field">
+    <label for="snel-personen" class="field-label">Personen</label>
+    <select id="snel-personen" name="personen" class="field-input select">
+      {
+        Array.from({ length: reservation.maxGuests }, (_, i) => i + 1).map((n) => (
+          <option value={n} selected={n === 2}>
+            {n} {n === 1 ? 'persoon' : 'personen'}
+          </option>
+        ))
+      }
+      <option value="meer">Meer dan {reservation.maxGuests}</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-reserve">Kies een tijd</button>
+</form>
+
+<script>
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Amsterdam' }).format(new Date());
+  document.querySelectorAll<HTMLInputElement>('[data-min-today]').forEach((input) => {
+    input.min = today;
+  });
+</script>

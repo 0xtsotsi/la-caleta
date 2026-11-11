@@ -1,31 +1,54 @@
 ---
-import type { Dish } from '../data/site';
+import { type Dish, tagLabels } from '../data/site';
 
 interface Props {
   dishes: Dish[];
+  tone?: 'light' | 'dark';
   showTags?: boolean;
+  /** Toon de nummers zoals op de tapaskaart. */
+  start?: number;
+  columns?: 1 | 2;
 }
 
-const { dishes, showTags = false } = Astro.props;
+const { dishes, tone = 'light', showTags = true, start, columns = 1 } = Astro.props;
+const dark = tone === 'dark';
 ---
 
-<ul class="space-y-3.5">
+<ul class:list={['grid gap-x-12', columns === 2 && 'md:grid-cols-2']}>
   {
-    dishes.map((dish) => (
-      <li class="group">
+    dishes.map((dish, index) => (
+      <li
+        class:list={['border-b py-3.5', dark ? 'border-crema/15' : 'border-tinta/15']}
+        data-dish
+        data-tags={(dish.tags ?? []).join(' ')}
+      >
         <div class="dish-row">
-          <span class="font-medium text-tinta">{dish.name}</span>
-          {dish.price && <span class="shrink-0 font-medium text-rojo">{dish.price}</span>}
+          <span class:list={['font-medium', dark ? 'text-crema' : 'text-tinta']}>
+            {start !== undefined && (
+              <span class:list={['mr-2 tabular-nums', dark ? 'text-cobre' : 'text-terracota']}>
+                {start + index}
+              </span>
+            )}
+            {dish.name}
+          </span>
+          {dish.price && (
+            <span class:list={['dish-price font-medium', dark ? 'text-cobre' : 'text-terracota']}>
+              {dish.price}
+            </span>
+          )}
         </div>
-        {dish.description && (
-          <p class="mt-1 text-sm leading-relaxed text-tinta/60">{dish.description}</p>
-        )}
-        {showTags && dish.tags && dish.tags.length > 0 && (
-          <p class="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-[0.62rem] tracking-[0.16em] uppercase text-tinta/45">
-            {dish.tags.includes('vegetarian') && <span>Vegetarisch</span>}
-            {dish.tags.includes('fish') && <span>Vis</span>}
-            {dish.tags.includes('meat') && <span>Vlees</span>}
-            {dish.tags.includes('chicken') && <span>Kip</span>}
+        {(dish.description || (showTags && dish.tags?.length)) && (
+          <p class:list={['mt-1 text-[0.9375rem] leading-snug', dark ? 'text-crema-2' : 'text-tinta-2']}>
+            {dish.description}
+            {showTags && dish.tags?.length ? (
+              <span class="whitespace-nowrap">
+                {dish.description && ' '}
+                <span class="sr-only">Soort: </span>
+                <span class="text-[0.8125rem]">
+                  ({dish.tags.map((tag) => tagLabels[tag].toLowerCase()).join(', ')})
+                </span>
+              </span>
+            ) : null}
           </p>
         )}
       </li>

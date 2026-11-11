@@ -13,7 +13,8 @@
       "!**/node_modules",
       "!src/**/*.astro",
       "!social/.tmp",
-      "!social/fonts"
+      "!social/fonts",
+      "!tools"
     ]
   },
   "formatter": {

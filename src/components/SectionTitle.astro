@@ -1,54 +1,23 @@
 ---
 interface Props {
-  eyebrow?: string;
-  script?: string;
+  /** Alleen gebruiken als het een echte categorie noemt (dag, rubriek). */
+  label?: string;
   title: string;
   intro?: string;
-  align?: 'left' | 'center';
-  tone?: 'dark' | 'light';
+  tone?: 'light' | 'dark';
+  as?: 'h1' | 'h2';
+  id?: string;
 }
 
-const {
-  eyebrow,
-  script,
-  title,
-  intro,
-  align = 'left',
-  tone = 'dark',
-} = Astro.props;
+const { label, title, intro, tone = 'light', as: Tag = 'h2', id } = Astro.props;
+const dark = tone === 'dark';
 ---
 
-<div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center']}>
-  {
-    script && (
-      <p class={`font-script text-3xl md:text-4xl ${tone === 'dark' ? 'text-rojo' : 'text-dorado'}`}>
-        {script}
-      </p>
-    )
-  }
-  {
-    eyebrow && (
-      <p class={`eyebrow mt-3 ${tone === 'dark' ? 'text-tinta/50' : 'text-crema/60'}`}>{eyebrow}</p>
-    )
-  }
-  <h2
-    class:list={[
-      'mt-3 font-display text-4xl leading-[1.02] font-medium md:text-6xl',
-      tone === 'dark' ? 'text-tinta' : 'text-crema',
-    ]}
-  >
+<div class="max-w-2xl">
+  {label && <p class:list={['label', dark ? 'text-cobre' : 'text-terracota']}>{label}</p>}
+  <Tag id={id} class:list={['display-l', label && 'mt-3', dark ? 'text-crema' : 'text-tinta']}>
     {title}
-  </h2>
-  {
-    intro && (
-      <p
-        class:list={[
-          'mt-5 text-base leading-relaxed',
-          tone === 'dark' ? 'text-tinta/70' : 'text-crema/75',
-        ]}
-      >
-        {intro}
-      </p>
-    )
-  }
+  </Tag>
+  {intro && <p class:list={['lede mt-5', dark ? 'text-crema-2' : 'text-tinta-2']}>{intro}</p>}
+  <slot />
 </div>

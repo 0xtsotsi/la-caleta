@@ -1,0 +1,54 @@
+---
+import OpeningHours from '../components/OpeningHours.astro';
+import ReserveForm from '../components/ReserveForm.astro';
+import { paellaNote, reservation, site, tapasDay } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/urls';
+---
+
+<BaseLayout
+  title="Reserveren"
+  description="Reserveer een tafel bij Restaurant La Caleta in Rozenburg. Kies een datum, tijd en het aantal personen; wij bevestigen per e-mail of telefoon."
+  transparentHeader={false}
+>
+  <section class="on-dark glow-host pt-28 pb-16 md:pt-36 md:pb-24">
+    <div class="glow" data-glow aria-hidden="true"></div>
+    <div class="shell">
+      <h1 class="display-l max-w-2xl text-crema" data-lines>
+        <span class="line"><span>Reserveer een tafel</span></span>
+        <span class="line"><span class="italic">aan het Raadhuisplein</span></span>
+      </h1>
+      <div class="mt-12 grid gap-14 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
+        <div class="bg-espresso-2 p-5 sm:p-8 md:p-10">
+          <ReserveForm />
+        </div>
+        <aside class="space-y-10 text-[0.9375rem]" aria-label="Goed om te weten">
+          <div>
+            <h2 class="display-m text-[1.75rem] text-crema">Openingstijden</h2>
+            <div class="mt-3"><OpeningHours tone="dark" /></div>
+            <p class="mt-3 text-crema-2">De warme keuken sluit om {reservation.kitchenCloses}.</p>
+          </div>
+          <div>
+            <h2 class="display-m text-[1.75rem] text-crema">Tapasdag</h2>
+            <p class="mt-2 text-crema-2">
+              {tapasDay.days}, {tapasDay.price} per persoon. Inloop tussen {tapasDay.walkIn.from} en{' '}
+              {tapasDay.walkIn.until}. <a href={withBase('/tapas/')} class="link-text text-crema">Lees de regels</a>
+            </p>
+          </div>
+          <div>
+            <h2 class="display-m text-[1.75rem] text-crema">Paella</h2>
+            <p class="mt-2 text-crema-2">{paellaNote} Zet het in de opmerking.</p>
+          </div>
+          <div>
+            <h2 class="display-m text-[1.75rem] text-crema">Groepen</h2>
+            <p class="mt-2 text-crema-2">
+              Meer dan {reservation.maxGuests} personen, of het restaurant afhuren? Bel{' '}
+              <a href={site.phoneHref} class="link-text text-crema">{site.phone}</a>, dan maken we een
+              arrangement op maat.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

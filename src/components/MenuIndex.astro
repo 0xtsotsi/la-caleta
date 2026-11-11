@@ -1,0 +1,164 @@
+---
+interface Props {
+  categories: { id: string; label: string }[];
+}
+
+const { categories } = Astro.props;
+const filters = [
+  { value: 'all', label: 'Alles' },
+  { value: 'vegetarian', label: 'Vegetarisch' },
+  { value: 'fish', label: 'Vis' },
+  { value: 'meat', label: 'Vlees en kip' },
+];
+---
+
+<aside class="menu-aside" data-menu-index>
+  <div class="js-only menu-filter" role="group" aria-labelledby="filter-label">
+    <p id="filter-label" class="label text-tinta-2">Toon</p>
+    <div class="mt-3 flex flex-wrap gap-2">
+      {
+        filters.map((filter) => (
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter={filter.value}
+            aria-pressed={filter.value === 'all' ? 'true' : 'false'}
+          >
+            {filter.label}
+          </button>
+        ))
+      }
+    </div>
+    <p class="mt-3 text-[0.9375rem] text-tinta-2" aria-live="polite" data-filter-status></p>
+  </div>
+
+  <nav class="menu-nav" aria-label="Rubrieken van de kaart">
+    <ol class="menu-nav-list">
+      {
+        categories.map((category) => (
+          <li>
+            <a href={`#${category.id}`} class="menu-nav-link" data-index-link={category.id}>
+              {category.label}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+</aside>
+
+<style>
+  .menu-aside {
+    display: contents;
+  }
+
+  .menu-filter {
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-btn {
+    min-height: 2.75rem;
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--color-line);
+    font-size: 0.9375rem;
+    color: var(--color-tinta);
+    transition:
+      background-color var(--duration-quick) ease,
+      color var(--duration-quick) ease,
+      border-color var(--duration-quick) ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-tinta);
+  }
+
+  .filter-btn[aria-pressed='true'] {
+    background-color: var(--color-tinta);
+    border-color: var(--color-tinta);
+    color: var(--color-crema);
+  }
+
+  .menu-nav {
+    position: sticky;
+    top: 4.5rem;
+    z-index: 10;
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+    background-color: var(--color-crema);
+    border-bottom: 1px solid oklch(0.23 0.022 50 / 0.15);
+  }
+
+  .menu-nav-list {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .menu-nav-link {
+    display: block;
+    padding-block: 0.85rem;
+    white-space: nowrap;
+    font-size: 0.9375rem;
+    color: var(--color-tinta-2);
+    border-bottom: 2px solid transparent;
+    transition:
+      color var(--duration-quick) ease,
+      border-color var(--duration-quick) ease;
+  }
+
+  .menu-nav-link:hover,
+  .menu-nav-link[aria-current='true'] {
+    color: var(--color-tinta);
+    border-bottom-color: var(--color-terracota);
+  }
+
+  .menu-nav-link[data-empty='true'] {
+    opacity: 0.45;
+  }
+
+  @media (min-width: 768px) {
+    .menu-nav {
+      top: 5rem;
+      margin-inline: -2.5rem;
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .menu-aside {
+      display: block;
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+    }
+
+    .menu-nav {
+      position: static;
+      margin-inline: 0;
+      padding-inline: 0;
+      background: none;
+      border-bottom: 0;
+      margin-top: 2rem;
+    }
+
+    .menu-nav-list {
+      flex-direction: column;
+      gap: 0;
+      overflow: visible;
+      border-left: 1px solid oklch(0.23 0.022 50 / 0.15);
+    }
+
+    .menu-nav-link {
+      padding: 0.45rem 0 0.45rem 1rem;
+      margin-left: -1px;
+      border-bottom: 0;
+      border-left: 2px solid transparent;
+    }
+
+    .menu-nav-link:hover,
+    .menu-nav-link[aria-current='true'] {
+      border-left-color: var(--color-terracota);
+    }
+  }
+</style>

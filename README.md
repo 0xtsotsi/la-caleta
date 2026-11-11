@@ -1,180 +1,173 @@
-# Restaurant La Caleta — website
+# Restaurant La Caleta: website
 
-Een nieuw websiteconcept voor **Restaurant La Caleta** (Raadhuisplein 4a, Rozenburg), een Spaans
-restaurant. De huidige site is een Weebly-pagina; dit project is de voorgestelde vervanging.
+Nieuwe website voor **Restaurant La Caleta**, Raadhuisplein 4a in Rozenburg: een Spaans
+restaurant met tapas, grill, vis en paella. De huidige site (lacaleta.nl) is een Weebly-pagina
+met alleen kaartscans; deze site zet de hele kaart als tekst online en voegt een eigen
+reserveringsformulier toe.
 
-De opzet is geïnspireerd door [otrarestaurant.com](https://otrarestaurant.com/) (strakke typografie,
-volledige beeldhero, rustige voettekst) gecombineerd met de identiteit van La Caleta: Spaans rode
-en crème kleurstelling, het script-logo en Andalusische beelden.
-
-## Stack
-
-| Onderdeel    | Keuze                                                                          |
-| ------------ | ------------------------------------------------------------------------------ |
-| Framework    | [Astro 7](https://astro.build) — statische output, geen client-side JS nodig   |
-| Styling      | Tailwind CSS 4 + custom design tokens in `src/styles/global.css`               |
-| Fonts        | Cormorant Garamond, Jost en Dancing Script (via `@fontsource`, lokaal gehost)  |
-| Afbeeldingen | `astro:assets` — automatische WebP-conversie en responsive `srcset`            |
-| SEO          | Per pagina meta tags, Open Graph, `schema.org/Restaurant` (JSON-LD) en sitemap |
-
-## Starten
-
-```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # statische site naar dist/
-npm run preview  # bouwresultaat lokaal bekijken
-npm run check    # typecheck (astro check)
-```
-
-## Structuur
-
-```
-src/
-├── assets/images/      foto's van het restaurant (van de huidige site) + menukaarten
-├── components/         Header, Footer, Hero, PageHero, SectionTitle, DishList, …
-├── data/site.ts        ⭐ alle restaurantgegevens, openingstijden, gerechten en acties
-├── layouts/            BaseLayout (head, meta, JSON-LD, header/footer)
-├── pages/              index, menu, tapas, over-ons, acties, contact
-└── styles/global.css   design tokens (kleuren, typografie) en componentklassen
-```
-
-## Social media
-
-De map `social/` bevat kant-en-klare social assets in de huisstijl van de site.
-
-| Bestand                                        | Formaat | Gebruik                    |
-| ---------------------------------------------- | ------- | -------------------------- |
-| `posts/instagram-feed-1080x1350.jpg`           | 4:5     | Instagram-feed (1080×1350) |
-| `posts/instagram-square-1080x1080.jpg`         | 1:1     | Instagram vierkant         |
-| `posts/instagram-story-1080x1920.jpg`          | 9:16    | Instagram story            |
-| `posts/instagram-feed-interieur-1080x1350.jpg` | 4:5     | Het restaurant zelf        |
-| `posts/instagram-feed-paella-1080x1350.jpg`    | 4:5     | Paella                     |
-| `posts/facebook-banner-1200x630.jpg`           | 1.91:1  | Facebook-banner            |
-| `posts/la-caleta-reel-1080x1920.mp4`           | 9:16    | Reel/TikTok (14 sec)       |
-| `posts/la-caleta-reel-1920x1080.mp4`           | 16:9    | Facebook/YouTube (14 sec)  |
-
-De bijbehorende teksten staan in `social/CAPTIONS.md`.
-
-### Opnieuw genereren
-
-```bash
-npm run social:posts              # alle beelden
-npm run social:video              # verticale reel
-npm run social:video:landscape    # liggende video
-```
-
-De scripts gebruiken Chromium (via Playwright) en ffmpeg. De beelden worden opgebouwd uit
-HTML/CSS en de video uit losse frames die ffmpeg tot een filmpje voegt.
-
-## Sfeer en beweging
-
-De site is opgebouwd rond warmte: Spaanse rode en goud-tinten, een donkere kaarslicht-glans over de
-donkere secties en een zachte fade-in van de inhoud zodra die in beeld komt.
-
-| Wat                  | Waar                                                                         |
-| -------------------- | ---------------------------------------------------------------------------- |
-| Fade-in bij scrollen | `src/scripts/motion.ts` — IntersectionObserver, met vertraging per element   |
-| Parallax in de hero  | `[data-parallax]` op het beeld in `Hero.astro`                               |
-| Kaarten die opveren  | `.lift` in `src/styles/global.css`                                           |
-| Ankers per sectie    | `#intro`, `#specialiteiten`, `#favoritos`, `#acties`, `#ambiente`, `#visita` |
-
-Alle bewegingen schakelen automatisch uit bij `prefers-reduced-motion`. Zonder JavaScript blijft
-alle tekst zichtbaar (de reveal-stijlen hangen aan een `.js` klasse die alleen door JavaScript wordt
-gezet).
-
-## Links en het basispad
-
-De site draait op GitHub Pages in de map `/la-caleta`, maar later waarschijnlijk op het eigen
-domein van het restaurant. Daarom loopt elke interne link via de helper `withBase` uit
-`src/lib/urls.ts`:
-
-```astro
----
-import { withBase } from '../lib/urls';
----
-<a href={withBase('/menu/')}>Menu</a>
-```
-
-**Schrijf nooit `href="/menu/"` maar `href={withBase('/menu/')}`.** Een kale `href="/menu/"`
-verwijst naar de root van het domein en geeft op GitHub Pages een 404, omdat de site daar in een
-submap staat. In `astro.config.mjs` staat de `base`, in `src/lib/urls.ts` wordt die toegepast.
-
-## Content beheren
-
-Alles wat te maken heeft met de inhoud staat in **`src/data/site.ts`**:
-
-- **Openingstijden** — `openingHours` (dag, open, dicht)
-- **Gerechten** — `starters`, `tapasPriced`, `tapasCold`, `tapasWarm`, `meatFromTheGrill`, `fish`,
-  `desserts`, `wines`
-- **Acties** — `acts` (tapasdag, seniorenmenu, 12-uurtje)
-- **Contactgegevens** — `site` (telefoon, e-mail, adres, social links)
-- **Structured data** — `jsonLd` ( Restaurant-schema voor lokale SEO)
+- Ontwerp en keuzes: [`DESIGN.md`](DESIGN.md)
+- De opdracht, de bronnen en wat er is waargemaakt: [`OPDRACHT.md`](OPDRACHT.md)
+- Herkomst en licentie van alle beelden: [`BEELD.md`](BEELD.md)
 
 ## De live site
 
-**https://jalvdbroek-ship-it.github.io/la-caleta/**
+**https://0xtsotsi.github.io/la-caleta/** (preview op GitHub Pages)
 
-De site staat op GitHub en draait op GitHub Pages. Bij elke push naar `main` wordt de site
-automatisch opnieuw gebouwd en staat de wijziging binnen een minuut live — precies zoals bij je
-andere sites.
+Let op: deze redesign is alleen lokaal gebouwd en nog **niet gepusht**. De live preview toont
+de vorige versie tot er naar `main` wordt gepusht.
 
-| Pagina   | Link                                                     |
-| -------- | -------------------------------------------------------- |
-| Home     | https://jalvdbroek-ship-it.github.io/la-caleta/          |
-| Menu     | https://jalvdbroek-ship-it.github.io/la-caleta/menu/     |
-| Tapas    | https://jalvdbroek-ship-it.github.io/la-caleta/tapas/    |
-| Over ons | https://jalvdbroek-ship-it.github.io/la-caleta/over-ons/ |
-| Acties   | https://jalvdbroek-ship-it.github.io/la-caleta/acties/   |
-| Contact  | https://jalvdbroek-ship-it.github.io/la-caleta/contact/  |
+## De site lokaal openen
 
-> **Let op:** GitHub Pages kan op een gratis account alleen voor openbare repos. De repo
-> `jalvdbroek-ship-it/la-caleta` is daarom openbaar, net als je andere websites.
+```bash
+npm install
+npm run dev        # http://localhost:4321
+npm run build      # statische site naar dist/
+npm run preview    # bouwresultaat bekijken
+```
 
-## Deployment
+Om precies na te bootsen wat GitHub Pages bouwt (met het basispad `/la-caleta/`):
 
-De site bouwt naar een volledig statische `dist/`. Elke statische host werkt:
+```bash
+DEPLOY_BASE=la-caleta SITE_URL=https://0xtsotsi.github.io/la-caleta npm run build
+npx astro preview --port 4173   # http://localhost:4173/la-caleta/
+```
 
-- **Netlify** — build command `npm run build`, publish directory `dist`
-- **Vercel** — framework preset "Astro"
-- **GitHub Pages** — al ingericht via `.github/workflows/deploy.yml` (zie hierboven)
+Schrijf `DEPLOY_BASE` zonder voorloopslash; Git Bash op Windows maakt van `/la-caleta` een
+systeempad.
 
-## Open punten voor de klant
+## Pagina's
 
-1. **Sluitingstijden** — de huidige site vermeldt alleen de openingstijd. In de JSON-LD en in de
-   openingstijden-tabel is aangevuld met een sluitingstijd van 22:00 (gebaseerd de directory
-   vermelding "11:00 tot 22:00"). Even verifiëren.
-2. **Reserveringsformulier** — verstuurt via `mailto:` naar `info@lacaleta.nl`; er is geen backend.
-   Kan later gekoppeld worden aan een reserveringssysteem of formulierdienst.
-3. **Social links** — in `src/data/site.ts` staan nog placeholders; de echte Facebook- en
-   Instagram-URL's invullen.
-4. **Menukaarten** — de scans van de menukaarten staan in `src/assets/images/menu-kaart-*.jpg` en
-   worden op de menupagina getoond. Een nette, doorlopende tekstversie staat er óók bij, zodat de
-   keuze en prijzen op één plek staan.
-5. **Nieuwe foto's** — de meeste foto's zijn 400px breed (afkomstig van de huidige site). Voor een
-   scherpere site zijn hogere resolutes aan te bevelen.
-6. **Privacyverklaring** — toe te voegen zodra er een cookiebanner of analytics komt.
+| Pagina                    | Wat erop staat                                                                                                                               |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home `/`                  | Hero met sfeerfoto in de boog, verhaal (lunch, tapas, grill, wijn), tapasdag, greep uit de kaart, ligging en openingstijden, snel reserveren |
+| Menu `/menu/`             | De hele kaart met prijzen, meelopende index, filter (vegetarisch, vis, vlees), de papieren kaart als bijlage                                 |
+| Tapas `/tapas/`           | Tapasdag (€34,50), de regels, alle 32 tapas genummerd, Niños, sangria                                                                        |
+| Over ons `/over-ons/`     | Tijdlijn, de keuken, de award van 2018                                                                                                       |
+| Acties `/acties/`         | Tapasdag, seniorenmenu, 12-uurtje, groepen, afhuren, dieet, cadeaubon                                                                        |
+| Contact `/contact/`       | Telefoon, mail, adres, parkeren, VVV, kaart, openingstijden                                                                                  |
+| Reserveren `/reserveren/` | Formulier in drie stappen: datum en gezelschap, tijd, gegevens                                                                               |
 
-## Beeldmateriaal
+## Mapstructuur
 
-**Eigen foto's** — de foto's en menukaarten van het restaurant zelf zijn overgenomen van de huidige
-website (`lacaleta.nl`) en behoren toe aan Restaurant La Caleta. De originele bestanden waren maar
-400px breed; die zijn opgeschaald, verscherpt en voorzien van een fijne filmkorrel zodat ze niet
-wazig ogen.
+```
+src/
+├── assets/images/     foto's (eigen + stock-*), kaartscans
+├── components/        Header, Footer, MobileBar, Hero, PageHero, ArchImage, StoryScroll,
+│                      MenuIndex, DishList, OpeningHours, ReserveForm, ReserveQuick, Intermezzo, Icon
+├── data/site.ts       ⭐ alle inhoud: gegevens, tijden, de hele kaart, acties, punten om te bevestigen
+├── layouts/           BaseLayout (head, fonts, JSON-LD, scripts)
+├── lib/urls.ts        withBase(): elke interne link loopt hierdoor
+├── pages/             de 7 pagina's
+├── scripts/           motion.ts (GSAP), menu.ts (index + filter), reserve.ts (formulier),
+│                      open-today.ts ("vandaag open")
+└── styles/global.css  OKLCH-tokens en componentklassen
+tools/                 contrast, toegankelijkheid, inhoud, formulier en linkcontrole
+social/, scripts/      social-media-beelden (los van de site)
+```
 
-De hero op de homepage toont een tafel vol Spaanse tapas — meteen duidelijk dat dit een restaurant
-is. De zonsondergang over de baai van Cádiz (het beeld op de omslag van hun menukaart) staat als
-sfeer-intermezzo verderop de pagina (`src/components/Intermezzo.astro`).
+## Links en het basispad
 
-**Let op bij nieuwe foto's:** controleer de scherpte voordat je ze gebruikt. De meting in
-`sharp` op de Laplacian-variant geeft een score; boven ongeveer 500 is een foto bruikbaar op
-volledig scherm.
+De site draait op GitHub Pages in `/la-caleta/` en later op het eigen domein. Daarom loopt
+elke interne link via `withBase` uit `src/lib/urls.ts`:
 
-**Sfeerfoto's** — voor de sfeerbeelden op de homepage en de tapaspagina zijn foto's van Pexels
-gebruikt (gratis te gebruiken, geen credit verplicht). **Dit zijn ter illustratie: vervang ze door
-echt materiaal van het restaurant voordat de site live gaat.** De bestanden herken je aan de
-bestandsnamen `sfeer-*`, `tapas-*`, `bar-*`, `lunch-*`, `grill-*`, `paella-*`, `tafel-*` en
-`verse-vis.jpg`.
+```astro
+<a href={withBase('/menu/')}>Menu</a>
+```
 
-**Kleurgrading** — alle beelden zijn één keer warmtegraded (rode en groen iets omhoog, blauw omlaag)
-zodat de sfeer overal hetzelfde is.
+Schrijf nooit `href="/menu/"`. `npm run check:links` controleert dit over `dist/`.
+
+## Reserveringsformulier (Web3Forms)
+
+Het formulier verstuurt via [Web3Forms](https://web3forms.com) naar info@lacaleta.nl.
+
+1. Maak een gratis sleutel aan op web3forms.com met **info@lacaleta.nl**.
+2. Lokaal: kopieer `.env.example` naar `.env` en vul `PUBLIC_WEB3FORMS_KEY` in.
+3. GitHub Pages: zet de sleutel als repository-variabele `PUBLIC_WEB3FORMS_KEY`
+   (Settings > Secrets and variables > Actions > Variables). De workflow geeft hem door.
+
+Zonder sleutel verstuurt het formulier niets: de knop opent dan een vooringevulde e-mail en
+het telefoonnummer staat ernaast. Zonder JavaScript post het formulier direct naar Web3Forms
+(of opent het een mailto als er geen sleutel is).
+
+Tijdsloten volgen uit `openingHours` in `src/data/site.ts`: elk half uur vanaf opening tot
+21:00 (de warme keuken sluit om 21:30). Maandag, dinsdag en data in het verleden worden
+geweigerd. Online maximaal 12 personen; daarboven verschijnt een bel-melding.
+
+## Beweging
+
+GSAP 3.15.1 met ScrollTrigger en Flip, per pagina geladen via een dynamische import. Zie
+`DESIGN.md` voor wat er beweegt en waarom. Zonder JavaScript en bij `prefers-reduced-motion`
+staat alle inhoud direct in beeld. Onder 1024px geen vastgezette hero.
+
+## Controle
+
+```bash
+npm run check            # typecheck
+npm run lint             # Biome
+npm run contrast         # alle kleurparen uit DESIGN.md, minimaal 4.5:1
+npm run check:links      # na een build met DEPLOY_BASE=la-caleta
+URL=http://localhost:4173/la-caleta/ npm run check:a11y      # per pagina, ook /menu/ enz.
+URL=http://localhost:4173/la-caleta/ npm run check:content
+URL=http://localhost:4173/la-caleta/ npm run check:form      # Web3Forms wordt nagebootst
+```
+
+De a11y-, inhoud- en formulierchecks gebruiken Playwright (via `tools/browser.mjs`). Stand
+11-11-2026: alle zeven pagina's 27/27 en 5/5, formulier 11/11 zonder sleutel en 15/15 met een
+testsleutel, 289 interne links heel. Niet gedaan: een test met een echte schermlezer en met
+forced colors.
+
+## Content beheren
+
+Alles staat in `src/data/site.ts`: gegevens, `openingHours`, de hele kaart (lunch, entremeses,
+tapas, grill, vis, paella, kindermenu's, dessert, koffie, wijn), acties en de lijst
+`teBevestigen`. Bovenaan elke lijst staat van welke kaartscan hij komt.
+
+## Wat er staat vast
+
+- Adres, telefoon, e-mail, gratis parkeren, VVV-cadeaukaart, seniorenmenu: lacaleta.nl.
+- Alle gerechten en prijzen: overgetypt van de kaartscans en gecontroleerd (zie de
+  correcties in `OPDRACHT.md`).
+- 32 tapas op tapasdag, 17 jaar tot de overdracht, de award van 2018: kaart en oorkonde.
+
+## Wat je nog moet doen voor live gang
+
+**Laten bevestigen door de klant** (ook in `teBevestigen` in `src/data/site.ts`):
+
+- [ ] Jaar van de overdracht: de site en kaart zeggen 2024, het dossier december 2023.
+- [ ] "Sinds 2007": afgeleid uit 17 jaar tot 2024, staat nergens letterlijk.
+- [ ] Sluitingstijd 22:00 (Google) en de warme keuken tot 21:30 (tapaskaart).
+- [ ] Of de prijzen van de kaartscans nog kloppen.
+- [ ] Facebook `facebook.com/LaCaleta.nl` en Instagram `instagram.com/lacaletarozenburg`.
+- [ ] Google-score 4,4 uit 364 reviews (stand 1 november 2026): bijwerken bij livegang.
+- [ ] Mag de vader of dochter bij naam genoemd worden? Nu staat er geen naam.
+
+**Technisch:**
+
+- [ ] Web3Forms-sleutel aanmaken met info@lacaleta.nl en instellen (zie hierboven), daarna
+  één echte testreservering doen.
+- [ ] Stockbeelden vervangen door eigen foto's (`BEELD.md`), vooral `stock-*`, de hero-foto
+  (`stock-hero-bar.jpg`) en de sfeerbeelden uit de vorige ronde.
+- [ ] Eigen foto's in hogere resolutie: de huidige zijn 1200px of kleiner.
+- [ ] Privacyverklaring (het formulier verwerkt naam, telefoon en e-mail). Nog niet geschreven.
+- [ ] `public/og.jpg` vernieuwen in de nieuwe stijl.
+- [ ] Domein lacaleta.nl koppelen en `SITE_URL`/`DEPLOY_BASE` in de workflow aanpassen.
+- [ ] Pushen naar `main` (niet gedaan in deze ronde).
+
+## Techniek
+
+| Onderdeel    | Keuze                                                                                         |
+| ------------ | --------------------------------------------------------------------------------------------- |
+| Framework    | Astro 7, statische output                                                                     |
+| Styling      | Tailwind CSS 4 + OKLCH-tokens in `src/styles/global.css`                                      |
+| Fonts        | Cormorant Garamond, Jost, Dancing Script (alleen logo), lokaal via `@fontsource`              |
+| Beweging     | GSAP 3.15.1 (exact vastgezet) met ScrollTrigger en Flip                                       |
+| Formulier    | Web3Forms, terugval op mailto                                                                 |
+| Afbeeldingen | `astro:assets`, WebP met `srcset`                                                             |
+| SEO          | Meta per pagina, Open Graph, `schema.org/Restaurant` met `hasMenu` op het juiste pad, sitemap |
+| Iconen       | Lucide (ISC), inline in `src/components/Icon.astro`                                           |
+
+## Social media
+
+De map `social/` bevat kant-en-klare beelden en video's in de vorige huisstijl (rood en goud).
+Opnieuw genereren met `npm run social:posts`, `npm run social:video` en
+`npm run social:video:landscape`. Zie `social/README.md`.

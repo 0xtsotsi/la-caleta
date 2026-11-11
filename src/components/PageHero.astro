@@ -1,45 +1,41 @@
 ---
-import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import ArchImage from './ArchImage.astro';
 
 interface Props {
-  eyebrow?: string;
+  label?: string;
   title: string;
+  /** Tweede regel van de kop, cursief. */
+  titleItalic?: string;
   intro?: string;
   image: ImageMetadata;
   imageAlt: string;
   position?: string;
 }
 
-const { eyebrow, title, intro, image, imageAlt, position = 'center' } = Astro.props;
+const { label, title, titleItalic, intro, image, imageAlt, position } = Astro.props;
 ---
 
-<section class="relative isolate overflow-hidden bg-carbon">
-  <Image
-    src={image}
-    alt={imageAlt}
-    class="absolute inset-0 -z-10 h-full w-full object-cover"
-    widths={[768, 1280, 1920]}
-    sizes="100vw"
-    style={`object-position: ${position}`}
-  />
-  <div
-    class="absolute inset-0 -z-10 bg-gradient-to-r from-carbon/92 via-carbon/70 to-rojo-oscuro/55"
-  >
-  </div>
-  <div class="kaarslicht absolute inset-0 -z-10"></div>
-
-  <div class="shell pt-36 pb-20 text-crema md:pt-44 md:pb-28">
+<section class="on-dark glow-host pt-28 pb-14 md:pt-36 md:pb-20">
+  <div class="glow" data-glow aria-hidden="true"></div>
+  <div class="shell grid items-end gap-10 md:grid-cols-[1.15fr_0.85fr] md:gap-14">
     <div class="max-w-2xl">
-      {
-        eyebrow && <p class="eyebrow text-dorado-licht">{eyebrow}</p>
-      }
-      <h1 class="mt-4 font-display text-5xl leading-[1] font-medium md:text-7xl">{title}</h1>
-      {
-        intro && (
-          <p class="mt-6 max-w-xl text-base leading-relaxed text-crema/80 md:text-lg">{intro}</p>
-        )
-      }
+      {label && <p class="label text-cobre">{label}</p>}
+      <h1 class:list={['display-l text-crema', label && 'mt-4']} data-lines>
+        <span class="line"><span>{title}</span></span>
+        {titleItalic && <span class="line"><span class="italic">{titleItalic}</span></span>}
+      </h1>
+      {intro && <p class="lede mt-6 max-w-xl text-crema-2">{intro}</p>}
+      <slot />
     </div>
+    <ArchImage
+      image={image}
+      alt={imageAlt}
+      sizes="(min-width: 768px) 36vw, 88vw"
+      aspect="aspect-[4/5] md:aspect-[3/4]"
+      class="mx-auto w-full max-w-[22rem] md:max-w-none"
+      loading="eager"
+      position={position}
+    />
   </div>
 </section>

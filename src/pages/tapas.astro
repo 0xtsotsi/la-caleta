@@ -1,177 +1,130 @@
 ---
-import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-import DishList from '../components/DishList.astro';
-
-import heroImage from '../assets/images/tapas-bord.jpg';
-import keukenTapas from '../assets/images/sfeer-gasten.jpg';
-import tapasTafel from '../assets/images/tapas-tafel.jpg';
 import tapasKaart1 from '../assets/images/tapas-kaart-1.jpg';
 import tapasKaart2 from '../assets/images/tapas-kaart-2.jpg';
-
-import { site, tapasCold, tapasWarm } from '../data/site';
+import sangriaImg from '../assets/images/stock-sangria.jpg';
+import tapasCazuelas from '../assets/images/stock-tapas-cazuelas.jpg';
+import ArchImage from '../components/ArchImage.astro';
+import DishList from '../components/DishList.astro';
+import PageHero from '../components/PageHero.astro';
+import { facts, ninosTapas, sangria, site, tapasCold, tapasDay, tapasWarm } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/urls';
-
-const sangria = [
-  { name: 'Karaf (1 liter)', price: '€29' },
-  { name: 'Sangria rood', price: '€6,50' },
-  { name: 'Sangria wit', price: '€6,50' },
-];
-
-const regels = [
-  'Reserveren aanbevolen ivm voorgereiden',
-  'Inloop tussen 17:00 en 20:00 uur, ipv. het sluiten van onze warme keuken om 21:30 uur',
-  'Maximaal 2 tapas p.p. per ronde',
-  'Desserts niet inbegrepen',
-  'Drank niet inbegrepen',
-  'Wij serveren geen kraanwater',
-  'Bij teveel bestelde tapas brengen wij 2,50 per tapa in rekening',
-  'Alle gerechten worden geserveerd met brood',
-];
 ---
 
 <BaseLayout
-  title="Tapas"
-  description="Spaanse tapas bij Restaurant La Caleta in Rozenburg. Elke woensdag en donderdag een tapasdag, met koude en warme tapas, huisgemaakte sangria en Spaanse wijnen."
+  title="Tapas en tapasdag"
+  description={`Tapasdag bij La Caleta in Rozenburg: elke woensdag en donderdag ${facts.tapasCount} koude en warme tapas voor ${tapasDay.price} per persoon. Met de regels, het kindermenu en huisgemaakte sangria.`}
 >
   <PageHero
-    eyebrow="La Caleta · Tapas"
-    title="Tapas, zoals het hoort"
-    intro="In Spanje eet je tapas met een drankje aan de bar. Bij La Caleta serveren wij onze tapas ook bij de lunch en bij het diner — of wij brengen ze naar uw tafel."
-    image={heroImage}
-    imageAlt="Tapas op een houten tafel"
-  />
+    label="Tapas"
+    title="Tapas om te delen"
+    intro={`Elke dag los te bestellen. Op woensdag en donderdag is het tapasdag: kies uit ${facts.tapasCount} tapas, zo vaak als u wilt, voor ${tapasDay.price} per persoon.`}
+    image={tapasCazuelas}
+    imageAlt="Tapas in terracotta schaaltjes op een houten tafel"
+  >
+    <a href={withBase('/reserveren/')} class="btn btn-reserve mt-8">Reserveer voor tapasdag</a>
+  </PageHero>
 
-  <!-- Tapas dag -->
-  <section id="tapasdag" class="bg-rojo kaarslicht py-16 text-crema md:py-24">
-    <div class="shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-20">
+  <section class="section bg-arena" aria-labelledby="regels-title">
+    <div class="shell grid gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
       <div>
-        <p class="font-script text-3xl text-crema/85">Tapas dag</p>
-        <h2 class="mt-3 font-display text-4xl leading-[1.05] font-medium md:text-6xl">
-          Elke woensdag & donderdag
-        </h2>
-        <p class="mt-5 max-w-lg text-crema/80">
-          Een tafel vol Spaanse gerechten om samen te delen. Je eet zo veel je wilt, want bij de
-          tapasdag betaal je een vast bedrag per persoon. Onze huisgemaakte sangria en Spaanse wijnen
-          gaan er los bij.
+        <p class="label text-terracota">{tapasDay.days}</p>
+        <h2 id="regels-title" class="display-l mt-3 text-tinta">Zo werkt tapasdag</h2>
+        <p class="mt-6 flex items-baseline gap-3">
+          <span class="font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-none text-terracota">{tapasDay.price}</span>
+          <span class="text-tinta-2">per persoon</span>
         </p>
-        <p class="mt-8 font-display text-6xl leading-none font-medium">€34,50 <span class="text-2xl">p.p.</span></p>
-        <a href={withBase('/contact/#reserveren')} class="btn mt-8 bg-crema text-rojo hover:bg-crema-oscuro">
-          Reserveer voor de tapasdag
-        </a>
+        <p class="mt-4 text-tinta-2">Kleine eter? Dan stelt u zelf uw tapas samen van de losse kaart.</p>
       </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <Image
-          src={tapasTafel}
-          alt="Tapas op tafel bij kaarslicht"
-          class="aspect-square w-full object-cover"
-          widths={[320, 640]}
-          sizes="(min-width: 1024px) 20vw, 45vw"
-          loading="lazy"
-        />
-        <Image
-          src={keukenTapas}
-          alt="Bediening in de warme sfeer van La Caleta"
-          class="aspect-square w-full object-cover"
-          widths={[320, 640]}
-          sizes="(min-width: 1024px) 20vw, 45vw"
-          loading="lazy"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- Koude en warme tapas -->
-  <section id="tapaslijst" class="paper py-20 md:py-28">
-    <div class="shell">
-      <SectionTitle
-        script="para compartir"
-        eyebrow="Kies je favorieten"
-        title="Tapas frias & tapas calientes"
-        intro="Kies zelf wat je aan de bar of aan tafel wilt bestellen. Alles wordt vers bereid en met brood geserveerd."
-      />
-
-      <div class="mt-14 grid gap-x-16 gap-y-14 lg:grid-cols-[1fr_1.7fr]">
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Tapas frías</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Koude tapas</p>
-          <DishList dishes={tapasCold} showTags />
-        </div>
-        <div>
-          <h3 class="font-display text-3xl font-medium text-rojo">Tapas calientes</h3>
-          <p class="mb-6 mt-1 text-sm text-tinta/50">Warme tapas</p>
-          <div class="lg:columns-2 lg:gap-12">
-            <DishList dishes={tapasWarm} showTags />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Tapas kaarten -->
-  <section id="tapaskaarten" class="bg-carbon kaarslicht py-20 text-crema md:py-24">
-    <div class="shell">
-      <SectionTitle
-        script="la carta"
-        eyebrow="Tapas kaart"
-        title="Bekijk onze tapas kaarten"
-        tone="light"
-      />
-
-      <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <ol class="space-y-0 text-tinta">
         {
-          [tapasKaart1, tapasKaart2].map((kaart) => (
-            <Image
-              src={kaart}
-              alt="Tapas kaart van Restaurant La Caleta"
-              class="w-full shadow-2xl shadow-black/40"
-              widths={[480, 575]}
-              sizes="(min-width: 768px) 45vw, 90vw"
-              loading="eager"
-            />
+          tapasDay.rules.map((rule) => (
+            <li class="border-b border-tinta/15 py-3.5">{rule}</li>
           ))
         }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="alle-tapas-title">
+    <div class="shell">
+      <h2 id="alle-tapas-title" class="display-l max-w-2xl text-tinta">De {facts.tapasCount} tapas van tapasdag</h2>
+      <p class="lede mt-5 max-w-2xl text-tinta-2">Met het nummer bestelt u makkelijk bij de bediening. Alles komt met brood.</p>
+      <div class="mt-12 grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-16">
+        <div>
+          <h3 class="font-display text-[1.75rem] text-tinta">Koud <span class="italic text-tinta-2" lang="es">tapas frías</span></h3>
+          <div class="mt-3"><DishList dishes={tapasCold} start={1} /></div>
+        </div>
+        <div>
+          <h3 class="font-display text-[1.75rem] text-tinta">Warm <span class="italic text-tinta-2" lang="es">tapas calientes</span></h3>
+          <div class="mt-3"><DishList dishes={tapasWarm} start={tapasCold.length + 1} columns={2} /></div>
+        </div>
+      </div>
+      <p class="mt-10 text-[0.9375rem] text-tinta-2">
+        Allergie? Meld het ons, dan helpen we u graag. Losse tapas met prijzen staan op de{' '}
+        <a href={withBase('/menu/#tapas')} class="link-text text-terracota">menukaart</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="on-dark glow-host section" aria-labelledby="ninos-title">
+    <div class="glow" data-glow aria-hidden="true"></div>
+    <div class="shell grid gap-12 md:grid-cols-2 md:gap-20">
+      <div>
+        <p class="label text-cobre">Op tapasdag, {ninosTapas.age}</p>
+        <h2 id="ninos-title" class="display-l mt-3 text-crema" lang="es">Niños</h2>
+        <p class="mt-6 flex items-baseline gap-3">
+          <span class="font-display text-[clamp(3rem,6vw,4.5rem)] leading-none text-cobre">{ninosTapas.price}</span>
+          <span class="text-crema-2">per kind</span>
+        </p>
+      </div>
+      <div>
+        <p class="text-crema-2">Onder andere:</p>
+        <ul class="mt-3">
+          {ninosTapas.items.map((item) => <li class="border-b border-crema/15 py-3 text-crema">{item}</li>)}
+        </ul>
+        <p class="mt-6 text-[0.9375rem] text-crema-2">
+          Op de andere dagen is er een{' '}
+          <a href={withBase('/menu/#kinderen')} class="link-text text-crema">kindermenu tot en met 12 jaar</a>.
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- Sangria & regels -->
-  <section id="sangria" class="bg-crema-oscuro py-20 md:py-28">
-    <div class="shell grid gap-14 lg:grid-cols-2 lg:gap-20">
+  <section class="section" aria-labelledby="sangria-title">
+    <div class="shell grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr] md:gap-20">
+      <ArchImage image={sangriaImg} alt="Een glas witte sangria met aardbei en sinaasappel" sizes="(min-width: 768px) 32vw, 80vw" class="mx-auto w-full max-w-sm" />
       <div>
-        <SectionTitle
-          script="sangría"
-          eyebrow="Huisgemaakt"
-          title="Sangria, zoals in Spanje"
-          intro="Wij maken onze sangria zelf, met Spaanse wijn en fruit. Kies rood of wit — of neem een karaf van een liter om mee te nemen."
-        />
-
-        <div class="mt-10">
-          <DishList dishes={sangria} />
-        </div>
+        <h2 id="sangria-title" class="display-l text-tinta">Huisgemaakte sangria</h2>
+        <p class="lede mt-5 text-tinta-2">Rood of wit, fris en fruitig. Ook in een fles om mee naar huis te nemen.</p>
+        <div class="mt-6"><DishList dishes={sangria} /></div>
       </div>
+    </div>
+  </section>
 
-      <div>
-        <h3 class="font-display text-3xl font-medium text-rojo">Regels bij de tapas</h3>
-        <p class="mb-6 mt-1 text-sm text-tinta/50">Goed om te weten</p>
-        <ul class="space-y-3.5">
-          {
-            regels.map((regel) => (
-              <li class="flex gap-3 text-sm leading-relaxed text-tinta/70">
-                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-rojo" aria-hidden="true" />
-                {regel}
-              </li>
-            ))
-          }
-        </ul>
-        <p class="mt-8 text-sm text-tinta/55">
-          Wilt u weten wat de voorwaarden zijn? Bel ons gerust via{' '}
-          <a href={site.phoneHref} class="link-underline text-rojo">{site.phone}</a>.
-        </p>
-      </div>
+  <section class="section bg-arena" aria-labelledby="tapaskaart-title">
+    <div class="shell">
+      <h2 id="tapaskaart-title" class="display-m text-tinta">De tapaskaart op papier</h2>
+      <ul class="mt-8 grid max-w-2xl grid-cols-2 gap-5">
+        {
+          [
+            { image: tapasKaart1, label: 'Tapasdag: koude en warme tapas' },
+            { image: tapasKaart2, label: 'Sangria, regels en kindermenu' },
+          ].map((kaart) => (
+            <li>
+              <a href={kaart.image.src} target="_blank" rel="noopener" class="group block">
+                <img src={kaart.image.src} width={kaart.image.width} height={kaart.image.height} alt="" loading="lazy" class="w-full border border-tinta/15" />
+                <span class="mt-2 block text-[0.9375rem] text-tinta group-hover:underline">
+                  {kaart.label}<span class="sr-only"> (opent in een nieuw venster)</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-8 text-[0.9375rem] text-tinta-2">
+        Vragen over tapasdag? Bel <a href={site.phoneHref} class="link-text text-terracota">{site.phone}</a>.
+      </p>
     </div>
   </section>
 </BaseLayout>

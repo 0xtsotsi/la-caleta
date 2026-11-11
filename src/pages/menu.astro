@@ -1,14 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHero from '../components/PageHero.astro';
-import SectionTitle from '../components/SectionTitle.astro';
-import DishList from '../components/DishList.astro';
-
-import heroImage from '../assets/images/hero-cadiz.jpg';
-import lunchTwaalf from '../assets/images/lunch-12uurtje.jpg';
-import lunchServeren from '../assets/images/lunch-serveren.jpg';
-
 import menu01 from '../assets/images/menu-kaart-01.jpg';
 import menu02 from '../assets/images/menu-kaart-02.jpg';
 import menu04 from '../assets/images/menu-kaart-04.jpg';
@@ -22,230 +13,209 @@ import menu11 from '../assets/images/menu-kaart-11.jpg';
 import menu12 from '../assets/images/menu-kaart-12.jpg';
 import menu13 from '../assets/images/menu-kaart-13.jpg';
 import menu14 from '../assets/images/menu-kaart-14.jpg';
-import { withBase } from '../lib/urls';
-
+import lunch12 from '../assets/images/lunch-12uurtje.jpg';
+import lunchBaguettes from '../assets/images/lunch-baguettes.jpg';
+import lunchSalades from '../assets/images/lunch-salades.jpg';
+import churros from '../assets/images/stock-churros.jpg';
+import tafelSpaans from '../assets/images/tafel-spaans.jpg';
+import ArchImage from '../components/ArchImage.astro';
+import DishList from '../components/DishList.astro';
+import MenuIndex from '../components/MenuIndex.astro';
+import PageHero from '../components/PageHero.astro';
 import {
+  coffeeNote,
+  coffees,
   desserts,
   fish,
-  meatFromTheGrill,
+  grill,
+  lunch,
+  mainsNote,
+  ninos,
+  paella,
+  paellaNote,
+  salads,
   starters,
   tapasPriced,
+  twaalfUurtje,
   wines,
 } from '../data/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/urls';
 
-const kaarten = [
-  { image: menu01, label: 'Omslag' },
-  { image: menu02, label: 'Welkom' },
-  { image: menu04, label: 'Groepen' },
-  { image: menu05, label: 'Entremeses' },
-  { image: menu06, label: 'Meat guide' },
-  { image: menu07, label: 'Carne & plancha' },
-  { image: menu08, label: 'Pescados' },
-  { image: menu09, label: 'Menukaart' },
-  { image: menu10, label: 'Tapas' },
-  { image: menu11, label: 'Menukaart' },
-  { image: menu12, label: 'Dessert & koffie' },
-  { image: menu13, label: 'Helados' },
-  { image: menu14, label: 'Wijnkaart' },
+const categories = [
+  { id: 'lunch', label: 'Lunch' },
+  { id: 'voorgerechten', label: 'Voorgerechten' },
+  { id: 'tapas', label: 'Tapas' },
+  { id: 'grill', label: 'Van de grill' },
+  { id: 'vis', label: 'Vis en vegetarisch' },
+  { id: 'paella', label: 'Paella' },
+  { id: 'kinderen', label: 'Kindermenu' },
+  { id: 'dessert', label: 'Dessert en ijs' },
+  { id: 'koffie', label: 'Koffie met' },
+  { id: 'wijn', label: 'Wijn en sangria' },
+  { id: 'kaarten', label: 'De papieren kaart' },
 ];
 
-const lunch = [
-  { name: 'Soep van de dag', description: 'Met brood', price: '€8,00' },
-  { name: 'Griekse yoghurt met granola en honing', description: '', price: '€7,50' },
-  { name: 'Baguette kaas', description: '', price: '€5,50' },
-  { name: 'Uitsmiiter kaas', description: '', price: '€9,00' },
-  { name: 'Baguette gezond', description: '', price: '€8,00' },
-  { name: 'Uitsmiiter ham kaas', description: '', price: '€10,25' },
-  { name: 'Baguette Serranoham', description: '', price: '€8,00' },
-  { name: 'Baguette brie wit', description: 'Met honing en walnoten', price: '€10,50' },
-  { name: 'Baguette gekookt ei', description: '', price: '€5,50' },
-  { name: 'Baguette frikandel speciaal', description: '', price: '€7,00' },
+const scans = [
+  { image: menu01, label: 'Omslag' },
+  { image: menu02, label: 'Welkom' },
+  { image: menu04, label: 'Groepen en cadeaubon' },
+  { image: menu05, label: 'Voorgerechten' },
+  { image: menu06, label: 'Vleesgids' },
+  { image: menu07, label: 'Vlees van de grill' },
+  { image: menu08, label: 'Vis en vegetarisch' },
+  { image: menu09, label: 'Paella en kindermenu' },
+  { image: menu10, label: 'Tapas' },
+  { image: menu11, label: 'Tapas en regels' },
+  { image: menu12, label: 'Dessert en koffie' },
+  { image: menu13, label: 'IJs' },
+  { image: menu14, label: 'Wijnkaart' },
+  { image: lunch12, label: 'Lunch: 12-uurtje' },
+  { image: lunchBaguettes, label: 'Lunch: broodjes' },
+  { image: lunchSalades, label: 'Lunch: salades' },
 ];
 ---
 
 <BaseLayout
   title="Menukaart"
-  description="De menukaart van Restaurant La Caleta: Spaanse tapas, entremeses, vlees van de grill, verse vis, desserten en Spaanse wijnen."
+  description="De hele kaart van Restaurant La Caleta in Rozenburg met prijzen: lunch, tapas, vlees van de grill, vis, paella, kindermenu, dessert en Spaanse wijn."
 >
   <PageHero
-    eyebrow="La Caleta · Menukaart"
-    title="Cocina de España en tu mesa"
-    intro="Van koude en warme tapas tot het beste vlees en de beste vis van de grill. Alles wordt in olijfolie bereid, met Spaanse wijnen en een Kaartje koffie of sangria erbij."
-    image={heroImage}
-    imageAlt="Zonsondergang over de baai van La Caleta in Cadiz"
+    label="Menukaart"
+    title="De hele kaart,"
+    titleItalic="met prijzen"
+    intro={`Lunch vanaf 11:00 en diner tot de warme keuken sluit om 21:30. ${mainsNote.split('.')[0]}.`}
+    image={tafelSpaans}
+    imageAlt="Tapas en een glas rode wijn op een houten tafel"
   />
 
-  <!-- Menukaarten -->
-  <section id="menukaarten" class="bg-carbon kaarslicht py-20 text-crema md:py-24">
-    <div class="shell">
-      <div class="flex flex-wrap items-end justify-between gap-6">
-        <SectionTitle
-          script="menú"
-          eyebrow="Onze menukaarten"
-          title="Swipe om de menukaart te bekijken"
-          tone="light"
-        />
-        <p class="max-w-sm text-sm leading-relaxed text-crema/60">
-          Onze menukaart is ook als pdf verkrijgbaar bij de host. Vraag er gerust naar.
+  <div class="section pt-10 md:pt-14">
+    <div class="shell grid grid-cols-[minmax(0,1fr)] gap-x-16 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <MenuIndex categories={categories} />
+
+      <div class="min-w-0 space-y-16 md:space-y-20" data-menu-list>
+        <section id="lunch" data-menu-section aria-labelledby="h-lunch" class="scroll-mt-36">
+          <h2 id="h-lunch" class="display-m text-tinta">Lunch</h2>
+          <div class="mt-6 border-l-2 border-terracota pl-5" data-dish data-tags="">
+            <p class="dish-row text-[1.125rem]">
+              <span class="font-medium">12-uurtje</span>
+              <span class="dish-price font-medium text-terracota">{twaalfUurtje.price}</span>
+            </p>
+            <p class="mt-1 text-tinta-2">{twaalfUurtje.body}</p>
+          </div>
+          <p class="mt-6 text-[0.9375rem] text-tinta-2">Brood naar keuze: bruin, wit of glutenvrij.</p>
+          <div class="mt-4"><DishList dishes={lunch} columns={2} /></div>
+          <h3 class="mt-12 font-display text-[1.75rem] text-tinta">Maaltijdsalades en lunchplanken</h3>
+          <div class="mt-3"><DishList dishes={salads} columns={2} /></div>
+        </section>
+
+        <section id="voorgerechten" data-menu-section aria-labelledby="h-voor" class="scroll-mt-36">
+          <h2 id="h-voor" class="display-m text-tinta">Voorgerechten <span class="italic text-tinta-2" lang="es">entremeses</span></h2>
+          <div class="mt-6"><DishList dishes={starters} columns={2} /></div>
+        </section>
+
+        <section id="tapas" data-menu-section aria-labelledby="h-tapas" class="scroll-mt-36">
+          <h2 id="h-tapas" class="display-m text-tinta">Tapas</h2>
+          <p class="mt-3 max-w-2xl text-tinta-2">
+            Los te bestellen, elke dag. Op woensdag en donderdag is het{' '}
+            <a href={withBase('/tapas/')} class="link-text text-terracota">tapasdag</a>: onbeperkt voor €34,50.
+          </p>
+          <div class="mt-6"><DishList dishes={tapasPriced} columns={2} /></div>
+        </section>
+
+        <section id="grill" data-menu-section aria-labelledby="h-grill" class="scroll-mt-36">
+          <h2 id="h-grill" class="display-m text-tinta">Van de grill <span class="italic text-tinta-2" lang="es">a la plancha</span></h2>
+          <p class="mt-3 max-w-2xl text-tinta-2">{mainsNote}</p>
+          <div class="mt-6"><DishList dishes={grill} columns={2} /></div>
+        </section>
+
+        <section id="vis" data-menu-section aria-labelledby="h-vis" class="scroll-mt-36">
+          <h2 id="h-vis" class="display-m text-tinta">Vis en vegetarisch</h2>
+          <div class="mt-6"><DishList dishes={fish} columns={2} /></div>
+        </section>
+
+        <section id="paella" data-menu-section aria-labelledby="h-paella" class="scroll-mt-36">
+          <h2 id="h-paella" class="display-m text-tinta">Paella</h2>
+          <p class="mt-3 max-w-2xl text-tinta-2">{paellaNote} Vanaf €22,50 per persoon.</p>
+          <div class="mt-6"><DishList dishes={paella} columns={2} /></div>
+        </section>
+
+        <section id="kinderen" data-menu-section aria-labelledby="h-kinderen" class="scroll-mt-36">
+          <h2 id="h-kinderen" class="display-m text-tinta">Kindermenu <span class="italic text-tinta-2">tot en met 12 jaar</span></h2>
+          <p class="mt-3 max-w-2xl text-tinta-2">
+            Liever niet lang wachten? Het kindermenu kan samen met de voorgerechten komen. Zeg het even
+            tegen de bediening.
+          </p>
+          <div class="mt-6"><DishList dishes={ninos} columns={2} /></div>
+        </section>
+
+        <section id="dessert" data-menu-section aria-labelledby="h-dessert" class="scroll-mt-36">
+          <div class="grid gap-10 md:grid-cols-[1fr_14rem] md:items-start">
+            <div>
+              <h2 id="h-dessert" class="display-m text-tinta">Dessert en ijs <span class="italic text-tinta-2" lang="es">postres</span></h2>
+              <div class="mt-6"><DishList dishes={desserts} showTags={false} /></div>
+            </div>
+            <ArchImage
+              image={churros}
+              alt="Churros met suiker en een kopje chocolade"
+              sizes="(min-width: 768px) 14rem, 70vw"
+              widths={[320, 640]}
+              class="mx-auto w-full max-w-[16rem] md:sticky md:top-28"
+            />
+          </div>
+        </section>
+
+        <section id="koffie" data-menu-section aria-labelledby="h-koffie" class="scroll-mt-36">
+          <h2 id="h-koffie" class="display-m text-tinta">Koffie met een scheut</h2>
+          <p class="mt-3 text-tinta-2">{coffeeNote}</p>
+          <div class="mt-6"><DishList dishes={coffees} columns={2} showTags={false} /></div>
+        </section>
+
+        <section id="wijn" data-menu-section aria-labelledby="h-wijn" class="scroll-mt-36">
+          <h2 id="h-wijn" class="display-m text-tinta">Wijn en sangria</h2>
+          <p class="mt-3 text-tinta-2">Per fles, tenzij er een glasprijs bij staat.</p>
+          <div class="mt-6"><DishList dishes={wines} columns={2} showTags={false} /></div>
+        </section>
+
+        <section id="kaarten" data-menu-section data-menu-static aria-labelledby="h-kaarten" class="scroll-mt-36">
+          <h2 id="h-kaarten" class="display-m text-tinta">De papieren kaart</h2>
+          <p class="mt-3 max-w-2xl text-tinta-2">
+            Zo ligt de kaart in het restaurant op tafel. Klik op een pagina om hem groot te openen.
+          </p>
+          <ul class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {
+              scans.map((scan) => (
+                <li>
+                  <a href={scan.image.src} class="group block" target="_blank" rel="noopener">
+                    <span class="zoom-frame block border border-tinta/15">
+                      <Image
+                        src={scan.image}
+                        alt=""
+                        widths={[240, 480]}
+                        sizes="(min-width: 1024px) 14vw, 45vw"
+                        loading="lazy"
+                        class="aspect-[566/800] w-full object-cover"
+                      />
+                    </span>
+                    <span class="mt-2 block text-[0.9375rem] text-tinta group-hover:underline">
+                      {scan.label}
+                      <span class="sr-only"> (menukaart, opent in een nieuw venster)</span>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <p class="border-t border-tinta/15 pt-6 text-[0.9375rem] text-tinta-2">
+          Allergie of een dieet? Meld het ons, we helpen u graag.
         </p>
       </div>
     </div>
-
-    <div class="mt-12 overflow-hidden">
-      <ul
-        class="flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-6 md:px-10"
-        tabindex="0"
-        aria-label="Menukaarten, horizontaal scrollbaar"
-      >
-        {
-          kaarten.map((card) => (
-            <li class="w-[240px] shrink-0 snap-center sm:w-[280px]">
-              <Image
-                src={card.image}
-                alt={`Menukaart: ${card.label}`}
-                class="w-full shadow-2xl shadow-black/40"
-                widths={[320, 566]}
-                sizes="(min-width: 640px) 280px, 240px"
-                loading="eager"
-              />
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- Gerechten -->
-  <section id="gerechten" class="paper py-20 md:py-28">
-    <div class="shell">
-      <SectionTitle
-        script="la carta"
-        eyebrow="Wat wij serveren"
-        title="De gerechten op een rij"
-        intro="Een selectie uit onze kaart. Alle hoofdgerechten worden geserveerd met friet of gepofte aardappel, salade en saus."
-      />
-
-      <!-- Twee vaste kolommen: zo blijft de leesvolgorde intact en vallen de categorieën niet uit elkaar -->
-      <div class="mt-14 grid gap-x-16 gap-y-4 md:grid-cols-2">
-        <div>
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Entremeses</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Voorgerechten</p>
-            <DishList dishes={starters} />
-          </section>
-
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Tapas</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Klein gerecht om te delen</p>
-            <DishList dishes={tapasPriced} />
-          </section>
-
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Platos de la carne</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Vlees van de grill</p>
-            <DishList dishes={meatFromTheGrill} />
-          </section>
-        </div>
-
-        <div>
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Platos de pescado</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Verse vis</p>
-            <DishList dishes={fish} />
-          </section>
-
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Postres</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Zoet</p>
-            <DishList dishes={desserts} />
-          </section>
-
-          <section class="mb-12">
-            <h3 class="font-display text-3xl font-medium text-rojo">Vinos</h3>
-            <p class="mb-5 mt-1 text-sm text-tinta/50">Spaanse wijnen</p>
-            <DishList dishes={wines} />
-          </section>
-
-          <aside class="border border-tinta/10 bg-crema-oscuro p-7">
-            <h3 class="font-display text-2xl font-medium text-rojo">Goed om te weten</h3>
-            <ul class="mt-4 space-y-2.5 text-sm leading-relaxed text-tinta/65">
-              <li>Alle hoofdgerechten worden geserveerd met friet of gepofte aardappel, salade en saus.</li>
-              <li>Er is ook een kindermenu, met kroketten, nuggets en patatjes.</li>
-              <li>Huisgemaakte sangria en verse Spaanse wijnen per glas.</li>
-              <li>Vegetarische en speciale dieeten zijn altijd mogelijk.</li>
-            </ul>
-          </aside>
-        </div>
-      </div>
-
-      <p class="mt-14 text-sm text-tinta/55">
-        Prijzen zijn indicatief en kunnen wijzigen. Vraag naar de dagelijkse specials en het
-        vegetarische aanbod. <a href={withBase('/contact/')} class="link-underline text-rojo">Neem contact op</a>.
-      </p>
-    </div>
-  </section>
-
-  <!-- Lunch -->
-  <section id="lunch" class="bg-crema-oscuro py-20 md:py-28">
-    <div class="shell grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-      <div>
-        <Image
-          src={lunchTwaalf}
-          alt="Menukaart van het lunchmenu van La Caleta"
-          class="aspect-4/5 w-full object-cover"
-          widths={[480, 768]}
-          sizes="(min-width: 1024px) 36vw, 90vw"
-          loading="lazy"
-        />
-      </div>
-
-      <div>
-        <SectionTitle
-          script="mediodía"
-          eyebrow="Lunch"
-          title="Elke dag een lunchplank"
-          intro="Een lunch voor iedereen: soep van de dag, Griekse yoghurt met granola en honing of een baguette met kaas, vis of vlees. Je kiest zelf — bruin of wit brood, ook glutenvrij."
-        />
-
-        <div class="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-2">
-          <DishList dishes={lunch} />
-          <div class="flex flex-col gap-6">
-            <Image
-              src={lunchServeren}
-              alt="Maaltijdsalades van La Caleta"
-              class="aspect-3/2 w-full object-cover"
-              widths={[480, 768]}
-              sizes="(min-width: 640px) 45vw, 90vw"
-              loading="lazy"
-            />
-            <div class="border border-tinta/10 bg-crema p-6">
-              <h3 class="font-display text-2xl font-medium">Lunchplank</h3>
-              <p class="mt-2 text-sm leading-relaxed text-tinta/65">
-                <strong class="text-tinta">Española</strong> — chorizo, salchichón, manchego kaas,
-                vijgenjam, olijven, galapeños, albóndigas, kruidenboter, tapenade, tortilla en brood.
-                <br />
-                <strong class="text-tinta">Vegetal</strong> — kruidenboter, tapenade, aubergine salade,
-                gebakken paprika, olijven, cherrytomaatjes, galapeños, bladerdeeg gevuld met feta, zoete
-                aardappelfrietjes, brood.
-              </p>
-              <p class="mt-4 text-sm font-medium text-rojo">€25,00 voor 2 personen</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Reserveren -->
-  <section class="bg-rojo py-16 text-crema md:py-20">
-    <div class="shell flex flex-col items-center gap-6 text-center">
-      <h2 class="font-display text-4xl font-medium md:text-5xl">Reserveer uw tafel</h2>
-      <p class="max-w-xl text-crema/80">
-        Laat ons weten wanneer u komt. Voor groepen boven de tien personen bellen wij even vooraf.
-      </p>
-      <a href={withBase('/contact/#reserveren')} class="btn bg-crema text-rojo hover:bg-crema-oscuro">
-        Naar het reserveringsformulier
-      </a>
-    </div>
-  </section>
+  </div>
 </BaseLayout>
+
+<script>
+  import '../scripts/menu.ts';
+</script>

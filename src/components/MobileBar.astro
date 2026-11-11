@@ -1,9 +1,9 @@
 ---
 import { site } from '../data/site';
 import { withBase } from '../lib/urls';
+import Icon from './Icon.astro';
 
 interface Props {
-  /** Verberg de balk op pagina's die al een reserveringsvormulier bevatten. */
   hide?: boolean;
 }
 
@@ -12,30 +12,19 @@ const { hide = false } = Astro.props;
 
 {
   !hide && (
-    <div
-      id="mobile-bar"
-      class="fixed inset-x-0 bottom-0 z-40 border-t border-crema/10 bg-carbon/95 backdrop-blur-sm lg:hidden"
-    >
+    <div id="mobile-bar" class="on-dark fixed inset-x-0 bottom-0 z-40 border-t border-crema/15 lg:hidden">
       <div class="grid grid-cols-2">
         <a
           href={site.phoneHref}
-          class="flex items-center justify-center gap-2 py-4 text-[0.7rem] font-medium tracking-[0.18em] text-crema uppercase transition-colors active:bg-rojo-oscuro"
+          class="flex min-h-16 items-center justify-center gap-2 text-[0.9375rem] font-medium text-crema"
         >
-          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M3 2.5h2.2l1 2.6-1.3 1a8.5 8.5 0 004.9 4.9l1-1.3 2.6 1V13a.5.5 0 01-.55.5A11.5 11.5 0 012.5 3.05.5.5 0 013 2.5Z"
-              stroke="currentColor"
-              stroke-width="1.1"
-              stroke-linejoin="round"
-            />
-          </svg>
-          Bellen
+          <Icon name="phone" /> Bel
         </a>
         <a
-          href={withBase('/contact/#reserveren')}
-          class="flex items-center justify-center bg-rojo py-4 text-[0.7rem] font-medium tracking-[0.18em] text-crema uppercase transition-colors active:bg-rojo-oscuro"
+          href={withBase('/reserveren/')}
+          class="btn-reserve flex min-h-16 items-center justify-center gap-2 text-[0.9375rem] font-medium"
         >
-          Reserveren
+          <Icon name="calendar" /> Reserveer
         </a>
       </div>
     </div>
@@ -45,11 +34,5 @@ const { hide = false } = Astro.props;
 <style>
   #mobile-bar {
     padding-bottom: env(safe-area-inset-bottom, 0);
-  }
-
-  @media (min-width: 1024px) {
-    #mobile-bar {
-      display: none;
-    }
   }
 </style>
