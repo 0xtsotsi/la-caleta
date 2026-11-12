@@ -16,14 +16,14 @@ reserveringsformulier toe.
 Bij elke push naar `main` bouwt GitHub Actions de site en staat de wijziging binnen een
 minuut live.
 
-| Pagina   | Link                                            |
-| -------- | ----------------------------------------------- |
-| Home     | https://0xtsotsi.github.io/la-caleta/           |
-| Menu     | https://0xtsotsi.github.io/la-caleta/menu/      |
-| Tapas    | https://0xtsotsi.github.io/la-caleta/tapas/     |
-| Over ons | https://0xtsotsi.github.io/la-caleta/over-ons/  |
-| Acties   | https://0xtsotsi.github.io/la-caleta/acties/    |
-| Contact  | https://0xtsotsi.github.io/la-caleta/contact/   |
+| Pagina   | Link                                           |
+| -------- | ---------------------------------------------- |
+| Home     | https://0xtsotsi.github.io/la-caleta/          |
+| Menu     | https://0xtsotsi.github.io/la-caleta/menu/     |
+| Tapas    | https://0xtsotsi.github.io/la-caleta/tapas/    |
+| Over ons | https://0xtsotsi.github.io/la-caleta/over-ons/ |
+| Acties   | https://0xtsotsi.github.io/la-caleta/acties/   |
+| Contact  | https://0xtsotsi.github.io/la-caleta/contact/  |
 
 > **Let op:** GitHub Pages kan op een gratis account alleen voor openbare repos. De repo
 > `0xtsotsi/la-caleta` is daarom openbaar, net als je andere websites.
@@ -49,15 +49,15 @@ systeempad.
 
 ## Pagina's
 
-| Pagina                    | Wat erop staat                                                                                                                               |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Home `/`                  | Hero met sfeerfoto in de boog, verhaal (lunch, tapas, grill, wijn), tapasdag, greep uit de kaart, ligging en openingstijden, snel reserveren |
-| Menu `/menu/`             | De hele kaart met prijzen, meelopende index, filter (vegetarisch, vis, vlees), de papieren kaart als bijlage                                 |
-| Tapas `/tapas/`           | Tapasdag (€34,50), de regels, alle 32 tapas genummerd, Niños, sangria                                                                        |
-| Over ons `/over-ons/`     | Tijdlijn, de keuken, de award van 2018                                                                                                       |
-| Acties `/acties/`         | Tapasdag, seniorenmenu, 12-uurtje, groepen, afhuren, dieet, cadeaubon                                                                        |
-| Contact `/contact/`       | Telefoon, mail, adres, parkeren, VVV, kaart, openingstijden                                                                                  |
-| Reserveren `/reserveren/` | Formulier in drie stappen: datum en gezelschap, tijd, gegevens                                                                               |
+| Pagina                    | Wat erop staat                                                                                                                           |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Home `/`                  | Hero met video in de boog, verhaal (lunch, tapas, grill, wijn), tapasdag, greep uit de kaart, ligging en openingstijden, snel reserveren |
+| Menu `/menu/`             | De hele kaart met prijzen, meelopende index, filter (vegetarisch, vis, vlees), de papieren kaart als bijlage                             |
+| Tapas `/tapas/`           | Tapasdag (€34,50), de regels, alle 32 tapas genummerd, Niños, sangria                                                                    |
+| Over ons `/over-ons/`     | Tijdlijn, de keuken, de award van 2018                                                                                                   |
+| Acties `/acties/`         | Tapasdag, seniorenmenu, 12-uurtje, groepen, afhuren, dieet, cadeaubon                                                                    |
+| Contact `/contact/`       | Telefoon, mail, adres, parkeren, VVV, kaart, openingstijden                                                                              |
+| Reserveren `/reserveren/` | Formulier in drie stappen: datum en gezelschap, tijd, gegevens                                                                           |
 
 ## Mapstructuur
 
@@ -73,6 +73,7 @@ src/
 ├── scripts/           motion.ts (GSAP), menu.ts (index + filter), reserve.ts (formulier),
 │                      open-today.ts ("vandaag open")
 └── styles/global.css  OKLCH-tokens en componentklassen
+public/video/          hero-video in twee formaten (1080 en 720 breed)
 tools/                 contrast, toegankelijkheid, inhoud, formulier en linkcontrole
 social/, scripts/      social-media-beelden (los van de site)
 ```
@@ -157,8 +158,8 @@ tapas, grill, vis, paella, kindermenu's, dessert, koffie, wijn), acties en de li
 
 - [ ] Web3Forms-sleutel aanmaken met info@lacaleta.nl en instellen (zie hierboven), daarna
   één echte testreservering doen.
-- [ ] Stockbeelden vervangen door eigen foto's (`BEELD.md`), vooral `stock-*`, de hero-foto
-  (`stock-hero-bar.jpg`) en de sfeerbeelden uit de vorige ronde.
+- [ ] Stockbeelden vervangen door eigen foto's (`BEELD.md`), vooral `stock-*`, de hero-video
+  (`public/video/`) en de sfeerbeelden uit de vorige ronde.
 - [ ] Eigen foto's in hogere resolutie: de huidige zijn 1200px of kleiner.
 - [ ] Privacyverklaring (het formulier verwerkt naam, telefoon en e-mail). Nog niet geschreven.
 - [ ] `public/og.jpg` vernieuwen in de nieuwe stijl.

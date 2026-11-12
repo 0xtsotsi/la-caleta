@@ -1,107 +1,281 @@
 ---
 import { Image } from 'astro:assets';
-import heroPhoto from '../assets/images/stock-hero-bar.jpg';
+import heroMini from '../assets/images/stock-tapas-tabla.jpg';
+import poster from '../assets/images/stock-hero-video-poster.jpg';
 import { tapasDay } from '../data/site';
 import { withBase } from '../lib/urls';
+import Icon from './Icon.astro';
+
+const video1080 = withBase('/video/hero-tapasbar-1080.mp4');
+const video720 = withBase('/video/hero-tapasbar-720.mp4');
 ---
 
 <section class="hero on-dark" data-hero aria-labelledby="hero-title">
-  <div class="hero-copy shell" data-hero-copy>
-    <div class="max-w-[34rem]">
-      <p class="label text-cobre">Raadhuisplein 4a, Rozenburg</p>
-      <h1 id="hero-title" class="display-xl mt-5 text-crema" data-lines>
-        <span class="line"><span>Cocina de España</span></span>
-        <span class="line"><span class="italic">en tu mesa</span></span>
-      </h1>
-      <p class="lede mt-6 max-w-md text-crema-2">
-        Tapas, vlees van de grill, vis en paella. Van vader op dochter overgegaan, met dezelfde
-        keuken en hetzelfde team.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href={withBase('/reserveren/')} class="btn btn-reserve">Reserveer een tafel</a>
-        <a href={withBase('/menu/')} class="btn btn-line">Bekijk de kaart</a>
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="hero-grid shell">
+    <div class="hero-copy" data-hero-copy>
+      <div class="max-w-[34rem]">
+        <p class="label text-cobre">Raadhuisplein 4a, Rozenburg</p>
+        <h1 id="hero-title" class="hero-title mt-5 text-crema" data-lines>
+          <span class="line"><span>Cocina de España</span></span>
+          <span class="line"><span class="italic">en tu mesa</span></span>
+        </h1>
+        <p class="lede mt-6 max-w-md text-crema-2">
+          Tapas, vlees van de grill, vis en paella. Van vader op dochter overgegaan, met dezelfde
+          keuken en hetzelfde team.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={withBase('/reserveren/')} class="btn btn-reserve">Reserveer een tafel</a>
+          <a href={withBase('/menu/')} class="btn btn-line">Bekijk de kaart</a>
+        </div>
+        <dl class="mt-10 grid gap-4 border-t border-crema/15 pt-6 text-[0.9375rem] sm:grid-cols-2">
+          <div>
+            <dt class="text-crema-2">Vandaag</dt>
+            <dd class="mt-0.5 flex items-center gap-2 text-crema">
+              <span class="open-dot" data-open-dot aria-hidden="true"></span>
+              <span data-open-today>Wo t/m za vanaf 11:00, zo vanaf 16:00</span>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-crema-2">Tapasdag</dt>
+            <dd class="mt-0.5 text-crema">Wo en do, {tapasDay.price} p.p.</dd>
+          </div>
+        </dl>
       </div>
-      <dl class="mt-10 grid gap-4 border-t border-crema/15 pt-6 text-[0.9375rem] sm:grid-cols-2">
-        <div>
-          <dt class="text-crema-2">Vandaag</dt>
-          <dd class="mt-0.5 flex items-center gap-2 text-crema">
-            <span class="open-dot" data-open-dot aria-hidden="true"></span>
-            <span data-open-today>Wo t/m za vanaf 11:00, zo vanaf 16:00</span>
-          </dd>
+    </div>
+
+    <div class="hero-stage" data-hero-stage>
+      <span class="hero-ring" data-hero-ring aria-hidden="true"></span>
+      <div class="arch hero-media" data-hero-media data-arch-reveal>
+        <div class="hero-inner" data-arch-img>
+          <Image
+            src={poster}
+            alt="Rode wijn wordt ingeschonken in een glas aan de bar, met een bordje tapas ernaast"
+            widths={[480, 720, 1080]}
+            sizes="(min-width: 1024px) 560px, 90vw"
+            loading="eager"
+            fetchpriority="high"
+            class="hero-img"
+            data-hero-img
+          />
+          <video
+            class="hero-video"
+            data-hero-video
+            data-src-large={video1080}
+            data-src-small={video720}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+            tabindex="-1"></video>
         </div>
-        <div>
-          <dt class="text-crema-2">Tapasdag</dt>
-          <dd class="mt-0.5 text-crema">Wo en do, {tapasDay.price} p.p.</dd>
-        </div>
-      </dl>
+        <button type="button" class="hero-pause" data-hero-pause hidden aria-pressed="false">
+          <span data-pause-icon><Icon name="pause" size={16} /></span>
+          <span data-play-icon hidden><Icon name="play" size={16} /></span>
+          <span data-pause-label>Video pauzeren</span>
+        </button>
+      </div>
+      <div class="hero-mini" data-hero-mini aria-hidden="true">
+        <Image
+          src={heroMini}
+          alt=""
+          widths={[240, 400]}
+          sizes="200px"
+          loading="eager"
+          class="hero-mini-img"
+        />
+      </div>
     </div>
   </div>
 
-  <div class="hero-media" data-hero-media>
-    <Image
-      src={heroPhoto}
-      alt="Tapas op de toonbank van een Spaanse bar, met hangende wijnglazen er boven"
-      widths={[640, 1024, 1600, 2400]}
-      sizes="(min-width: 768px) 100vw, 90vw"
-      loading="eager"
-      fetchpriority="high"
-      class="hero-img"
-      data-hero-img
-    />
-  </div>
+  <ul class="hero-strip shell" data-hero-strip>
+    <li><Icon name="car" size={18} class="text-cobre" /> Gratis parkeren</li>
+    <li><Icon name="calendar" size={18} class="text-cobre" /> Tapasdag woensdag en donderdag</li>
+    <li><Icon name="gift" size={18} class="text-cobre" /> VVV-cadeaukaart welkom</li>
+  </ul>
 </section>
 
 <style>
   .hero {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    padding-top: 7rem;
-    padding-bottom: 3rem;
+    padding-top: 6.5rem;
+  }
+
+  .hero-glow {
+    position: absolute;
+    z-index: -1;
+    top: 4rem;
+    right: -12rem;
+    width: 44rem;
+    height: 44rem;
+    border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.76 0.1 62 / 0.28), transparent 66%);
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 5.4vw, 5.5rem);
+    line-height: 0.98;
+  }
+
+  .hero-stage {
+    position: relative;
+    order: -1;
   }
 
   .hero-media {
-    position: relative;
-    margin: 2.5rem 1.25rem 0;
     aspect-ratio: 4 / 5;
-    clip-path: inset(0% 0% 0% 0% round 999px 999px 0px 0px);
+    width: 100%;
     background-color: var(--color-espresso-2);
   }
 
-  .hero-img {
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-img,
+  .hero-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% 46%;
+  }
+
+  .hero-video {
+    opacity: 0;
+    transition: opacity var(--duration-slow) ease;
+  }
+
+  .hero-video[data-playing='true'] {
+    opacity: 1;
+  }
+
+  .hero-pause {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.9rem;
+    background-color: oklch(0.2 0.018 50 / 0.82);
+    color: var(--color-crema);
+    font-size: 0.875rem;
+  }
+
+  .hero-ring,
+  .hero-mini {
+    display: none;
+  }
+
+  .hero-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    margin-top: 2.5rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid oklch(0.968 0.014 85 / 0.15);
+    color: var(--color-crema-2);
+    font-size: 0.9375rem;
+  }
+
+  .hero-strip li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
   @media (min-width: 640px) and (max-width: 1023px) {
     .hero-media {
-      margin-inline: 2.5rem;
       aspect-ratio: 3 / 2;
+    }
+
+    .hero-img,
+    .hero-video {
+      object-position: 50% 38%;
     }
   }
 
   @media (min-width: 1024px) {
     .hero {
       display: flex;
-      align-items: center;
-      min-height: max(100svh, 40rem);
-      padding-bottom: 4rem;
+      flex-direction: column;
+      justify-content: center;
+      min-height: max(100svh, 44rem);
+      padding-top: 7.5rem;
     }
 
-    .hero-copy {
-      position: relative;
-      z-index: 2;
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .hero-stage {
+      order: 0;
     }
 
     .hero-media {
+      aspect-ratio: 3 / 4;
+      width: auto;
+      max-width: 100%;
+      height: clamp(28rem, calc(100svh - 14rem), 46rem);
+      margin-left: auto;
+    }
+
+    .hero-ring {
+      display: block;
       position: absolute;
-      inset: 0;
-      margin: 0;
-      aspect-ratio: auto;
-      clip-path: inset(16% 5% 0% 52% round 999px 999px 0px 0px);
-      z-index: 1;
+      top: -1.25rem;
+      right: -1.25rem;
+      height: 100%;
+      aspect-ratio: 3 / 4;
+      max-width: 100%;
+      border: 1px solid oklch(0.76 0.1 62 / 0.55);
+      border-radius: 999px 999px 0 0;
+      pointer-events: none;
+    }
+
+    .hero-strip {
+      margin-top: 3rem;
+      padding-block: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hero-mini {
+      display: block;
+      position: absolute;
+      left: -9%;
+      bottom: -1.5rem;
+      z-index: 3;
+      width: 34%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 0.5rem solid var(--color-espresso);
+      border-radius: 999px 999px 0 0;
+      background-color: var(--color-espresso-2);
+    }
+
+    .hero-mini-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 </style>

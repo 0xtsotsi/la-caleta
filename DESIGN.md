@@ -69,15 +69,18 @@ cobre op espresso 8.3, crema-2 op espresso 11.1, crema op rojo 6.8.
 
 - Stockfoto's van Pexels in hoge resolutie (zie `BEELD.md`), gemarkeerd als tijdelijk. Eigen
   foto's (team, award, gevel, interieur) alleen klein.
-- Eén statische hero-foto in de boog (1600×2000, warm licht op de toonbank met tapas en
-  wijnglazen). Geen video: de site laadt geen filmpjes, dus geen autoplay of pauzeknop.
+- Hero: een staande video van twaalf seconden in de boog (rode wijn die wordt ingeschonken,
+  daarna een sangria bij kaarslicht, die vloeiend terugloopt naar het begin). Twee bestanden
+  (1080 en 720 breed, samen onder 3 MB), poster als eerste beeld. Geen video bij reduced motion of
+  databesparing, met een pauzeknop (WCAG 2.2.2). Erachter een koperen boogrand, een klein beeld
+  van de tapas en een strook met parkeren, tapasdag en VVV-cadeaukaart.
 - De menukaartscans blijven als bijlage, de kaart zelf staat als tekst op de site.
 
 ## Beweging (GSAP 3.15.1 + ScrollTrigger, Flip)
 
-1. **Hero:** titel regel voor regel uit een masker (0.9 s, stagger 0.12 s, `power3.out`). Bij
-   het scrollen opent de boog (`clip-path` van boog naar rechthoek) en schuift het beeld licht
-   in parallax.
+1. **Hero:** titel regel voor regel uit een masker (0.9 s, stagger 0.12 s, `power3.out`). De
+   boog opent van onder naar boven, daarna komen de koperen rand, het kleine beeld en de strook
+   binnen. Bij het scrollen drijven de lagen licht uit elkaar (alleen vanaf 1024px, geen pin).
 2. **Verhaal (home):** een sticky sectie met vier momenten: lunch, tapas, grill, wijn. Bij het
    scrollen wisselt het beeld via een `clip-path` van onder naar boven. Alleen vanaf 768px.
 3. **Beeldreveals:** de boog opent eenmalig als het beeld in beeld komt (0.9 s).

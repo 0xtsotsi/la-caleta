@@ -10,6 +10,48 @@ type Gsap = typeof import('gsap').gsap;
 
 const ready = () => root.classList.add('motion-ready');
 
+// Hero-video: niet bij reduced motion of databesparing. Kleine telefoons krijgen het kleine bestand.
+const initHeroVideo = () => {
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  const button = document.querySelector<HTMLButtonElement>('[data-hero-pause]');
+  if (!video || reduceMotion) return;
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (connection?.saveData) return;
+  const src = window.innerWidth < 768 ? video.dataset.srcSmall : video.dataset.srcLarge;
+  if (!src) return;
+
+  let pausedByUser = false;
+  video.src = src;
+  video.addEventListener('playing', () => {
+    video.dataset.playing = 'true';
+    if (button) button.hidden = false;
+  });
+  video.play().catch(() => {});
+
+  const setButton = (paused: boolean) => {
+    if (!button) return;
+    button.setAttribute('aria-pressed', String(paused));
+    button.querySelector<HTMLElement>('[data-pause-icon]')?.toggleAttribute('hidden', paused);
+    button.querySelector<HTMLElement>('[data-play-icon]')?.toggleAttribute('hidden', !paused);
+    const label = button.querySelector<HTMLElement>('[data-pause-label]');
+    if (label) label.textContent = paused ? 'Video afspelen' : 'Video pauzeren';
+  };
+
+  button?.addEventListener('click', () => {
+    pausedByUser = !video.paused;
+    if (video.paused) video.play().catch(() => {});
+    else video.pause();
+    setButton(pausedByUser);
+  });
+
+  // Buiten beeld stilzetten, zodat de video geen rekenkracht kost.
+  new IntersectionObserver(([entry]) => {
+    if (pausedByUser) return;
+    if (entry.isIntersecting) video.play().catch(() => {});
+    else video.pause();
+  }).observe(video);
+};
+
 // Verhaal: wissel het beeld per moment. Werkt met en zonder GSAP.
 const initStory = (gsap?: Gsap) => {
   const frames = [...document.querySelectorAll<HTMLElement>('[data-story-frame]')];
@@ -97,27 +139,34 @@ const initGsap = async () => {
 
   const mm = gsap.matchMedia();
 
-  // Hero: de boog opent bij het scrollen tot het beeld de volle breedte vult.
-  mm.add('(min-width: 1024px)', () => {
-    const hero = document.querySelector<HTMLElement>('[data-hero]');
-    const media = hero?.querySelector<HTMLElement>('[data-hero-media]');
-    if (!hero || !media) return;
-    const tl = gsap.timeline({
-      defaults: { duration: 1 },
-      scrollTrigger: { trigger: hero, start: 'top top', end: '+=90%', scrub: 0.6, pin: true },
-    });
-    tl.to(media, { clipPath: 'inset(0% 0% 0% 0% round 0px 0px 0px 0px)', ease: 'none' }, 0)
-      .fromTo(
-        hero.querySelectorAll('[data-hero-img]'),
-        { scale: 1.12 },
-        { scale: 1, ease: 'none' },
-        0,
-      )
-      .to(
-        hero.querySelector('[data-hero-copy]'),
-        { yPercent: -18, autoAlpha: 0, ease: 'none', duration: 0.4 },
-        0,
+  // Hero: de ring, het kleine beeld en de strook komen na de boog binnen; bij het scrollen
+  // drijven de lagen licht uit elkaar. Beginstanden staan alleen hier, nooit in de CSS.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const ring = hero?.querySelector<HTMLElement>('[data-hero-ring]');
+  const mini = hero?.querySelector<HTMLElement>('[data-hero-mini]');
+  const strip = hero?.querySelector<HTMLElement>('[data-hero-strip]');
+  const copy = hero?.querySelector<HTMLElement>('[data-hero-copy]');
+  if (hero) {
+    const intro = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.5 });
+    if (ring)
+      intro.from(
+        ring,
+        { autoAlpha: 0, scale: 0.94, transformOrigin: '50% 100%', duration: 1.2 },
+        0.2,
       );
+    if (mini) intro.from(mini, { autoAlpha: 0, y: 48, duration: 1 }, 0.7);
+    if (strip) intro.from(strip.children, { autoAlpha: 0, y: 16, stagger: 0.1, duration: 0.7 }, 1);
+  }
+
+  mm.add('(min-width: 1024px)', () => {
+    if (!hero) return;
+    const scrub = { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.8 };
+    // Op de losse lagen, zodat het openen van de boog (schaal op de wrapper) er niet mee botst.
+    const layers = hero.querySelectorAll('[data-hero-img], [data-hero-video]');
+    gsap.to(layers, { scale: 1.08, ease: 'none', scrollTrigger: scrub });
+    if (mini) gsap.to(mini, { yPercent: -28, ease: 'none', scrollTrigger: scrub });
+    if (ring) gsap.to(ring, { yPercent: 6, ease: 'none', scrollTrigger: scrub });
+    if (copy) gsap.to(copy, { yPercent: -10, autoAlpha: 0.2, ease: 'none', scrollTrigger: scrub });
   });
 
   // Koperen lichtvlek: beweegt mee met het scrollen, nooit uit zichzelf.
@@ -158,6 +207,8 @@ const initGsap = async () => {
 
   initStory(gsap);
 };
+
+initHeroVideo();
 
 if (reduceMotion || !hasMotion()) {
   ready();
