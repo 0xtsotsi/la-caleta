@@ -123,3 +123,18 @@ import geladen, alleen als er iets te animeren is.
 
 Niet in deze ronde: een nieuws- en evenementenpagina (staat in het prospectvoorstel, niet in
 het plan).
+
+## Social media en het Spaanse tintje
+
+De Instagram-beelden (`social/portfolio/`, te bekijken op `/portfolio/`) gebruiken dit
+ontwerpsysteem zonder uitzondering: dezelfde OKLCH-kleuren, Cormorant en Jost, de boog met
+koperen rand, de stippellijn met nummers en dezelfde warme fotografie.
+
+Het Spaanse tintje zit op drie plekken:
+
+- **Azulejo-band:** een strook van 36 px met een tegelmotief (ruit, hoekcirkels) in cobre en
+  terracota. `.azulejo` en `.azulejo-claro` in `global.css`, bovenaan de footer van de site en
+  op de rand van de social-beelden.
+- **Een Spaanse regel in cursief** op elk beeld (Bienvenidos, ¡Buen provecho!, A la parrilla,
+  ¡Salud!, Hasta pronto), in Cormorant cursief. De rest van de tekst blijft Nederlands.
+- **De namen van de gerechten** blijven Spaans, zoals op de kaart.

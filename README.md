@@ -179,6 +179,21 @@ tapas, grill, vis, paella, kindermenu's, dessert, koffie, wijn), acties en de li
 | SEO          | Meta per pagina, Open Graph, `schema.org/Restaurant` met `hasMenu` op het juiste pad, sitemap |
 | Iconen       | Lucide (ISC), inline in `src/components/Icon.astro`                                           |
 
+## Social media portfolio
+
+De presentatie voor klantgesprekken staat op `/portfolio/`: cover, identiteit, de volledige
+feed, negen posts met bijschrift, een carrousel, zes stories en een planning voor vier weken.
+De pagina is niet in het menu en niet in de sitemap, en heeft `noindex`. Elk beeld kan groot
+bekeken en gedownload worden; "Start presentatie" bladert er met de pijltjestoetsen doorheen.
+
+```bash
+npm run social:portfolio    # rendert alle beelden naar src/assets/portfolio/
+```
+
+De ontwerpen staan als HTML-sjablonen in `social/portfolio/` (`posts-a.mjs`, `posts-b.mjs`,
+`carousel.mjs`, `stories.mjs`, `cover.mjs`) en gebruiken `design.css` met de kleuren en
+letters van de site. Bijschriften en planning staan in `src/data/portfolio.ts`.
+
 ## Social media
 
 De map `social/` bevat kant-en-klare beelden en video's in de vorige huisstijl (rood en goud).

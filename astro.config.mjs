@@ -15,7 +15,8 @@ export default defineConfig({
   site,
   base,
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  // De klantpresentatie is niet openbaar bedoeld en blijft buiten de sitemap.
+  integrations: [sitemap({ filter: (page) => !page.includes('/portfolio/') })],
   vite: {
     plugins: [tailwindcss()],
   },

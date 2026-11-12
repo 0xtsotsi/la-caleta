@@ -14,6 +14,7 @@
     "social:video:landscape": "node scripts/social-video.mjs landscape",
     "format": "biome check --write .",
     "social:v2": "node scripts/build-social-v2.mjs",
+    "social:portfolio": "node social/portfolio/render.mjs",
     "contrast": "node tools/contrast.mjs",
     "check:a11y": "node tools/check-a11y.mjs",
     "check:content": "node tools/check-content.mjs",
