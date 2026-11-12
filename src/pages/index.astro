@@ -7,12 +7,15 @@ import lunchServeren from '../assets/images/lunch-serveren.jpg';
 import wijnKaarsen from '../assets/images/sfeer-wijn-kaarsen.jpg';
 import tapasCazuelas from '../assets/images/stock-tapas-cazuelas.jpg';
 import tapasTabla from '../assets/images/stock-tapas-tabla.jpg';
+import spAlcazar from '../assets/images/spanje-alcazar-sevilla.jpg';
+import spPatio from '../assets/images/spanje-patio-puerto-real.jpg';
 import ArchImage from '../components/ArchImage.astro';
 import DishList from '../components/DishList.astro';
 import Hero from '../components/Hero.astro';
 import Intermezzo from '../components/Intermezzo.astro';
 import OpeningHours from '../components/OpeningHours.astro';
 import ReserveQuick from '../components/ReserveQuick.astro';
+import SpanjeBand from '../components/SpanjeBand.astro';
 import StoryScroll, { type Moment } from '../components/StoryScroll.astro';
 import {
   desserts,
@@ -100,6 +103,26 @@ const featured = [
       </div>
     </div>
   </section>
+
+  <SpanjeBand
+    label="Sfeer uit Spanje"
+    title="Een beetje zon,"
+    titleItalic="een beetje Andalusië"
+    items={[
+      {
+        image: spAlcazar,
+        alt: 'Binnenplaats van de Reales Alcázares in Sevilla met bogen en een waterbak',
+        line: 'Sol y sombra',
+        place: 'Reales Alcázares, Sevilla',
+      },
+      {
+        image: spPatio,
+        alt: 'Smal wit steegje met potten vol bloemen in Puerto Real, Spanje',
+        line: 'Flores en el patio',
+        place: 'Puerto Real, Cádiz',
+      },
+    ]}
+  />
 
   <StoryScroll moments={moments} title="Van de lunch tot de laatste sangria" />
 

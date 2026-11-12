@@ -1,0 +1,50 @@
+---
+import type { ImageMetadata } from 'astro';
+import ArchImage from './ArchImage.astro';
+
+interface Item {
+  image: ImageMetadata;
+  alt: string;
+  place: string;
+  line: string;
+}
+
+interface Props {
+  label: string;
+  title: string;
+  titleItalic: string;
+  items: [Item, Item];
+}
+
+const { label, title, titleItalic, items } = Astro.props;
+---
+
+<section class="bg-arena" aria-labelledby="spanje-title">
+  <div class="azulejo azulejo-claro" aria-hidden="true"></div>
+  <div class="shell section grid items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+    <div>
+      <p class="label text-terracota">{label}</p>
+      <h2 id="spanje-title" class="display-l mt-3 text-tinta">
+        {title} <span class="italic text-terracota">{titleItalic}</span>
+      </h2>
+    </div>
+
+    <ul class="grid grid-cols-2 gap-4 sm:gap-8" role="list">
+      {
+        items.map((item, index) => (
+          <li class:list={[index === 1 && 'mt-10 sm:mt-14']}>
+            <ArchImage
+              image={item.image}
+              alt={item.alt}
+              sizes="(min-width: 1024px) 24vw, 44vw"
+              widths={[360, 600, 900]}
+              aspect={index === 1 ? 'aspect-[3/4]' : 'aspect-[4/5]'}
+            />
+            <p class="mt-4 font-display text-[1.375rem] italic leading-tight text-tinta sm:text-[1.5rem]">{item.line}</p>
+            <p class="label mt-1 text-tinta-2">{item.place}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
